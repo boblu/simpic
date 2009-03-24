@@ -42,7 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect ':controller/:action/:id.:format'
 
 	map.root :controller => 'albums', :action => 'top'
-  map.connect 'albums/year/:year', :controller => 'albums', :action => 'list', :year => /\d{4}/
+  map.connect '/:year', :controller => 'albums', :action => 'list', :year => /\d{4}/
 	map.resources :albums do |albums|
 		albums.resources :contents do |contents|
 			contents.resources :comments
