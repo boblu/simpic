@@ -4,3 +4,4 @@ tmp/**/*
 Capfile
 config/deploy.rb
 config/database.yml
+db/schema.rb
