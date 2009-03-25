@@ -1,3 +1,6 @@
 [submodule "vendor/plugins/acts-as-taggable-on"]
 	path = vendor/plugins/acts-as-taggable-on
 	url = git://github.com/mbleigh/acts-as-taggable-on.git
+[submodule "vendor/plugins/ajaxful-rating"]
+	path = vendor/plugins/ajaxful-rating
+	url = git://github.com/edgarjs/ajaxful-rating.git
