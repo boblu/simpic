@@ -4,3 +4,6 @@
 [submodule "vendor/plugins/ajaxful-rating"]
 	path = vendor/plugins/ajaxful-rating
 	url = git://github.com/edgarjs/ajaxful-rating.git
+[submodule "vendor/plugins/validates_as_email_address"]
+	path = vendor/plugins/validates_as_email_address
+	url = git://github.com/pluginaweek/validates_as_email_address.git
