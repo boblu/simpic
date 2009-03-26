@@ -7,3 +7,6 @@
 [submodule "vendor/plugins/validates_as_email_address"]
 	path = vendor/plugins/validates_as_email_address
 	url = git://github.com/pluginaweek/validates_as_email_address.git
+[submodule "vendor/plugins/calendar_date_select"]
+	path = vendor/plugins/calendar_date_select
+	url = git://github.com/timcharper/calendar_date_select.git
