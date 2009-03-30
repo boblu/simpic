@@ -265,10 +265,10 @@ ul.nav li.last {
 .listing tbody td.text_column {
 	text-align: left;
 }
-.listing tbody td.date_span {
+.listing tbody td.date {
 	padding-left: 0px;
 	padding-right: 0px;
-	width: 135px;
+	width: 70px;
 }
 .listing tbody td.icon {
 	padding-left: 0px;

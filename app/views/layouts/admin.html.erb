@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
 <html>
 	<head>
 		<title>Admin</title>
@@ -9,117 +8,33 @@
 		<%= ajaxful_rating_style %>
 		<%= calendar_date_select_includes "silver" %>
 	</head>
-
-<body>
-<div id="main">
-	<div id="header">
-		<a href="index.html" class="logo"><img src="/images/admin/logo.gif" width="101" height="29" alt="" /></a>
-		<ul id="top-navigation">
-			<li class="active"><span><span>Albums</span></span></li>
-			<li><span><span><a href="#">Comments</a></span></span></li>
-			<li><span><span><a href="#">Users</a></span></span></li>
-		</ul>
-	</div>
-	<div id="middle">
-		<div id="left-column">
-			<a href="#" class="link">Frontpage</a>
-			<a href="#" class="link">Logout</a>
-			<h3>All</h3>
-			<ul class="nav">
-				<% temp = Album.year_range
-				temp.each_with_index{|year, index| %>
-					<li <%= "class='last'" if temp.size-1 == index %>><%= link_to year, '#' %></li>
-				<% } %>
-			</ul>
-
-		</div>
-		<div id="center-column">
-			<div class="top-bar">
-				<a href="#" class="button">NEW</a>
-				<h1>Contents</h1>
-				<div class="breadcrumbs"><a href="#">Homepage</a> / <a href="#">Contents</a></div>
-			</div><br />
-		  <div class="select-bar">
-		    <label>
-		    <input type="text" name="textfield" />
-		    </label>
-		    <label>
-			<input type="submit" name="Submit" value="Search" />
-			</label>
-		  </div>
-			<div class="listing">
-				<table>
-					<thead>
-						<tr>
-							<th class='check_box'><%= check_box_tag 'select'%></th>
-							<th>Title</th>
-							<th>Date</th>
-							<th><img src="/images/admin/picture.png" width="20" height="20" alt="" /></th>
-							<th><img src="/images/admin/video.png" width="20" height="20" alt="" /></th>
-							<th><img src="/images/admin/comment.png" width="20" height="20" alt="" /></th>
-							<th>Display</th>
-							<th>Level</th>
-							<th>Rating</th>
-							<th>Published</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class='check_box'><%= check_box_tag 'select'%></td>
-							<td class='text_column'>- Lorem Ipsum </td>
-							<td class='date_span'>2008.10.09~2009.01.01</td>
-							<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
-							<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
-							<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="" /></td>
-							<td class='icon'>js0</td>
-							<td class='level'>reader</td>
-							<td class='icon'>5</td>
-							<td class='icon'><img src="/images/admin/pubish_y.png" /></td>
-						</tr>
-						<tr class='odd'>
-							<td class='check_box'><%= check_box_tag 'select'%></td>
-							<td class='text_column'>- Lorem Ipsum </td>
-							<td class='date_span'>2008.10.09~2009.01.01</td>
-							<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
-							<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
-							<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
-							<td class='icon'>js0</td>
-							<td class='level'>reader</td>
-							<td class='icon'>5</td>
-							<td class='icon'><img src="/images/admin/publish_x.png" /></td>
-						</tr>
-					</tbody>
-					<thead>
-						<tr>
-							<th class='check_box'><%= check_box_tag 'select'%></th>
-							<th>Title</th>
-							<th>Date</th>
-							<th><img src="/images/admin/picture.png" width="20" height="20" alt="" /></th>
-							<th><img src="/images/admin/video.png" width="20" height="20" alt="" /></th>
-							<th><img src="/images/admin/comment.png" width="20" height="20" alt="" /></th>
-							<th>Display</th>
-							<th>Level</th>
-							<th>Rating</th>
-							<th>Published</th>
-						</tr>
-					</thead>
-				</table>
-				<div class="select">
-					<strong>Other Pages: </strong>
-					<select>
-						<option>1</option>
-					</select>
-			  </div>
+	<body>
+		<div id="main">
+			<div id="header">
+				<a href="index.html" class="logo"><img src="/images/admin/logo.gif" width="101" height="29" alt="" /></a>
+				<ul id="top-navigation">
+					<li class="active"><span><span>Albums</span></span></li>
+					<li><span><span><a href="#">Comments</a></span></span></li>
+					<li><span><span><a href="#">Users</a></span></span></li>
+				</ul>
 			</div>
+			<div id="middle">
+				<div id="left-column">
+					<a href="#" class="link">Frontpage</a>
+					<a href="#" class="link">Logout</a>
+					<h3>All</h3>
+					<ul class="nav">
+						<% temp = Album.year_range
+						temp.each_with_index{|year, index| %>
+							<li <%= "class='last'" if temp.size-1 == index %>><%= link_to year, '#' %></li>
+						<% } %>
+					</ul>
+				</div>
+				<div id="center-column">
+					<%= yield :layout %>		
+				</div>
+			</div>
+			<div id="footer"></div>
 		</div>
-	</div>
-	<div id="footer"></div>
-</div>
-
-		<div>
-			<%= yield :layout %>
-		</div>
-
-</body>
-
+	</body>
 </html>

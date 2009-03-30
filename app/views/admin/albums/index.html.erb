@@ -1,3 +1,85 @@
+<div class="top-bar">
+	<a href="#" class="button">NEW</a>
+	<h1>Contents</h1>
+	<div class="breadcrumbs"><a href="#">Homepage</a> / <a href="#">Contents</a></div>
+</div><br />
+<div class="select-bar">
+  <label>
+  <input type="text" name="textfield" />
+  </label>
+  <label>
+<input type="submit" name="Submit" value="Search" />
+</label>
+</div>
+<div class="listing">
+	<table>
+		<thead>
+			<tr>
+				<th class='check_box'><%= check_box_tag 'select'%></th>
+				<th>Title</th>
+				<th>Begin</th>
+				<th>End</th>
+				<th><img src="/images/admin/picture.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/video.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/comment.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/user.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/rating.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/publish.png" width="20" height="20" alt="" /></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class='check_box'><%= check_box_tag 'select'%></td>
+				<td class='text_column'>- Lorem Ipsum </td>
+				<td class='date'>2008.10.09</td>
+				<td class='date'>2009.01.01</td>
+				<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
+				<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
+				<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="" /></td>
+				<td class='level'>reader</td>
+				<td class='icon'>5</td>
+				<td class='icon'><img src="/images/admin/pubish_y.png" /></td>
+			</tr>
+			<tr class='odd'>
+				<td class='check_box'><%= check_box_tag 'select'%></td>
+				<td class='text_column'>- Lorem Ipsum </td>
+				<td class='date'>2008.10.09</td>
+				<td class='date'>2009.01.01</td>
+				<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
+				<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
+				<td class='icon'><img src="/images/admin/modify.png" width="16" height="16" alt="add" /></td>
+				<td class='level'>reader</td>
+				<td class='icon'>5</td>
+				<td class='icon'><img src="/images/admin/publish_x.png" /></td>
+			</tr>
+		</tbody>
+		<thead>
+			<tr>
+				<th class='check_box'><%= check_box_tag 'select'%></th>
+				<th>Title</th>
+				<th>Begin</th>
+				<th>End</th>
+				<th><img src="/images/admin/picture.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/video.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/comment.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/user.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/rating.png" width="20" height="20" alt="" /></th>
+				<th><img src="/images/admin/publish.png" width="20" height="20" alt="" /></th>
+			</tr>
+		</thead>
+	</table>
+	<div class="select">
+		<strong>Other Pages: </strong>
+		<select>
+			<option>1</option>
+		</select>
+  </div>
+</div>
+
+
+
+
+
 <h3>album list</h3>
 <% form_tag admin_album_path(@albums[0]), :method => :delete do %>
 	<table>
