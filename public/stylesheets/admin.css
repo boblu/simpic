@@ -257,6 +257,11 @@ ul.nav li.last {
 
 .listing tbody tr.odd:hover td.special{ color: #000; background-color: #FFF; }
 
+.listing .order {
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 20px;
+}
 .listing .check_box {
 	padding-left: 0px;
 	padding-right: 0px;
