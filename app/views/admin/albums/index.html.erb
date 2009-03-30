@@ -1,0 +1,19 @@
+<h3>album list</h3>
+<% form_tag admin_album_path(@albums[0]), :method => :delete do %>
+	<table>
+		<% @albums.each_with_index{|album, index| %>
+			<tr>
+				<td><%= index+1 %></td>
+				<td><%= check_box_tag 'selected_id[]', album.id, checked = false %></td>
+				<td><%= h(album.title) %></td>
+				<td><%= h(album.begin_on) %></td>
+				<td><%= h(album.end_on) %></td>
+				<td><%= ratings_for album %></td>
+				<td><%= link_to 'update', edit_admin_album_path(album) %></td>
+				<td></td>
+			</tr>
+		<% } %>
+	</table>
+	<%= submit_tag 'delete', :confirm => 'Are you sure to delete selected albums?' %>
+<% end %>
+<%= link_to 'new', new_admin_album_path %>

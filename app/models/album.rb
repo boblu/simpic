@@ -13,5 +13,11 @@ class Album < ActiveRecord::Base
   ##### validation
   ######################################################
 	validates_presence_of :title, :begin_on, :end_on, :appearance, :read_level
-
+	
+  ######################################################
+  ##### validation
+  ######################################################
+	def self.year_range
+		self.find(:all).map(&:begin_on).map(&:year).uniq.sort.reverse
+	end
 end
