@@ -7,6 +7,7 @@ class CreateAlbums < ActiveRecord::Migration
     	t.integer :appearance, :null => false, :default => 0
     	t.integer :read_level, :null => false, :default => 0
     	t.decimal :rating_average, :default => 0
+      t.boolean :publish, :null => false, :default => false
       t.timestamps
     end
   end
