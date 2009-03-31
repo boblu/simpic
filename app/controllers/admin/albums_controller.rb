@@ -3,13 +3,19 @@ class Admin::AlbumsController < ApplicationController
 
 	# before_filter :login_required
 
-	def index
+	def index 
 		@albums = Album.find_by_year(params[:year])
-		@title = 'Album list'
-		@sub_title = params[:year]
+    if @albums.blank?
+      redirect_to new_admin_album_url(:blank=>true)
+    else
+      @title = 'Album list'
+      @sub_title = params[:year]
+    end
 	end
 
 	def new
+    @title = 'Album detail'
+    params[:blank]=='true' ? @sub_title = 'No album exists, please create one.' : @sub_title = nil
 		@album = Album.new
 	end
 	

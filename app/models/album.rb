@@ -1,6 +1,8 @@
 class Album < ActiveRecord::Base
 	ajaxful_rateable :stars => 5
 	
+  default_scope :order => 'begin_on desc'
+
   ######################################################
   ##### association
   ######################################################
@@ -18,15 +20,15 @@ class Album < ActiveRecord::Base
   ##### validation
   ######################################################
 	def self.year_range
-		self.find(:all).map(&:begin_on).map(&:year).uniq.sort.reverse
+		self.all.map(&:begin_on).map(&:year).uniq
 	end
 	
 	def self.find_by_year(year)
 		if year.blank?
-			self.find(:all, :order => 'begin_on desc')
+			self.all
 		else
 			date = Date.civil(year.to_i)
-			self.find(:all, :conditions => ['begin_on >= ? and begin_on <= ?', date.beginning_of_year, date.end_of_year], :order => 'begin_on desc')
+			self.all(:conditions => ['begin_on >= ? and begin_on <= ?', date.beginning_of_year, date.end_of_year])
 		end
 	end
 end
