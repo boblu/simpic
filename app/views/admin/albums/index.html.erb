@@ -1,7 +1,8 @@
 <div class="top-bar">
-	<a href="#" class="button">NEW</a>
-	<h1>Contents</h1>
-	<div class="breadcrumbs"><a href="#">Homepage</a> / <a href="#">Contents</a></div>
+	<%= link_to 'New', new_admin_album_path, :class => 'button' %>
+
+	<h1><%= @title %></h1>
+	<div class="breadcrumbs"><%= @sub_title %></div>
 </div>
 <div class="select-bar">
   <label><input type="text" name="textfield" /></label>
@@ -13,15 +14,15 @@
 			<tr>
 				<th class='order'>#</th>
 				<th class='check_box'><%= check_box_tag 'select'%></th>
-				<th>Title</th>
-				<th>Begin</th>
-				<th>End</th>
+				<th><%= link_to 'Title', admin_albums_url(:order => 'title') %></th>
+				<th><%= link_to 'Begin', admin_albums_url(:order => 'begin_on') %></th>
+				<th><%= link_to 'End', admin_albums_url(:order => 'end_on') %></th>
 				<th><img src="/images/admin/picture.png" width="20" height="20" /></th>
 				<th><img src="/images/admin/video.png" width="20" height="20" /></th>
 				<th><img src="/images/admin/comment.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/user.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/rating.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/publish.png" width="20" height="20" /></th>
+				<th><%= link_to image_tag('admin/user.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'read_level') %></th>
+				<th><%= link_to image_tag('admin/rating.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'rating_average') %></th>
+				<th><%= link_to image_tag('admin/publish.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'publish') %></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,7 +37,7 @@
 					<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), '#' %></td>
 					<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), '#' %></td>
 					<td class='level'>reader</td>
-					<td class='icon'><%= h(album.rating_average) %></td>
+					<td class='icon'><%= ratings_for album, :small_stars => true %></td>
 					<td class='icon'><%= link_to (album.publish==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')), '#' %></td>
 				</tr>
 			<% } %>
@@ -45,15 +46,15 @@
 			<tr>
 				<th class='order'>#</th>
 				<th class='check_box'><%= check_box_tag 'select'%></th>
-				<th>Title</th>
-				<th>Begin</th>
-				<th>End</th>
+				<th><%= link_to 'Title', admin_albums_url(:order => 'title') %></th>
+				<th><%= link_to 'Begin', admin_albums_url(:order => 'begin_on') %></th>
+				<th><%= link_to 'End', admin_albums_url(:order => 'end_on') %></th>
 				<th><img src="/images/admin/picture.png" width="20" height="20" /></th>
 				<th><img src="/images/admin/video.png" width="20" height="20" /></th>
 				<th><img src="/images/admin/comment.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/user.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/rating.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/publish.png" width="20" height="20" /></th>
+				<th><%= link_to image_tag('admin/user.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'read_level') %></th>
+				<th><%= link_to image_tag('admin/rating.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'rating_average') %></th>
+				<th><%= link_to image_tag('admin/publish.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'publish') %></th>
 			</tr>
 		</thead>
 	</table>
@@ -87,4 +88,3 @@
 	</table>
 	<%= submit_tag 'delete', :confirm => 'Are you sure to delete selected albums?' %>
 <% end %>
-<%= link_to 'new', new_admin_album_path %>

@@ -20,4 +20,13 @@ class Album < ActiveRecord::Base
 	def self.year_range
 		self.find(:all).map(&:begin_on).map(&:year).uniq.sort.reverse
 	end
+	
+	def self.find_by_year(year)
+		if year.blank?
+			self.find(:all, :order => 'begin_on desc')
+		else
+			date = Date.civil(year.to_i)
+			self.find(:all, :conditions => ['begin_on >= ? and begin_on <= ?', date.beginning_of_year, date.end_of_year], :order => 'begin_on desc')
+		end
+	end
 end

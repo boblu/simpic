@@ -22,11 +22,11 @@
 				<div id="left-column">
 					<a href="#" class="link">Frontpage</a>
 					<a href="#" class="link">Logout</a>
-					<h3>All</h3>
+					<h3><%= link_to 'All albums', admin_albums_url %></h3>
 					<ul class="nav">
 						<% temp = Album.year_range
 						temp.each_with_index{|year, index| %>
-							<li <%= "class='last'" if temp.size-1 == index %>><%= link_to year, '#' %></li>
+							<li <%= "class='last'" if temp.size-1 == index %>><%= link_to year, admin_albums_url(:year => year) %></li>
 						<% } %>
 					</ul>
 				</div>

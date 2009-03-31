@@ -4,7 +4,9 @@ class Admin::AlbumsController < ApplicationController
 	# before_filter :login_required
 
 	def index
-		@albums = Album.find(:all)
+		@albums = Album.find_by_year(params[:year])
+		@title = 'Album list'
+		@sub_title = params[:year]
 	end
 
 	def new
