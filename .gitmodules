@@ -10,3 +10,6 @@
 [submodule "vendor/plugins/calendar_date_select"]
 	path = vendor/plugins/calendar_date_select
 	url = git://github.com/timcharper/calendar_date_select.git
+[submodule "vendor/plugins/will_paginate"]
+	path = vendor/plugins/will_paginate
+	url = git://github.com/mislav/will_paginate.git
