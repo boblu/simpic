@@ -3,20 +3,23 @@ class Admin::AlbumsController < ApplicationController
 
 	# before_filter :login_required
 
-	def index 
-		@albums = Album.find_by_year(params[:year])
+	def index
+    @albums = Album.find_by_year_and_order(params[:year], params[:order]) 
     if @albums.blank?
       redirect_to new_admin_album_url(:blank=>true)
     else
+			params[:page] = nil if params[:page].blank?
+			params[:per_page] = 30 if params[:per_page].blank?
+      @albums = @albums.paginate(params)
       @title = 'Album list'
       @sub_title = params[:year]
     end
 	end
 
 	def new
-    @title = 'Album detail'
-    params[:blank]=='true' ? @sub_title = 'No album exists, please create one.' : @sub_title = nil
 		@album = Album.new
+		params[:from] = 'new'
+		render :action => "modification"
 	end
 	
 	def create
@@ -24,15 +27,17 @@ class Admin::AlbumsController < ApplicationController
 		begin
 			@album.save!
 		rescue
-			render :action => :new
+			params[:from] = 'new'
+			render :action => "modification"
 		else
-			flash[:notice] = 'Album was successfully created.'
 			redirect_to admin_albums_url
 		end
 	end
 	
 	def edit
 		@album = Album.find(params[:id])
+		params[:from] = 'edit'
+		render :action => "modification"
 	end
 	
 	def update
@@ -40,9 +45,9 @@ class Admin::AlbumsController < ApplicationController
 		begin
 			@album.update_attributes!(params[:album])
 		rescue
-			render :action => :edit
+			params[:from] = 'edit'
+			render :action => "modification"
 		else
-			flash[:notice] = 'Album was successfully updated.'
 			redirect_to admin_albums_url
 		end
 	end

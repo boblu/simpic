@@ -7,6 +7,8 @@
 		<%= stylesheet_link_tag 'admin' %>
 		<%= ajaxful_rating_style %>
 		<%= calendar_date_select_includes "silver" %>
+		<% CalendarDateSelect.format = :iso_date
+		CalendarDateSelect.default_options.update({:year_range => [1978, 0.years.from_now.year], :size => 15}) %>
 	</head>
 	<body>
 		<div id="main">

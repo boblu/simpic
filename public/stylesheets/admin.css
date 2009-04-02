@@ -89,9 +89,13 @@ a.logo {
 }
 /* center column */
 #center-column {
+	margin-bottom: 30px;
+	padding-left: 12px;
+	padding-bottom: 0px;
+	padding-right: 24px;
+	padding-top: 0;
 	float:left;
 	width: 807px;
-	padding: 0 24px 0 12px;
 }
 /* footer */
 #footer {
@@ -157,17 +161,19 @@ ul.nav li.last {
 	margin:0 0 4px 0;
 }
 /* orange button */
-.top-bar a.button {
+.top-bar .button {
 	float:right;
 	display:block;
 	width:75px;
 	height:35px;
 	text-align:center;
+	padding-bottom: 5px;
 	color:#fff;
 	text-transform:uppercase;
 	font-weight:bold;
 	line-height:30px;
 	background:url(../images/admin/bg-orange-button.gif) no-repeat;
+	border: none;
 }
 /* bar with select */
 .select-bar {
@@ -175,11 +181,9 @@ ul.nav li.last {
 	border-top:2px solid #f70;
 	border-bottom:2px solid #f70;
 	padding:5px 0 3px 0;
-	margin:0 0 17px 0;
+	margin:0 0 0px 0;
 }
-.select-bar select {
-	width:145px;margin:0 2px;
-}
+
 
 /*****************/
 /* listig table  */
@@ -223,27 +227,27 @@ ul.nav li.last {
 	border-bottom: 1px solid #969696;
 }
 .listing table th a:link {
-	color: #047;
+	color: black;
 	text-decoration: none;
 }
 
 .listing tbody tr td a:link {
-	color: #DC143C;
+	color: black;
 	text-decoration: none;
 }
 
 .listing tbody tr td a:visited{
-	color: #DC143C;
+	color: black;
 	text-decoration: none;
 }
 
 .listing tbody tr td a:active{
-	color: #000;
+	color: black;
 	text-decoration: none;
 }
 
 .listing tbody tr td a:hover{
-	color: red;
+	color: black;
 	text-decoration: underline;
 }
 
@@ -278,6 +282,12 @@ ul.nav li.last {
 	padding-right: 0px;
 	width: 20px;
 }
+.listing tbody td.number {
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: right;
+	width: 20px;
+}
 .listing tbody td.level {
 	padding-left: 0px;
 	padding-right: 0px;
@@ -291,12 +301,12 @@ ul.nav li.last {
 	float: left;
 	padding: 1px;
 	margin-right: 5px;
-	background-color: red;
+	background-color: #ff2639;
 	display: table;
 }
 #errorExplanation {
 	width: 400px;
-	border: 2px solid red;
+	border: 2px solid #ff2639;
 	padding: 7px;
 	padding-bottom: 12px;
 	margin-bottom: 20px;
@@ -308,7 +318,7 @@ ul.nav li.last {
 	padding: 5px 5px 5px 15px;
 	font-size: 12px;
 	margin: -7px;
-	background-color: #c00 ;
+	background-color: #ff2639 ;
 	color: #fff ;
 }
 #errorExplanation p {
@@ -318,4 +328,22 @@ ul.nav li.last {
 }
 #errorExplanation ul li {
 	font-size: 12px;
+}
+
+/*****************/
+/* detail table  */
+/*****************/
+.detail_table {
+	width: 500px;
+}
+.detail_table tr {
+	height: 30px;
+}
+.detail_table th {
+	width: 70px;
+	text-align: left;
+	font-weight: normal;
+}
+.detail_table .full_width {
+	width: 100%;
 }

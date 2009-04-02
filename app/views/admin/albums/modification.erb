@@ -1,0 +1,44 @@
+<%  form_for :album,
+						 :url => params[:from] == 'new' ? admin_albums_path : admin_album_path(@album),
+						 :html => {:method => params[:from] == 'new' ? :post : :put} do |f| %>
+	<div class="top-bar">
+		<%= submit_tag 'Save', :class => 'button' %>
+		<h1>Album detail</h1>
+		<div class="breadcrumbs"><%= 'No album exists, please create one.' if params[:blank]=='true' %></div>
+	</div>
+	<div class="select-bar">
+		<%= f.error_messages :header_message => "Invalid field!", :message => nil %>
+		<table class='detail_table'>
+			<tr>
+				<th><%= f.label :title_label, 'Title' %></th>
+				<td colspan="3"><%= f.text_field :title, :class => 'full_width' %></td>
+			</tr>
+			<tr>
+				<th><%= f.label :description_label, 'Description' %></th>
+				<td colspan="3"><%= f.text_area :description, :rows => 5, :class => 'full_width'  %></td>
+			</tr>
+			<tr>
+				<th><%= f.label :begin_on_label, 'Begin on' %></th>
+				<td><%= calendar_date_select :album, :begin_on %></td>
+				<th><%= f.label :end_on_label, 'End on' %></th>
+				<td><%= calendar_date_select :album, :end_on %></td>
+			</tr>
+			<tr>
+				<th><%= f.label :appearance_label, 'Appearance' %></th>
+				<td colspan="3"><%= f.select :appearance, js_name %>
+			</tr>
+			<tr>
+				<th><%= f.label :read_level_label, 'Read level' %></th>
+				<td colspan="3"><%= f.select :read_level, authority_name %></td>
+			</tr>
+			<tr>
+				<th><%= f.label :published_label, 'Publish' %></th>
+				<td colspan="3">
+					<%= f.radio_button :publish, true %>Yes
+					 &nbsp;&nbsp;&nbsp; 
+					<%= f.radio_button :publish, false %>No
+				</td>
+			</tr>
+		</table>
+	</div>
+<% end %>

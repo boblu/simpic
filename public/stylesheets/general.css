@@ -2,7 +2,7 @@
 /*  for all elements */
 /*********************/
 img {border:none;}
-a {color:#060606;text-decoration: none}
+a {color: black;text-decoration: none}
 
 input[type="text"], input[type="password"], textarea, select {
 	border: 1px solid #CCCCCC;
@@ -13,4 +13,61 @@ input[type="text"]:hover, input[type="password"]:hover, textarea:hover, select:h
 }
 input:focus, select:focus, textarea:focus {
 	background-color:#FFFFDD;
+}
+.calendar_date_select_popup_icon {
+	vertical-align: middle;
+}
+
+/************************************************************/
+/**************            pagination       *****************/
+/************************************************************/
+.pagination_wrap {
+	padding-top:15px;
+	padding-bottom:15px;
+}
+
+.pagination {
+	padding: 0px;
+	margin: 0px;
+	font-size: 8px;
+}
+
+.pagination a {
+	padding: 1px 3px 1px 3px;
+	margin: 1px;
+	text-decoration: none;
+	color: #0080ff;
+}
+
+.pagination a:hover, .pagination a:active {
+	background-color: #0080ff;
+	color: white;
+}
+
+.pagination span.current {
+	padding: 1px 3px 1px 3px;
+	margin: 1px;
+	border: 1px solid #0080ff;
+	font-weight: bold;
+	background-color: #0080ff;
+	color: #FFF;
+}
+
+.pagination span.disabled {
+	padding: 1px 3px 1px 3px;
+	margin: 1px;
+/*	border: 1px solid #eee;*/
+	color: #ddd;
+}
+
+.navigation {
+	width: 100%;
+}
+
+.per_page {
+	text-align: right;
+}
+
+.per_page select {
+	width: 50px;
 }

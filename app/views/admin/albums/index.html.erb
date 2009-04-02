@@ -1,60 +1,80 @@
 <div class="top-bar">
 	<%= link_to 'New', new_admin_album_path, :class => 'button' %>
 	<h1><%= @title %></h1>
-	<div class="breadcrumbs"><%= @sub_title %></div>
+	<div><%= @sub_title %></div>
 </div>
 <div class="select-bar">
   <label><input type="text" name="textfield" /></label>
   <label><input type="submit" name="Submit" value="Search" /></label>
+
 </div>
+<table class='navigation'>
+	<tr>
+		<td class='pagination_wrap'><%= will_paginate @lexemes, :params => params %></td>
+		<td class='per_page'>
+					<% form_tag admin_albums_url(params), :method => :get do %>
+						<%= select_tag 'per_page', options_for_select([[30, 30], [50, 50], [100, 100]], params[:per_page].to_i) %>
+	        	<%= submit_tag "Review" %>
+	        <% end %>
+		</td>
+	</tr>
+</table>
+
 <div class="listing">
 	<table>
 		<thead>
 			<tr>
-				<th class='order'>#</th>
+				<th class='order'><%= link_to '#', admin_albums_url %></th>
 				<th class='check_box'><%= check_box_tag 'select'%></th>
-				<th><%= link_to 'Title', admin_albums_url(:order => 'title') %></th>
-				<th><%= link_to 'Begin', admin_albums_url(:order => 'begin_on') %></th>
-				<th><%= link_to 'End', admin_albums_url(:order => 'end_on') %></th>
-				<th><img src="/images/admin/picture.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/video.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/comment.png" width="20" height="20" /></th>
-				<th><%= link_to image_tag('admin/user.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'read_level') %></th>
-				<th><%= link_to image_tag('admin/rating.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'rating_average') %></th>
-				<th><%= link_to image_tag('admin/publish.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'publish') %></th>
+				<th><%= link_to 'Title', admin_albums_url(params.dup.update({:order => (params[:order]=='title asc' ? 'title desc' : 'title asc')}))%></th>
+				<th><%= link_to 'Begin', admin_albums_url(params.dup.update({:order => (params[:order]=='begin_on asc'? 'begin_on desc' : 'begin_on asc')})) %></th>
+				<th><%= link_to 'End', admin_albums_url(params.dup.update({:order => (params[:order]=='end_on asc'? 'end_on desc' : 'end_on asc')})) %></th>
+				<th colspan="2">
+					<%= link_to image_tag('admin/picture.png', :width=>'20', :height=>'20'),
+											admin_albums_url(params.dup.update({:order => (params[:order]=='pictures,asc'? 'pictures,desc' : 'pictures,asc')})) %>
+				</th>
+				<th colspan="2">
+					<%= link_to image_tag('admin/video.png', :width=>'20', :height=>'20'),
+											admin_albums_url(params.dup.update({:order => (params[:order]=='videos,asc'? 'videos,desc' : 'videos,asc')})) %>
+				</th>
+				<th>
+					<%= link_to image_tag('admin/comment.png', :width=>'20', :height=>'20'),
+											admin_albums_url(params.dup.update({:order => (params[:order]=='comments,asc'? 'comments,desc' : 'comments,asc')})) %>
+				</th>
+				<th>
+					<%= link_to image_tag('admin/user.png', :width=>'20', :height=>'20'),
+											admin_albums_url(params.dup.update({:order => (params[:order]=='read_level asc'? 'read_level desc' : 'read_level asc')})) %>
+				</th>
+				<th>
+					<%= link_to image_tag('admin/rating.png', :width=>'20', :height=>'20'),
+											admin_albums_url(params.dup.update({:order => (params[:order]=='rating_average asc'? 'rating_average desc' : 'rating_average asc')})) %>
+				</th>
+				<th>
+					<%= link_to image_tag('admin/publish.png', :width=>'20', :height=>'20'),
+											admin_albums_url(params.dup.update({:order => (params[:order]=='publish asc'? 'publish desc' : 'publish asc')})) %>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<% @albums.each_with_index{|album, index| %>
+			<% authority = authority_name.inject({}){|temp, item| temp[item[1]] = item[0]; temp}
+			@albums.each_with_index{|album, index| %>
 				<tr <%= index%2==1 ? "class='odd'" : nil %>>
 					<td class='order'><%= index+1 %></td>
 					<td class='check_box'><%= check_box_tag 'selected_id[]', album.id, checked = false %></td>
-					<td class='text_column'><%= h(album.title) %></td>
+					<td class='text_column'><%= link_to h(album.title), edit_admin_album_path(album) %></td>
 					<td class='date'><%= h(album.begin_on) %></td>
 					<td class='date'><%= h(album.end_on) %></td>
+					<td class='number'><%= album.pictures.size %></td>
 					<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), '#' %></td>
+					<td class='number'><%= album.videos.size %></td>
 					<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), '#' %></td>
-					<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), '#' %></td>
-					<td class='level'>reader</td>
+					<td class='icon'><%= link_to album.comments.size, '#' %></td>
+					<td class='level'><%= authority[album.read_level] %></td>
 					<td class='icon'><%= ratings_for album, :small_stars => true %></td>
 					<td class='icon'><%= link_to (album.publish==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')), '#' %></td>
 				</tr>
 			<% } %>
 		</tbody>
-		<thead>
-			<tr>
-				<th class='order'>#</th>
-				<th class='check_box'><%= check_box_tag 'select'%></th>
-				<th><%= link_to 'Title', admin_albums_url(:order => 'title') %></th>
-				<th><%= link_to 'Begin', admin_albums_url(:order => 'begin_on') %></th>
-				<th><%= link_to 'End', admin_albums_url(:order => 'end_on') %></th>
-				<th><img src="/images/admin/picture.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/video.png" width="20" height="20" /></th>
-				<th><img src="/images/admin/comment.png" width="20" height="20" /></th>
-				<th><%= link_to image_tag('admin/user.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'read_level') %></th>
-				<th><%= link_to image_tag('admin/rating.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'rating_average') %></th>
-				<th><%= link_to image_tag('admin/publish.png', :width=>'20', :height=>'20'), admin_albums_url(:order => 'publish') %></th>
-			</tr>
-		</thead>
 	</table>
 </div>
+<div class='pagination_wrap'><%= will_paginate @lexemes, :params => params %></div>
