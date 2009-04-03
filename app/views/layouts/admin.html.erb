@@ -22,17 +22,9 @@
 			</div>
 			<div id="middle">
 				<div id="left-column">
-					<a href="#" class="link">Frontpage</a>
-					<a href="#" class="link">Logout</a>
-					<h3><%= link_to 'All albums', admin_albums_url %></h3>
-					<% temp = Album.year_range
-					unless temp.blank? %>
-						<ul class="nav">
-							<% temp.each_with_index{|year, index| %>
-								<li <%= "class='last'" if temp.size-1 == index %>><%= link_to year, admin_albums_url(:year => year) %></li>
-							<% } %>
-						</ul>
-					<% end %>
+					<%= link_to 'FrontPage', root_path, :class => 'link' %>
+					<%= link_to 'Logout', root_path, :class => 'link' %>
+					<%= yield :left_column %>
 				</div>
 				<div id="center-column">
 					<%= yield :layout %>		

@@ -24,17 +24,17 @@ class Album < ActiveRecord::Base
     self.all.map(&:begin_on).map(&:year).uniq
   end
 	
-	def self.find_by_year_and_order(year, order, type = nil)
+	def self.find_by_year_or_condition_with_order(title, year, order, type = nil)
     order = 'begin_on desc' if order.blank?
     if order.include?(',')
       type, temp_order = order.split(',')
       order = 'begin_on desc'
     end
 		if year.blank?
-			albums = self.all(:order => order)
+			albums = self.all(:order => order, :conditions => ['title like ?', "%#{title}%"])
 		else
 			date = Date.civil(year.to_i)
-		  albums = self.all(:conditions => ['begin_on >= ? and begin_on <= ?', date.beginning_of_year, date.end_of_year], :order => order)
+		  albums = self.all(:conditions => ['begin_on >= ? and begin_on <= ? and title like ?', date.beginning_of_year, date.end_of_year, "%#{title}%"], :order => order)
 	  end
     unless type.blank?
       albums = albums.sort_by{|album| eval('album.'+type+'.size')}

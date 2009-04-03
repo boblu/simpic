@@ -1,3 +1,4 @@
+<% render 'left_column' %>
 <%  form_for :album,
 						 :url => params[:from] == 'new' ? admin_albums_path : admin_album_path(@album),
 						 :html => {:method => params[:from] == 'new' ? :post : :put} do |f| %>
@@ -31,8 +32,15 @@
 				<th><%= f.label :read_level_label, 'Read level' %></th>
 				<td colspan="3"><%= f.select :read_level, authority_name %></td>
 			</tr>
+			
 			<tr>
-				<th><%= f.label :published_label, 'Publish' %></th>
+				<th><%= f.label :rating_average_label, 'Rating' %></th>
+				<td colspan="3">
+					<%= ratings_for @album %>
+				</td>
+			</tr>
+			<tr>
+				<th><%= f.label :publish_label, 'Publish' %></th>
 				<td colspan="3">
 					<%= f.radio_button :publish, true %>Yes
 					 &nbsp;&nbsp;&nbsp; 

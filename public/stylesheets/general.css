@@ -7,11 +7,12 @@ a {color: black;text-decoration: none}
 input[type="text"], input[type="password"], textarea, select {
 	border: 1px solid #CCCCCC;
 	font-size:12px;
+/*	height: 17px;*/
 }
 input[type="text"]:hover, input[type="password"]:hover, textarea:hover, select:hover {
 	border-color: #06c;
 }
-input:focus, select:focus, textarea:focus {
+input[type='text']:focus, input[type='password']:focus, select:focus, textarea:focus {
 	background-color:#FFFFDD;
 }
 .calendar_date_select_popup_icon {
@@ -21,15 +22,18 @@ input:focus, select:focus, textarea:focus {
 /************************************************************/
 /**************            pagination       *****************/
 /************************************************************/
-.pagination_wrap {
-	padding-top:15px;
-	padding-bottom:15px;
+.navigation_wrap {
+  	margin-left: auto;
+  	margin-right: auto;
+	padding-top:5px;
+	padding-bottom:5px;
 }
 
 .pagination {
-	padding: 0px;
+	padding-top: 3px;
 	margin: 0px;
-	font-size: 8px;
+	font-size: 9px;
+	float: left;
 }
 
 .pagination a {
@@ -60,14 +64,9 @@ input:focus, select:focus, textarea:focus {
 	color: #ddd;
 }
 
-.navigation {
-	width: 100%;
-}
-
 .per_page {
-	text-align: right;
+	float:left;
 }
-
 .per_page select {
 	width: 50px;
 }
