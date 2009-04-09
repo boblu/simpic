@@ -6,24 +6,36 @@
 		<%= javascript_include_tag :defaults %>
 		<%= stylesheet_link_tag 'admin' %>
 		<%= ajaxful_rating_style %>
-		<%= calendar_date_select_includes "silver" %>
-		<% CalendarDateSelect.format = :iso_date
-		CalendarDateSelect.default_options.update({:year_range => [1978, 0.years.from_now.year], :size => 15}) %>
+		<%= calendar_date_select_includes :silver %>
+		<% CalendarDateSelect.default_options.update({:year_range => [1978, 0.years.from_now.year], :size => 18}) %>
+		
 	</head>
 	<body>
 		<div id="main">
 			<div id="header">
-				<a href="index.html" class="logo"><img src="/images/admin/logo.gif" width="101" height="29" alt="" /></a>
+				<a href="index.html" class="logo">SimPic</a>
 				<ul id="top-navigation">
-					<li class="active"><span><span>Albums</span></span></li>
-					<li><span><span><a href="#">Comments</a></span></span></li>
-					<li><span><span><a href="#">Users</a></span></span></li>
+					<li <%= 'class="active"' if params[:controller] == 'admin/albums' %>
+						<span><span>
+							<%= params[:controller] == 'admin/albums' ? 'Albums' : link_to('Albums', admin_albums_path) %>
+						</span></span>
+					<li>
+					<li <%= 'class="active"' if params[:controller] == 'admin/comments' %>
+						<span><span>
+							<%= params[:controller] == 'admin/comments' ? 'Comments' : link_to('Comments', '#') %>
+						</span></span>
+					<li>
+					<li <%= 'class="active"' if params[:controller] == 'admin/users' %>
+						<span><span>
+							<%= params[:controller] == 'admin/users' ? 'Users' : link_to('Users', admin_users_path) %>
+						</span></span>
+					<li>
 				</ul>
 			</div>
 			<div id="middle">
 				<div id="left-column">
 					<%= link_to 'FrontPage', root_path, :class => 'link' %>
-					<%= link_to 'Logout', root_path, :class => 'link' %>
+					<%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]), :class => 'link' %>
 					<%= yield :left_column %>
 				</div>
 				<div id="center-column">

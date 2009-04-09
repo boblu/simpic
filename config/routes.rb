@@ -45,13 +45,14 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:year', :controller => 'albums', :action => 'list', :year => /\d{4}/
   map.connect '/:year/:month', :controller => 'albums', :action => 'list', :year => /\d{4}/, :month => /\d{1,2}/
   map.namespace :admin do |admin|
-    admin.resources :albums, :member => {:batch_action => :post} do |albums|
+  	admin.root :controller => 'albums', :action => 'index'
+    admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post} do |albums|
       albums.resources :contents, :member => {:rate => :post} do |contents|
         contents.resources :comments
       end
       albums.resources :comments
     end
-    admin.resources :users
+    admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}
   end  
   map.resources :albums, :member => {:rate => :post} do |albums|
     albums.resources :contents, :member => {:rate => :post} do |contents|
@@ -59,5 +60,4 @@ ActionController::Routing::Routes.draw do |map|
     end
     albums.resources :comments
   end
-  map.resources :users
 end

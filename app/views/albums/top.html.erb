@@ -1,0 +1,9 @@
+<div>
+  <% form_tag login_admin_users_path, :method => "post" do %>
+		<%= label_tag :password, 'password' %>
+		<%= text_field_tag :password, nil, :class => 'text-field' %>
+	<% end %>
+	<% if session[:user_read_level] == 0 %>
+		<%= link_to 'admin', admin_albums_path %>
+	<% end %>
+</div>

@@ -1,0 +1,58 @@
+<%= render 'left_column' %>
+<% form_tag admin_user_path(0), :method => :delete do %>
+	<div class="top-bar">
+		<%= submit_tag 'Delete', :class => 'button' %>
+		<%= link_to 'New', new_admin_user_path, :class => 'button' %>
+		<h1><%= @title %></h1>
+		<div><%= @sub_title %></div>
+	</div>
+	<div class="select-bar">
+	</div>
+	<div class="listing">
+		<table>
+			<thead>
+				<tr>
+					<th class='order'><%= link_to '#', admin_users_path %></th>
+					<th class='check_box'><%= check_box_tag 'selected_all', false, false, {:onclick=>"toggle_seleced_list();"} %></th>
+					<th>Password</th>
+					<th><%= link_to 'Name', admin_users_path(params.dup.update({:order => (params[:order]=='name asc'? 'name desc' : 'name asc')})) %></th>
+					<th><%= link_to image_tag('admin/user.png', :width=>'20', :height=>'20'), admin_users_path(params.dup.update({:order => (params[:order]=='read_level asc'? 'read_level desc' : 'read_level asc')})) %></th>
+					<th><%= link_to 'Span', admin_users_path(params.dup.update({:order => (params[:order]=='span asc'? 'span desc' : 'span asc')})) %></th>
+					<th><%= link_to 'Begin', admin_users_path(params.dup.update({:order => (params[:order]=='begin_time asc'? 'begin_time desc' : 'begin_time asc')})) %>
+					</th>
+					<th><%= link_to 'End', admin_users_path(params.dup.update({:order => (params[:order]=='end_time asc'? 'end_time desc' : 'end_time asc')})) %>
+					</th>
+				</tr>
+			</thead>
+			<tbody id='listing_body'>
+				<% @users.each_with_index{|user, index| %>
+					<tr <%= index%2==1 ? "class='odd'" : nil %>>
+						<td class='order'><%= index+1 %></td>
+						<td class='check_box'><%= check_box_tag 'selected_id[]', user.id, checked = false %></td>
+						<td class='text_column'><%= h(user.password) %></td>
+						<td class='text_column'><%= link_to h(user.name), edit_admin_user_path(user) %></td>
+						<td class='level'><%= h(authority_list[user.read_level])%></td>
+						<td class='minute'><%= h(user.span)%></td>
+						<td class='datetime'><%= h(user.begin_time.to_s(:db)) unless user.begin_time.blank? %></td>
+						<td class='datetime'><%= h(user.end_time.to_s(:db)) unless user.end_time.blank? %></td>
+					</tr>
+				<% } %>
+			</tbody>
+		</table>
+	</div>
+<% end %>
+<table class='navigation_wrap'>
+	<tr>
+		<td>
+			<div class='per_page'>
+				<% form_tag admin_users_path, :method => :get, :id => 'change_page' do %>
+					<%= hidden_field_tag 'year', params[:year] %>
+					<%= hidden_field_tag 'order', params[:order] %>
+					Display:
+					<%= select_tag 'per_page', options_for_select(per_page_list, params[:per_page].to_i), :onchange => "$('change_page').submit();" %>
+				<% end %>
+			</div>
+			<%= will_paginate @users, :params => params %>
+		</td>
+	</tr>
+</table>

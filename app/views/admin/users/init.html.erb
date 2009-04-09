@@ -1,0 +1,24 @@
+<%= stylesheet_link_tag 'admin' %>
+
+<%  form_for :user, :url => {:controller=>'admin/users', :action=>'init'}, :html => {:method => :get} do |f| %>
+	<div style='margin-top:150px;'>
+		<div style="text-align:center; font:48px solid; color:#FF7700;">SimPic</div>
+		<table style='margin:auto; border:1px solid grey; padding:15px 10px;'>
+			<tr><th colspan="2" >Initial User</th></tr>
+			<tr height="40">
+				<td><%= f.label :name_label, 'Name' %></th>
+				<td><%= f.text_field :name  %></td>
+			</tr>
+			<tr height="40">
+				<td><%= f.label :password_label, 'Password' %></th>
+				<td><%= f.password_field :password %></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align:center;">
+					<%= hidden_field_tag 'init', 'create' %>
+					<%= submit_tag 'Create' %>
+				</td>
+			</tr>
+		</table>
+	</div>
+<% end %>

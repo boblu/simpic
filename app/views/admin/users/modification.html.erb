@@ -1,0 +1,42 @@
+<% render 'left_column' %>
+<%  form_for :user,
+						 :url => params[:from] == 'new' ? admin_users_path : admin_user_path(@user),
+						 :html => {:method => params[:from] == 'new' ? :post : :put} do |f| %>
+	<div class="top-bar">
+		<%= submit_tag 'Save', :class => 'button' %>
+		<h1>User detail</h1>
+	</div>
+	<div class="select-bar">
+		<%= f.error_messages :header_message => "Invalid field!", :message => nil %>
+		<table class='detail_table'>
+			<tr>
+				<th><%= f.label :password_label, 'Password' %></th>
+				<td colspan="3"><%= f.text_field :password, :class => 'full_width' %></td>
+			</tr>
+			<tr>
+				<th><%= f.label :name_label, 'Name' %></th>
+				<td colspan="3"><%= f.text_field :name, :class => 'full_width'  %></td>
+			</tr>
+			<tr>
+				<th><%= f.label :read_level_label, 'Read level' %></th>
+				<td colspan="3">
+					<% if params[:from] == 'new' %>
+						<%= f.select :read_level, authority_name, {:selected => authority_name.last[1]}, {:onchange => "set_admin_timespan();"} %>
+					<% else %>
+						<%= f.select :read_level, authority_name, {}, {:onchange => "set_admin_timespan();"} %>
+					<% end %>
+				</td>
+			</tr>
+			<tr>
+				<th><%= f.label :span_label, 'Time span' %></th>
+				<td colspan="3"><%= f.select :span, time_span_list %>minutes</td>
+			</tr>
+			<tr>
+				<th><%= f.label :begin_time_label, 'Begin at' %></th>
+				<td><%= calendar_date_select :user, :begin_time %></td>
+				<th><%= f.label :end_time_label, 'End at' %></th>
+				<td><%= calendar_date_select :user, :end_time %></td>
+			</tr>
+		</table>
+	</div>
+<% end %>

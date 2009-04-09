@@ -1,0 +1,9 @@
+<% content_for :left_column do %>
+	<h3><%= link_to 'All users', admin_users_url %></h3>
+	<ul class="nav">
+		<% temp = User.all.map(&:read_level).uniq.sort
+		temp.each_with_index{|item, index| %>
+			<li <%= "class='last'" if temp.size-1 == index %>><%= link_to authority_list[item], admin_users_url(:read_level => item) %></li>
+		<% } %>
+	</ul>
+<% end %>
