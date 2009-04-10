@@ -60,9 +60,9 @@
 						<td class='text_column'><%= link_to h(album.title), edit_admin_album_path(album) %></td>
 						<td class='date'><%= h(album.begin_on) %></td>
 						<td class='date'><%= h(album.end_on) %></td>
-						<td class='number'><%= link_to album.pictures.size, admin_album_contents_path(album) %></td>
+						<td class='number'><%=  album.pictures.size == 0 ? '0' : link_to(album.pictures.size, admin_album_contents_path(album)) %></td>
 						<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), new_admin_album_content_path(album) %></td>
-						<td class='number'><%= link_to album.videos.size, admin_album_contents_path(album) %></td>
+						<td class='number'><%= album.videos.size == 0 ? '0' : link_to(album.videos.size, admin_album_contents_path(album)) %></td>
 						<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), new_admin_album_content_path(album) %></td>
 						<td class='icon'><%= link_to album.comments.size, '#' %></td>
 						<td class='level'><%= authority_list[album.read_level] %></td>

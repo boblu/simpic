@@ -8,12 +8,11 @@
 		<%= ajaxful_rating_style %>
 		<%= calendar_date_select_includes :silver %>
 		<% CalendarDateSelect.default_options.update({:year_range => [1978, 0.years.from_now.year], :size => 18}) %>
-		
 	</head>
 	<body>
 		<div id="main">
 			<div id="header">
-				<a href="index.html" class="logo">SimPic</a>
+				<%= link_to 'Simpic', admin_root_path, :class => 'logo' %>
 				<ul id="top-navigation">
 					<li <%= 'class="active"' if params[:controller] == 'admin/albums' %>
 						<span><span>

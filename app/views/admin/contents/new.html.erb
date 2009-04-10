@@ -1,0 +1,32 @@
+<% render 'admin/albums/left_column' %>
+<div class="top-bar">
+	<h1>Add contents</h1>
+	<div class="breadcrumbs"><%= @sub_title %></div>
+</div>
+<div class="subtitle-bar">picture</div>
+<div class="add_content">
+	<table>
+		<% form_tag admin_album_contents_path do %>
+			<tr>
+				<td>
+					<div>
+						<p>Server Folder</p>
+						<%= radio_button_tag 'partten', 'files', true %>
+						<%= hidden_field_tag 'type', 'picture' %>
+						<p>current image folder: tmp/upload</p>
+					</div>
+				</td>
+				<td>
+					<div class='center_select'>
+						<%= select_tag 'filenames', options_for_select(@filenames), {:multiple => true, :size => 20, :width => '100%'} %>
+					</div>
+				</td>
+				<td>
+					<%= submit_tag 'add' %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+<div class="subtitle-bar">video</div>

@@ -186,6 +186,15 @@ ul.nav li.last {
 	margin:0 0 0px 0;
 }
 
+.subtitle-bar {
+	clear:both;
+	border-top:2px solid #f70;
+	border-bottom:2px solid #f70;
+	padding:5px 0 3px 0;
+	margin:0 0 0px 0;
+	font-size:15px;
+}
+
 
 /*****************/
 /* listig table  */
@@ -358,5 +367,21 @@ ul.nav li.last {
 	font-weight: normal;
 }
 .detail_table .full_width {
+	width: 100%;
+}
+
+/*****************/
+/* detail table  */
+/*****************/
+.add_content {
+	text-align: center;
+}
+
+.add_content .center_select {
+	width: 200px;
+	padding: 0 15px 0 15px;
+}
+
+.add_content .center_select select {
 	width: 100%;
 }

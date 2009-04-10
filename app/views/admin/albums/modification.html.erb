@@ -16,7 +16,17 @@
 			</tr>
 			<tr>
 				<th><%= f.label :description_label, 'Description' %></th>
-				<td colspan="3"><%= f.text_area :description, :rows => 5, :class => 'full_width'  %></td>
+				<td colspan="3"><%= f.text_area :description, :rows => 5, :class => 'full_width' %></td>
+			</tr>
+			<tr>
+				<th><%= f.label :tag_list_label, 'Tag' %></th>
+				<td colspan="3">
+					<% if params[:from] == 'new' %>
+						<%= f.text_field :tag_list, :class => 'full_width' %>
+					<% else %>
+						<%= text_field_tag 'album[tag_list]', @album.tag_list.join(', '), :class => 'full_width' %>
+					<% end %>
+				</td>
 			</tr>
 			<tr>
 				<th><%= f.label :begin_on_label, 'Begin on' %></th>
