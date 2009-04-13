@@ -47,15 +47,15 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post} do |albums|
-      albums.resources :contents, :member => {:rate => :post} do |contents|
+      albums.resources :contents, :collection => {:batch_action => :post}, :member => {:rate => :post} do |contents|
         contents.resources :comments
       end
       albums.resources :comments
     end
     admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}
   end  
-  map.resources :albums, :member => {:rate => :post} do |albums|
-    albums.resources :contents, :member => {:rate => :post} do |contents|
+  map.resources :albums do |albums|
+    albums.resources :contents do |contents|
       contents.resources :comments
     end
     albums.resources :comments

@@ -10,11 +10,58 @@
 	</head>
 
 	<body>
-		<div>
-			<% unless flash[:notice].blank? %>
-				<div><b><%= flash[:notice] %></b></div>
-			<% end %>
-			<%= yield :layout %>
+		<div id='header'>
+			<div class='title'>Simpic</div>
+			<div class='recent'>
+				<table>
+					<tr>
+						<td>
+							<div>Latest</div>
+							<div>
+								<ul>
+									<li>xxx</li>
+									<li>yyy</li>
+								</ul>
+							</div>
+						</td>
+						<td>
+							<div>Updated</div>
+							<div>
+								<ul>
+									<li>xxx</li>
+									<li>yyy</li>
+								</ul>
+							</div>
+						</td>
+						<td>
+							<div>Recent comments</div>
+							<div>
+								<ul>
+									<li>xxx</li>
+									<li>yyy</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</div>
+		<div id='main'>
+			<div class='left_column'>
+				<% session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank? %>
+					<ul class="nav">
+						<% Album.year_range(session[:user_read_level]).each{|year| %>
+							<li><%= link_to year, albums_url(:year => year) %></li>
+						<% } %>
+					</ul>
+			</div>
+			<div class='right_column'>
+				<% unless flash[:notice].blank? %>
+					<div><b><%= flash[:notice] %></b></div>
+				<% end %>
+				<%= yield :layout %>
+			</div>
+		</div>
+		<div id='footer'></div>
 	</body>
 </html>

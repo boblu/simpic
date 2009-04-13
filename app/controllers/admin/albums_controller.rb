@@ -72,6 +72,8 @@ class Admin::AlbumsController < ApplicationController
         Album.transaction do
           if params[:commit] == 'Delete'
             params[:selected_id].each{|id| Album.find(id).destroy}
+          elsif params[:commit] == 'Set'
+            params[:selected_id].each{|id| Album.find(id).update_attributes!(:read_level => params[:read_level].to_i)}
           else
             params[:commit] == 'Publish' ? publish_value = true : publish_value = false
             params[:selected_id].each{|id| Album.find(id).update_attributes!(:publish => publish_value)}
@@ -86,8 +88,18 @@ class Admin::AlbumsController < ApplicationController
  		@album = Album.find(params[:id])
  		@album.rate(params[:stars], current_user, params[:dimension])
  		id = "ajaxful-rating-" + (!params[:dimension].blank? ? "#{params[:dimension]}-" : "album-#{@album.id}")
+    if params[:small_stars].blank?
+      small_stars = false
+      url = rate_admin_album_path(@album)
+    else
+      small_stars = true
+      url = rate_admin_album_path(@album, :small_stars => true)
+    end
  		render :update do |page|
-	 		page.replace_html id, ratings_for(@album, :wrap => false, :dimension => params[:dimension], :remote_options => {:url => rate_admin_album_path(@album)})
+	 		page.replace_html id, ratings_for(@album, :wrap => false,
+                                                :dimension => params[:dimension],
+                                                :small_stars => small_stars,
+                                                :remote_options => {:url => url})
  			page.visual_effect :highlight, id
  		end
   end

@@ -316,6 +316,10 @@ ul.nav li.last {
 	width: 30px;
 }
 
+.listing tbody td.thumb {
+	width:90px;
+}
+
 /*****************/
 /* The error box */
 /*****************/

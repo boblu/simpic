@@ -20,6 +20,8 @@ Currently you need all of those things to get SimPic to run:
 
  * Ruby 1.8.6
  * Rails 2.3.2
+ * [image_science](http://seattlerb.rubyforge.org/ImageScience.html)
+ * [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/index.html) and [miniexiftool](http://miniexiftool.rubyforge.org/)
  * A mysql database.
  * Ruby drivers for your database.
  * Apache + mod_rails (aka Passenger) for fast and easy deployment along with speed.

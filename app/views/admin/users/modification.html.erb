@@ -21,9 +21,9 @@
 				<th><%= f.label :read_level_label, 'Read level' %></th>
 				<td colspan="3">
 					<% if params[:from] == 'new' %>
-						<%= f.select :read_level, authority_name, {:selected => authority_name.last[1]}, {:onchange => "set_admin_timespan();"} %>
+						<%= f.select :read_level, authority_name.to_a, {:selected => authority_name['guest']}, {:onchange => "set_admin_timespan();"} %>
 					<% else %>
-						<%= f.select :read_level, authority_name, {}, {:onchange => "set_admin_timespan();"} %>
+						<%= f.select :read_level, authority_name.to_a, {}, {:onchange => "set_admin_timespan();"} %>
 					<% end %>
 				</td>
 			</tr>

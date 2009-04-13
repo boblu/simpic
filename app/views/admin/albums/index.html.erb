@@ -11,11 +11,17 @@
 		<div><%= @sub_title %></div>
 	</div>
 	<div class="select-bar">
-		<label><%= text_field_tag 'search_condition', params[:search_condition] %></label>
-		<label><%= submit_tag 'Search', :class => 'button' %></label>
-		<% unless flash[:notice].blank? %>
-			<span><b><%= flash[:notice] %></b></span>
-		<% end %>
+		<div style="float:left;">
+			<label><%= text_field_tag 'search_condition', params[:search_condition] %></label>
+			<label><%= submit_tag 'Search', :class => 'button' %></label>
+			<% unless flash[:notice].blank? %>
+				<span><b><%= flash[:notice] %></b></span>
+			<% end %>
+		</div>
+		<div style="text-align:right;">
+			<%= select_tag 'read_level', options_for_select(authority_name.to_a.sort_by{|item| item[1]}) %>
+			<%= submit_tag 'Set' %>
+		</div>
 	</div>
 	<div class="listing">
 		<table>
@@ -65,8 +71,11 @@
 						<td class='number'><%= album.videos.size == 0 ? '0' : link_to(album.videos.size, admin_album_contents_path(album)) %></td>
 						<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), new_admin_album_content_path(album) %></td>
 						<td class='icon'><%= link_to album.comments.size, '#' %></td>
-						<td class='level'><%= authority_list[album.read_level] %></td>
-						<td class='icon'><%= ratings_for album, :static, :small_stars => true %></td>
+						<td class='level'><%= authority_name.invert[album.read_level] %></td>
+						<td class='icon'>
+							<%= ratings_for album, :small_stars => true,
+												   :remote_options => {:url => rate_admin_album_path(album, :small_stars => true)} %>
+						</td>
 						<td class='icon'>
 							<%= link_to (album.publish==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')),
 										admin_album_path(album,

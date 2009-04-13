@@ -36,11 +36,11 @@
 			</tr>
 			<tr>
 				<th><%= f.label :appearance_label, 'Appearance' %></th>
-				<td colspan="3"><%= f.select :appearance, js_name %>
+				<td colspan="3"><%= f.select :appearance, js_name.to_a.sort_by{|item| item[1]} %>
 			</tr>
 			<tr>
 				<th><%= f.label :read_level_label, 'Read level' %></th>
-				<td colspan="3"><%= f.select :read_level, authority_name %></td>
+				<td colspan="3"><%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]} %></td>
 			</tr>
 			<% unless params[:from] == 'new' %>
 				<tr>
