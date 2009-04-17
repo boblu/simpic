@@ -5,11 +5,9 @@ class Album < ActiveRecord::Base
 	
   default_scope :order => 'begin_on desc'
 
-  after_create :create_picture_directory
+  before_create :create_picture_directory
+  before_update :update_picture_directory
   after_destroy :delete_picture_directory
-  before_update :save_old_dirname
-  after_update :update_picture_directory
-
 
   ######################################################
   ##### association
@@ -66,9 +64,8 @@ class Album < ActiveRecord::Base
 	end
 	
 	private
-  attr_accessor :old_dirname
 
-	def must_be_valid_range
+  def must_be_valid_range
 		if not begin_on.blank? and not end_on.blank? and begin_on > end_on
 			errors.add(:end_on, "date range error!")
 		end
@@ -91,6 +88,18 @@ class Album < ActiveRecord::Base
     Dir.mkdir(PIC_DIR + 'thumbnail/' + path)
   end
 
+  def update_picture_directory
+    old_album = Album.find(id)
+    old_dirname = old_album.begin_on.to_s(:number) + old_album.title
+    new_dirname = begin_on.to_s(:number) + title
+    unless old_dirname == new_dirname
+      File.rename(PIC_DIR + 'original/' + year + '/' + old_dirname, PIC_DIR + 'original/' + year + '/' + new_dirname)
+      File.rename(PIC_DIR + 'normal/' + year + '/' + old_dirname, PIC_DIR + 'normal/' + year + '/' + new_dirname)
+      File.rename(PIC_DIR + 'medium/' + year + '/' + old_dirname, PIC_DIR + 'medium/' + year + '/' + new_dirname)
+      File.rename(PIC_DIR + 'thumbnail/' + year + '/' + old_dirname, PIC_DIR + 'thumbnail/' + year + '/' + new_dirname)
+    end
+  end
+  
   def delete_picture_directory
     FileUtils.rm_rf(PIC_DIR + 'original/' + path)
     FileUtils.rm_rf(PIC_DIR + 'normal/' + path)
@@ -101,21 +110,6 @@ class Album < ActiveRecord::Base
       FileUtils.rm_rf(PIC_DIR + 'normal/' + year)
       FileUtils.rm_rf(PIC_DIR + 'medium/' + year)
       FileUtils.rm_rf(PIC_DIR + 'thumbnail/' + year)
-    end
-  end
-  
-  def save_old_dirname
-    old_album = Album.find(id)
-    self.old_dirname = old_album.begin_on.to_s(:number) + old_album.title
-  end
-  
-  def update_picture_directory
-    new_dirname = begin_on.to_s(:number) + title
-    unless old_dirname == new_dirname
-      File.rename(PIC_DIR + 'original/' + year + '/' + old_dirname, PIC_DIR + 'original/' + year + '/' + new_dirname)
-      File.rename(PIC_DIR + 'normal/' + year + '/' + old_dirname, PIC_DIR + 'normal/' + year + '/' + new_dirname)
-      File.rename(PIC_DIR + 'medium/' + year + '/' + old_dirname, PIC_DIR + 'medium/' + year + '/' + new_dirname)
-      File.rename(PIC_DIR + 'thumbnail/' + year + '/' + old_dirname, PIC_DIR + 'thumbnail/' + year + '/' + new_dirname)
     end
   end
 end

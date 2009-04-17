@@ -9,8 +9,8 @@ class Content < ActiveRecord::Base
 
   default_scope :order => 'display_order asc'
 
-  before_create :arrange_inside_order
-  after_create :create_picture
+  before_create :arrange_inside_order, :create_picture
+  before_update :update_exif_datetimeoriginal
   after_destroy :delete_picture
 	
   ######################################################
@@ -92,6 +92,18 @@ class Content < ActiveRecord::Base
     		img.thumbnail(THUMB_SIZE[1]){|thumb| thumb.save(thumb_path)}
     	else
 				FileUtils.cp(original_path, thumb_path)
+      end
+    end
+  end
+  
+  def update_exif_datetimeoriginal
+    if content_type == 'picture'
+      unless Content.find(id).token_time == token_time
+        [original_path, normal_path, medium_path, thumb_path].each{|img|
+          temp = MiniExiftool.new(img)
+          temp.datetimeoriginal = token_time
+          temp.save
+        }
       end
     end
   end

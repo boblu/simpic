@@ -35,6 +35,7 @@ class Admin::ContentsController < ApplicationController
 			if params[:partten] == 'files'
 				begin
 					params[:filenames].each{|file| @album.contents.create!(:content_type => 'picture', :temp_filename => file)}
+          clean_TMP_DIR
 				end
 			else params[:partten] == 'zip'
 			end
@@ -117,5 +118,12 @@ class Admin::ContentsController < ApplicationController
 			end
   	}
   	return filenames
+  end
+
+  def clean_TMP_DIR
+    Dir.foreach(TMP_PIC_DIR){|xyz|
+      next if ['.', '..', '.gitignore'].include?(xyz)
+      FileUtils.rm_rf(TMP_PIC_DIR + xyz)
+    }
   end
 end
