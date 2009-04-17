@@ -22,6 +22,10 @@ class Content < ActiveRecord::Base
   ######################################################
   ##### validation
   ######################################################
+  HUMANIZED_ATTRIBUTES = { :token_time => "Token at" }
+  def self.human_attribute_name(attr)
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
   validates_presence_of :content_type, :album_id, :filename, :token_time, :read_level, :display_order
   
   def temp_filename
@@ -48,6 +52,10 @@ class Content < ActiveRecord::Base
   
   def thumb_path
   	PIC_DIR + 'thumbnail/' + album.path + '/' + filename
+  end
+  
+  def medium_url
+    '/' + File.basename(PIC_DIR) + '/medium/' + album.path + '/' + filename
   end
   
   def thumb_url

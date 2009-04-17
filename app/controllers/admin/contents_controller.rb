@@ -43,12 +43,18 @@ class Admin::ContentsController < ApplicationController
 		end
   end
 
+  def edit
+    @album = Album.find(params[:album_id])
+    @content = Content.find(params[:id])
+  end
+
   def update
     @content = Content.find(params[:id])
     begin
       @content.update_attributes!(params[:content])
     rescue
-      render :action => "modification"
+      @album = @content.album
+      render :action => :edit
     else
       redirect_to admin_album_contents_url
     end

@@ -360,13 +360,13 @@ ul.nav li.last {
 /* detail table  */
 /*****************/
 .detail_table {
-	width: 500px;
+	width: 400px;
 }
 .detail_table tr {
 	height: 30px;
 }
 .detail_table th {
-	width: 70px;
+	width: 60px;
 	text-align: left;
 	font-weight: normal;
 }
