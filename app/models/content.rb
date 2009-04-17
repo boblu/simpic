@@ -11,7 +11,8 @@ class Content < ActiveRecord::Base
 
   before_create :arrange_inside_order, :create_picture
   before_update :update_exif_datetimeoriginal
-  after_destroy :delete_picture
+  after_save :update_album
+  after_destroy :delete_picture, :update_album
 	
   ######################################################
   ##### association
@@ -113,5 +114,9 @@ class Content < ActiveRecord::Base
     FileUtils.rm_rf(normal_path)
     FileUtils.rm_rf(medium_path)
     FileUtils.rm_rf(thumb_path)
+  end
+  
+  def update_album
+  	album.update_attributes!(:updated_at => Time.now)
   end
 end

@@ -3,8 +3,9 @@ class Album < ActiveRecord::Base
 	ajaxful_rateable :stars => 5
 	acts_as_taggable_on :tags
 	
-  default_scope :order => 'begin_on desc'
-
+  default_scope :order => 'begin_on desc, created_at desc'
+	named_scope :published, :conditions => {:publish => true}
+	
   before_create :create_picture_directory
   before_update :update_picture_directory
   after_destroy :delete_picture_directory
@@ -61,6 +62,11 @@ class Album < ActiveRecord::Base
 
 	def path
 		year + '/' + begin_on.to_s(:number) + title
+	end
+	
+	def update_attributes!(options)
+		options = options.update({:updated_at => Time.now})
+		super(options)
 	end
 	
 	private

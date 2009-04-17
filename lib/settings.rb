@@ -4,4 +4,5 @@ module Settings
   NORMAIL_SIZE = [1000, 750]
   MEDIUM_SIZE = [400, 300]
   THUMB_SIZE = [80, 60]
+  APP_NAME = 'SimPic'
 end

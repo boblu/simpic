@@ -42,8 +42,8 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect ':controller/:action/:id.:format'
 
   map.root :controller => 'albums', :action => 'top'
-  map.connect '/:year', :controller => 'albums', :action => 'list', :year => /\d{4}/
-  map.connect '/:year/:month', :controller => 'albums', :action => 'list', :year => /\d{4}/, :month => /\d{1,2}/
+#  map.connect '/:year', :controller => 'albums', :action => 'list', :year => /\d{4}/
+#  map.connect '/:year/:month', :controller => 'albums', :action => 'list', :year => /\d{4}/, :month => /\d{1,2}/
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post} do |albums|
@@ -53,11 +53,16 @@ ActionController::Routing::Routes.draw do |map|
       albums.resources :comments
     end
     admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}
-  end  
-  map.resources :albums do |albums|
-    albums.resources :contents do |contents|
-      contents.resources :comments
-    end
-    albums.resources :comments
   end
+  
+  map.resources :albums, :only => [:index, :show] do |albums|
+  	albums.resources :xml, :only => [:show]
+  	albums.resources :contents, :only => [:index, :show] do |contents|
+      contents.resources :comments, :only => [:index, :show]
+    end
+    albums.resources :comments, :only => [:index, :show]
+  end
+
+  map.connect '/top_shown.xml', :controller => 'albums', :action => 'top_shown'
+
 end

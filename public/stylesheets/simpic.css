@@ -1,1 +1,5 @@
 @import "general.css";
+
+#left {
+	background:#71A10B url(../images/simpic/bggreen.jpg) repeat-x scroll left top;
+}
