@@ -19,14 +19,14 @@
 							<%= params[:controller] == 'admin/albums' ? 'Albums' : link_to('Albums', admin_albums_path) %>
 						</span></span>
 					<li>
-					<li <%= 'class="active"' if params[:controller] == 'admin/comments' %>
-						<span><span>
-							<%= params[:controller] == 'admin/comments' ? 'Comments' : link_to('Comments', '#') %>
-						</span></span>
-					<li>
 					<li <%= 'class="active"' if params[:controller] == 'admin/users' %>
 						<span><span>
 							<%= params[:controller] == 'admin/users' ? 'Users' : link_to('Users', admin_users_path) %>
+						</span></span>
+					<li>
+					<li <%= 'class="active"' if params[:controller] == 'admin/comments' %>
+						<span><span>
+							<%= params[:controller] == 'admin/comments' ? 'Comments' : link_to('Comments', admin_comments_path) %>
 						</span></span>
 					<li>
 				</ul>

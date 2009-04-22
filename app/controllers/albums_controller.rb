@@ -3,6 +3,7 @@ class AlbumsController < ApplicationController
 
 	def top
 		@app_name = APP_NAME
+		session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank?
 		unless User.first
 			redirect_to init_admin_users_url
 			return

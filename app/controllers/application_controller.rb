@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
   		if temp.blank? or temp.read_level != 0
 	      flash[:notice] = "<ul><li>You are not administrator!</li></ul>"
 	      redirect_to root_url
+	      return
   		end
     end
   end

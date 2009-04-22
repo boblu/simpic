@@ -1,0 +1,44 @@
+<%= render 'left_column' %>
+<% form_tag batch_delete_admin_comments_path(:album_id => params[:album_id], :content_id => params[:content_id]), :method => :post do %>
+	<div class="top-bar">
+		<%= submit_tag 'Delete', :class => 'button' %>
+		<h1><%= @title %></h1>
+		<div><%= @subtitle %></div>
+	</div>
+	<div class="select-bar"></div>
+	<div class="listing">
+		<table>
+			<thead>
+				<tr>
+					<th class='check_box'><%= check_box_tag 'selected_all', false, false, {:onclick=>"toggle_seleced_list();"} %></th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Content</th>
+				</tr>
+			</thead>
+			<tbody id='listing_body'>
+				<% @comments.each_with_index{|comment, index| %>
+					<tr <%= index%2==1 ? "class='odd'" : nil %>>
+						<td class='check_box'><%= check_box_tag 'selected_id[]', comment.id, checked = false %></td>
+						<td class='text_column thumb'><%= h(comment.name) %></td>
+						<td class='text_column email'><%= h(comment.email) %></td>
+						<td class='text_column'><%= h(comment.content) %></td>
+					</tr>
+				<% } %>
+			</tbody>
+		</table>
+	</div>
+<% end %>
+<table class='navigation_wrap'>
+	<tr>
+		<td>
+			<div class='per_page'>
+				<% form_tag admin_comments_path(:album_id => params[:album_id], :content_id => params[:content_id]), :method => :get, :id => 'change_page' do %>
+					Display:
+					<%= select_tag 'per_page', options_for_select(per_page_list, params[:per_page].to_i), :onchange => "$('change_page').submit();" %>
+				<% end %>
+			</div>
+			<%= will_paginate @comments, :params => params %>
+		</td>
+	</tr>
+</table>

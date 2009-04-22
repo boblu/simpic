@@ -1,4 +1,7 @@
 class Comment < ActiveRecord::Base
+
+  default_scope :order => 'created_at desc'
+
   ######################################################
   ##### association
   ######################################################
@@ -7,6 +10,8 @@ class Comment < ActiveRecord::Base
   ######################################################
   ##### validation
   ######################################################
-  validates_presence_of :name, :email, :content
+  validates_presence_of :name, :email, :content, :commentable_type, :commentable_id
   validates_as_email_address :email
+  
+  
 end

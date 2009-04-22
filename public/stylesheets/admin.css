@@ -283,6 +283,7 @@ ul.nav li.last {
 .listing tbody td.text_column {
 	text-align: left;
 }
+
 .listing tbody td.date {
 	padding-left: 0px;
 	padding-right: 0px;
@@ -320,6 +321,9 @@ ul.nav li.last {
 	width:90px;
 }
 
+.listing tbody td.email {
+	width: 200px;
+}
 /*****************/
 /* The error box */
 /*****************/

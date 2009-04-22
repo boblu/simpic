@@ -38,12 +38,12 @@
 						<div id="latest" class="banner">
 							<h3>Latest</h3>
 							<ul>
-								<% Album.published(:limit => 5, :conditions => ['read_level >= ?', (session[:user_read_level] || authority_name['guest'])]).each{|album| %>
+								<% Album.authority(session[:user_read_level]).published(:limit => 5).each{|album| %>
 									<li><%= link_to album.title, '#' %></li>
 								<% } %>
 							</ul>
 						</div>
-						<% temp_albums = Album.published(:limit => 5, :order => 'rating_average desc', :conditions => ['read_level >= ?', (session[:user_read_level] || authority_name['guest'])])
+						<% temp_albums = Album.authority(session[:user_read_level]).published(:limit => 5, :order => 'rating_average desc')
 						unless temp_albums[0].rating_average == 0 %>
 							<div id="top_rated" class="banner">
 								<h3>Top rated</h3>
@@ -79,7 +79,7 @@
 						<div id="updated" class="banner">
 							<h3>Updated</h3>
 							<ul>
-								<% Album.published(:limit => 5, :order => 'updated_at desc', :conditions => ['read_level >= ?', (session[:user_read_level] || authority_name['guest'])]).each{|album| %>
+								<% Album.authority(session[:user_read_level]).published(:limit => 5, :order => 'updated_at desc').each{|album| %>
 									<li><%= link_to album.title, '#' %></li>
 								<% } %>
 							</ul>

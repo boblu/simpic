@@ -1,0 +1,9 @@
+<% content_for :left_column do %>
+	<h3><%= link_to 'All Comments', admin_comments_path %></h3>
+	<% unless params[:album_id].blank? %>
+		<ul class="nav">
+			<li><%= link_to 'For album', admin_comments_path(:album_id => params[:album_id]) %></li>
+			<li class='last'><%= link_to 'For pictures', admin_comments_path(:album_id => params[:album_id], :content_id => 'all') %></li>
+		</ul>
+	<% end %>
+<% end %>

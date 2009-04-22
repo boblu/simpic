@@ -70,7 +70,7 @@
 						<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), new_admin_album_content_path(album) %></td>
 						<td class='number'><%= album.videos.size == 0 ? '0' : link_to(album.videos.size, admin_album_contents_path(album)) %></td>
 						<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), new_admin_album_content_path(album) %></td>
-						<td class='icon'><%= link_to album.comments.size, '#' %></td>
+						<td class='icon'><%= link_to album.comments.size, admin_comments_path(:album_id => album.id) %></td>
 						<td class='level'><%= authority_name.invert[album.read_level] %></td>
 						<td class='icon'>
 							<%= ratings_for album, :small_stars => true,

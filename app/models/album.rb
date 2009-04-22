@@ -1,11 +1,11 @@
 class Album < ActiveRecord::Base
-  include Settings
 	ajaxful_rateable :stars => 5
 	acts_as_taggable_on :tags
 	
   default_scope :order => 'begin_on desc, created_at desc'
 	named_scope :published, :conditions => {:publish => true}
-	
+  named_scope :authority, lambda{|auth_level| {:conditions => ['read_level >= ?', auth_level.to_i]}}
+
   before_create :create_picture_directory
   before_update :update_picture_directory
   after_destroy :delete_picture_directory
