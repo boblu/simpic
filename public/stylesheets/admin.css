@@ -318,7 +318,7 @@ ul.nav li.last {
 }
 
 .listing tbody td.thumb {
-	width:90px;
+	width: 130px;
 }
 
 .listing tbody td.email {
@@ -392,4 +392,15 @@ ul.nav li.last {
 
 .add_content .center_select select {
 	width: 100%;
+}
+
+ul#sort_list li {
+text-align: center;
+list-style-type: none;
+cursor:move;
+float:left;
+margin:0.5em;
+padding:0.5em;
+width: 120px;
+height: 90px;
 }

@@ -47,7 +47,7 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post}, :except => [:show, :destroy] do |albums|
-      albums.resources :contents, :collection => {:batch_action => :post}, :member => {:rate => :post}, :except => [:show, :destroy]
+      albums.resources :contents, :collection => {:batch_action => :post, :sort => :get, :save_sort => :post}, :member => {:rate => :post}, :except => [:show, :destroy]
     end
     admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}, :except => [:show]
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}

@@ -1,0 +1,19 @@
+<% render 'admin/albums/left_column' %>
+<% form_tag save_sort_admin_album_contents_path, :method => :post do %>
+	<%= hidden_field_tag 'sort_results', "" %>
+	<div class="top-bar">
+		<%= submit_tag 'Save', :class => 'button', :onclick => "$('sort_results').value=Sortable.serialize('sort_list');" %>
+		<h1><%= @title %></h1>
+	</div>
+	<div class="select-bar"><%= @subtitle %></div>
+	<div>
+		<ul id="sort_list">
+			<% @pictures.each{|picture| %>
+				<% content_tag_for :li, picture do %>
+					<%= image_tag(picture.thumb_url) %>
+				<% end %>
+			<% } %>
+		</ul>
+		<%= sortable_element("sort_list", :constraint => false) %>
+	</div>
+<% end %>

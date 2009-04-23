@@ -105,6 +105,18 @@ class Admin::ContentsController < ApplicationController
     end
   end
 
+	def sort
+		@album = Album.find(params[:album_id])
+		@pictures = @album.pictures
+		@title = 'Sorting'
+		@subtitle = 'pictures in ' + @album.title
+	end
+	
+	def save_sort
+		params[:sort_results].scan(/\d+/).each_with_index{|id, index| Content.find(id).update_attributes!(:display_order => index+1)}
+		redirect_to admin_album_contents_url
+	end
+	
   private
   
   def get_all_pictures_in_upload_dir(directory = TMP_PIC_DIR)

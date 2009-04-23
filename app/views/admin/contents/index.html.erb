@@ -6,6 +6,7 @@
 		<%= submit_tag 'Cover', :class => 'button' %>
 		<%= submit_tag 'Delete', :class => 'button' %>
 		<%= link_to 'Add', new_admin_album_content_path(@album), :class => 'button' %>
+		<%= link_to 'Sort', sort_admin_album_contents_path(:album_id => @album), :class => 'button' %>
 		<h1><%= @title %></h1>
 		<div><%= @subtitle %></div>
 	</div>
