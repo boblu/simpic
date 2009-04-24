@@ -1,0 +1,27 @@
+<div id="js0_list">
+	<%= will_paginate @pictures, :params => params %>
+	<div class="clear"></div>
+	<table>
+		<tr>
+			<td><%= link_to image_tag(@pictures[0].thumb_url), @pictures[0].normal_url, :rel=>'shadowbox', :title=>@pictures[0].filename %></td>
+		</tr>
+		<tr>
+			<td>
+				<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="400" height="300">
+				<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="400" height="300">
+					<param name="movie" value="http://apps.cooliris.com/embed/cooliris.swf" />
+					<param name="flashvars" value="feed=http://www.mywebsite.com/photos.rss" />
+					<param name="allowFullScreen" value="true" />
+					<param name="allowScriptAccess" value="always" />
+					<embed type="application/x-shockwave-flash" 
+						src="http://apps.cooliris.com/embed/cooliris.swf" 
+						width="760" height="450" 
+						flashvars="feed=http://www.mywebsite.com/photos.rss" 
+						allowFullScreen="true" allowScriptAccess="always"></embed>
+				</object>
+
+			</td>
+		</tr>
+	</table>
+	<%= will_paginate @pictures, :params => params %>
+</div>

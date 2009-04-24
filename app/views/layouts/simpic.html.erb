@@ -6,22 +6,55 @@
 		<%= javascript_include_tag :defaults %>
 		<%= stylesheet_link_tag 'simpic' %>
 		<%= ajaxful_rating_style %>
-		<%= calendar_date_select_includes "silver" %>
+		<% case @album.appearance
+		when 0 %>
+			<%= javascript_include_tag "/effects/shadowbox-build-3.0b/shadowbox" %>
+			<%= stylesheet_link_tag '/effects/shadowbox-build-3.0b/shadowbox' %>
+			<script type="text/javascript">Shadowbox.init();</script>
+		<% end %>
 	</head>
 
 	<body>
-		<div id="bgtop">
+		<div id="bgtop" align="center">
 			<div class="wrapper">
 				<div id="header">
-   					<div id="logo"><h1><%= APP_NAME %></h1></div>
-					<div class="clear"></div>
+   				<div id="logo">
+						<h1><%= @app_name %></h1>
+					</div>
+		   		<div id="admin">
+		   			<ul>
+		   				<% unless current_user.blank? %>
+			   				<li><%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]) %></li>
+			   				<% if current_user.read_level == 0 %>
+			   					<li><%= link_to 'Admin', admin_albums_path %></li>
+			   				<% end %>
+			   			<% end %>
+		   				<li><%= link_to 'Top', root_path %></li>
+		   			</ul>
+		   		</div>
+				</div>
+				<div class="clear"/></div>
+			</div>
+		</div>
+		<div id="bgbottom">
+			<div class="wrapper">
+				<div id="container">
+					<div id="left">
+						<%= yield :left_column %>
+					</div>
+					<div id="main">
+						<%= yield :layout %>
+					</div>
+					<div class="clear"/></div>
+				</div>
+				<div id="footer">
+					<div class="bgright">
+						<div class="bgleft">
+							Powered by <%= link_to 'SimPic', "http://github.com/boblu/simpic/tree/master" %>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-
-		<div id="bgbottom">
-
-		</div>
-		<div id='footer'></div>
 	</body>
 </html>

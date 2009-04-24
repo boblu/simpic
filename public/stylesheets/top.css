@@ -99,3 +99,41 @@ body {
 .tag-medium  { font-size: 90%; }
 .tag-large   { font-size: 110%; }
 .tag-x-large { font-size: 130%; }
+
+#copyright {
+	font-size: 70%;
+	text-align: center;
+}
+
+#footer {
+	padding-top: 30px;
+	color: silver;
+	text-align: center;
+	font-size: 80%;
+}
+
+#footer a{
+ color:white;
+}
+
+#album_link {
+	margin: 20px auto;
+	text-align: center;
+	width: 80%;
+}
+
+#album_link a{
+ color:silver;
+}
+
+#album_link ul{
+	margin:0;
+	padding:0;
+}
+
+#album_link ul li{
+	display: inline-block;
+	text-align: center;
+	list-style-type: none;
+	padding: 5px 10px;
+}

@@ -1,6 +1,6 @@
 <% content_for :left_column do %>
 	<h3><%= link_to 'All albums', admin_albums_path %></h3>
-	<% temp = Album.year_range
+	<% temp = Album.authority(session[:user_read_level]).year_range
 	unless temp.blank? %>
 		<ul class="nav">
 			<% temp.each_with_index{|year, index| %>

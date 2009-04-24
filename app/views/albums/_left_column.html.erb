@@ -1,0 +1,27 @@
+<% content_for :left_column do %>
+	<div id="copyright">
+		<table>
+			<tr>
+				<td>
+					Copyright&copy; <%= @copy_year_string %><br/>All Rights Reserved.
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="bg_menu">
+		<ul class="menu">
+			<% @year_range.each{|year| %>
+				<li class="menuli"><span><%= link_to year, url_for(:controller => :albums, :action => :show, :year => year) %></span></li>
+				<% if year == @active_year.to_i %>
+					<ul class="submenu">
+						<% @album_list.each{|album| %>
+							<li class="submenuli">
+								<%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %>
+							</li>
+						<% } %>
+					</ul>
+				<% end %>
+			<% } %>
+		</ul>
+	</div>
+<% end %>

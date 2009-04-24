@@ -42,8 +42,8 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect ':controller/:action/:id.:format'
 
   map.root :controller => 'albums', :action => 'top'
-#  map.connect '/:year', :controller => 'albums', :action => 'list', :year => /\d{4}/
-#  map.connect '/:year/:month', :controller => 'albums', :action => 'list', :year => /\d{4}/, :month => /\d{1,2}/
+  map.connect '/:year', :controller => "albums", :action => "show", :year => /\d{4}/
+  map.connect '/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post}, :except => [:show, :destroy] do |albums|
@@ -53,7 +53,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}
   end
   
-  map.resources :albums, :only => [:index, :show] do |albums|
+  map.resources :albums, :only => [] do |albums|
   	albums.resources :xml, :only => [:show]
   	albums.resources :contents, :only => [:index, :show] do |contents|
       contents.resources :comments, :only => [:index, :show]

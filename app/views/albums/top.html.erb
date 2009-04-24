@@ -32,23 +32,24 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]) %>
 							<% else %>
-								
+								Welcome! <%= h(current_user.name) %>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]) %>
 							<% end %>
 						</div>
 						<div id="latest" class="banner">
 							<h3>Latest</h3>
 							<ul>
-								<% Album.authority(session[:user_read_level]).published(:limit => 5).each{|album| %>
-									<li><%= link_to album.title, '#' %></li>
+								<% @latest.each{|album| %>
+									<li><%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %></li>
 								<% } %>
 							</ul>
 						</div>
-						<% temp_albums = Album.authority(session[:user_read_level]).published(:limit => 5, :order => 'rating_average desc')
-						unless temp_albums[0].rating_average == 0 %>
+						<% unless @top_rated[0].rating_average == 0 %>
 							<div id="top_rated" class="banner">
 								<h3>Top rated</h3>
 								<ul>
-									<% temp_albums.each{|album|
+									<% @top_rated.each{|album|
 										break if album.rating_average == 0 %>
 										<li><%= link_to album.title, '#' %></li>
 									<% } %>
@@ -68,18 +69,18 @@
 							s1.addVariable("screencolor", "0x141414");
 							s1.addVariable('repeat', 'true');
 							s1.addVariable('shownavigation', 'false');
-							s1.addVariable('rotatetime', '5');
+							s1.addVariable('rotatetime', '4');
 							s1.write("container");
 						</script>
 					</td>
 					<td id="right">
 						<div id="copyright" class="banner">
-							Copyright
+							Copyright(c) <%= @copy_year_string %> All Rights Reserved.
 						</div>
 						<div id="updated" class="banner">
 							<h3>Updated</h3>
 							<ul>
-								<% Album.authority(session[:user_read_level]).published(:limit => 5, :order => 'updated_at desc').each{|album| %>
+								<% @updated.each{|album| %>
 									<li><%= link_to album.title, '#' %></li>
 								<% } %>
 							</ul>
@@ -97,6 +98,16 @@
 					</td>
 				</tr>
 			</table>
-		<div id='footer'></div>
+			<div id="album_link">
+				<ul>
+					<% @year_range.each{|year| %>
+						<li><%= link_to year, url_for(:controller => :albums, :action => :show, :year => year) %></li>
+					<% } %>
+				</ul>
+			</div>
+		</div>
+		<div id='footer'>
+			Powered by <%= link_to 'SimPic', "http://github.com/boblu/simpic/tree/master" %>
+		</div>
 	</body>
 </html>

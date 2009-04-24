@@ -13,7 +13,7 @@
 	<div class="select-bar">
 		<div style="float:left;">picture</div>
 		<div style="text-align:right;">
-			<%= select_tag 'read_level', options_for_select(authority_name.to_a.sort_by{|item| item[1]}) %>
+			<%= select_tag 'read_level', options_for_select(authority_name.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]}) %>
 			<%= submit_tag 'Set' %>
 		</div>
 	</div>

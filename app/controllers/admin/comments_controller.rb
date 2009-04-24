@@ -1,6 +1,8 @@
 class Admin::CommentsController < ApplicationController
   layout 'admin'
-  
+
+  before_filter :authorize_admin
+
   def index
     params[:page] = 1 if params[:page].blank?
     params[:per_page] = 30 if params[:per_page].blank?

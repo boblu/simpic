@@ -8,8 +8,10 @@ class Content < ActiveRecord::Base
 	acts_as_taggable_on :tags
 
   default_scope :order => 'display_order asc'
+  named_scope :authority, lambda{|auth_level| {:conditions => ['read_level >= ?', auth_level.to_i]}}
+  named_scope :covered, :conditions => {:top_shown => true}
 
-  before_create :arrange_inside_order, :create_picture
+  before_create :arrange_inside_order, :create_picture, :set_read_level
   before_update :update_exif_datetimeoriginal
   after_save :update_album
   after_destroy :delete_picture, :update_album
@@ -53,6 +55,10 @@ class Content < ActiveRecord::Base
   
   def thumb_path
   	PIC_DIR + 'thumbnail/' + album.path + '/' + filename
+  end
+  
+  def normal_url
+    '/' + File.basename(PIC_DIR) + '/normal/' + album.path + '/' + filename
   end
   
   def medium_url
@@ -118,5 +124,9 @@ class Content < ActiveRecord::Base
   
   def update_album
   	album.update_attributes!(:updated_at => Time.now)
+  end
+  
+  def set_read_level
+  	read_level = album.read_level
   end
 end

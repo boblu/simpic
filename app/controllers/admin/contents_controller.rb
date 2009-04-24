@@ -1,6 +1,8 @@
 class Admin::ContentsController < ApplicationController
   layout 'admin'
-  
+
+  before_filter :authorize_admin
+
   def index
     @album = Album.find(params[:album_id])
     @title = @album.title

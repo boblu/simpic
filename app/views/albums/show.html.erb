@@ -1,0 +1,46 @@
+<%= render 'left_column' %>
+<div>
+	<table class="album_info">
+		<tr>
+			<td colspan="2">
+				<h3>
+					<%= h(@album.title) %>
+					<span>
+						<% if @album.begin_on != @album.end_on %>
+							<%= h(@album.begin_on.to_s) %> ~ <%= h(@album.end_on.to_s) %>
+						<% else %>
+							<%= h(@album.begin_on) %>
+						<% end %>
+					</span>
+				</h3>
+			</td>
+		</tr>
+		<tr>
+			<td class="tags">
+				Tags:&nbsp;&nbsp;&nbsp;<%= @album.tag_list.join(', ') %>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td>Rating:</td>
+						<td><%= ratings_for @album, :static, :remote_options => {:url => rate_admin_album_path(@album)} %></td>
+						<td class="comment">
+							<%= link_to "Comment(#{@album.comments.size})", '#' %>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Description: <%= @album.description %></td>
+		</tr>
+	</table>
+	<% case @album.appearance
+	when 0 %>
+		<%= render 'appearance_js0' %>
+	<% when 1 %>
+		<%= render 'appearance_js1' %>
+	<% when 2 %>
+		<%= render 'appearance_js2' %>
+	<% end %>
+</div>

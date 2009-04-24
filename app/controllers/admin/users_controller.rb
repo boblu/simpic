@@ -74,10 +74,8 @@ class Admin::UsersController < ApplicationController
         else
         	user.update_attributes!(:begin_time => temp, :end_time => user.span.minutes.from_now(temp))
         end
-        redirect_to root_url
-      else
-        flash[:notice_err] = "Invalid password."
       end
+      redirect_to root_url
     end
 	end
 	
@@ -85,7 +83,7 @@ class Admin::UsersController < ApplicationController
 		user = User.find(session[:user_id])
 		unless user.span == 0
 			real_span = ((Time.now - user.begin_time)/60).round
-			user.update_attributes!(:span => (span - real_span))
+			user.update_attributes!(:span => (user.span - real_span))
 		end
     session[:user_id] = nil
     session[:user_read_level] = nil
@@ -102,7 +100,7 @@ class Admin::UsersController < ApplicationController
 		      @user.save!
 		    rescue
 					redirect_to :back
-		    else
+			  else
 		      session[:user_id] = @user.id
 		      session[:user_read_level] = @user.read_level
 		      redirect_to admin_root_url
