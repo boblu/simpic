@@ -42,8 +42,12 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect ':controller/:action/:id.:format'
 
   map.root :controller => 'albums', :action => 'top'
+  map.connect '/top_shown_new.xml', :controller => 'albums', :action => 'top_shown_new'
+  map.connect '/top_shown_all.rss', :controller => 'albums', :action => 'top_shown_all'
   map.connect '/:year', :controller => "albums", :action => "show", :year => /\d{4}/
   map.connect '/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/
+
+
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post}, :except => [:show, :destroy] do |albums|
@@ -60,7 +64,4 @@ ActionController::Routing::Routes.draw do |map|
     end
     albums.resources :comments, :only => [:index, :show]
   end
-
-  map.connect '/top_shown.xml', :controller => 'albums', :action => 'top_shown'
-
 end

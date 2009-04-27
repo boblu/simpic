@@ -5,7 +5,6 @@ body {
 }
 
 #header {
-	padding: 25px 0;
 	text-align: center;
 }
 
@@ -21,11 +20,13 @@ body {
 #left {
 	width: 25%;
 	vertical-align: top;
+	padding-top: 50px;
 }
 
 #right {
 	width: 25%;
 	vertical-align: top;
+	padding-top: 50px;
 }
 
 #center {
@@ -117,7 +118,7 @@ body {
 }
 
 #album_link {
-	margin: 20px auto;
+	margin: 10px auto;
 	text-align: center;
 	width: 80%;
 }

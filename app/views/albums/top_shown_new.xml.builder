@@ -1,12 +1,11 @@
 xml.instruct!
-xml.playlist "xmlns" => "http://xspf.org/ns/0/", "version" => "1" do
+xml.playlist do
 	xml.trackList do
 		@pictures.each do |picture|
 			xml.track do
-	      xml.title "ccc"
-	      xml.creator "aaa"
+	      xml.title picture.title
 	      xml.location picture.medium_url
-	      xml.info "bbb"
+	      xml.description picture.description
 			end
 		end
 	end

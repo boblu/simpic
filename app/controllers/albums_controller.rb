@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  layout 'simpic', :except => [:top, :top_shown]
+  layout 'simpic', :except => [:top]
 
 	def top
 		session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank?
@@ -16,11 +16,16 @@ class AlbumsController < ApplicationController
 		@year_range = authority_published.year_range
 	end
 	
-	def top_shown
+	def top_shown_new
+		@pictures = Album.authority(session[:user_read_level]).published.first.pictures.authority(session[:user_read_level]).covered
+ 		render :action => "top_shown_new.xml.builder", :layout => false
+	end
+	
+	def top_shown_all
 		@pictures = Album.authority(session[:user_read_level]).published.inject([]){|pictures, album|
 			pictures.concat(album.pictures.authority(session[:user_read_level]).covered)
 		}
- 		render :action => "top_shown.xml.builder"
+ 		render :action => "top_shown_all.xml.builder", :layout => false
 	end
 	
 	def show
@@ -40,7 +45,7 @@ class AlbumsController < ApplicationController
 		case @album.appearance
 		when 0
       params[:page] = 1 if params[:page].blank?
-      params[:per_page] = 5 if params[:per_page].blank?
+      params[:per_page] = 30 if params[:per_page].blank?
 			@pictures = @album.pictures.paginate(:page => params[:page], :per_page => params[:per_page])
 		when 1
 		when 2

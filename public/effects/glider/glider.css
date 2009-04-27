@@ -1,0 +1,37 @@
+div.scroller { 
+	width: 493px;; 
+	height: 400px;
+	overflow: hidden;
+}
+
+div.scroller div.content {
+	width: 1500px;
+}
+
+div.scroller div.section {
+	width:493px;
+	height:400px;
+	overflow:hidden;
+	float:left;
+	margin:auto;
+}
+
+div.controls table {
+	margin: auto;
+}
+
+div.controls a {
+	display: block;
+	color: white;
+  outline: none;
+	padding: 10px 20px 10px 15px;
+}
+
+div.controls a.active {
+	display: block;
+	color: white;
+  outline: none;
+	padding: 10px 20px 10px 15px;
+	background: transparent url(../../images/simpic/star.png) no-repeat;
+}
+

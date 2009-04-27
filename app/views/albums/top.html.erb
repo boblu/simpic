@@ -5,8 +5,8 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<%= javascript_include_tag :defaults %>
 		<%= stylesheet_link_tag 'top' %>
-		<%= ajaxful_rating_style %>
-		<%= calendar_date_select_includes "silver" %>
+		<%= javascript_include_tag "/effects/glider/glider" %>
+		<%= stylesheet_link_tag '/effects/glider/glider' %>
 	</head>
 
 	<body>
@@ -58,20 +58,50 @@
 						<% end %>
 					</td>
 					<td id="center">
-						<div id="container"><a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this rotator.</div>
-						<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
-						<script type="text/javascript">
-							var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator", "400","300","7");
-							s1.addParam("allowfullscreen","true");
-							s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :top_shown, :only_path => false) + '"' %>);
-							s1.addVariable("width","400");
-							s1.addVariable("height","300");
-							s1.addVariable("screencolor", "0x141414");
-							s1.addVariable('repeat', 'true');
-							s1.addVariable('shownavigation', 'false');
-							s1.addVariable('rotatetime', '4');
-							s1.write("container");
-						</script>
+						<div id="my-glider">
+							<div class="controls">
+								<table>
+									<tr>
+										<td>
+											<a href="#recent_cover" class="active" onclick="document.getElementById('all_link').className='';this.className='active';" id="new_link">NEW!</a>
+										</td>
+										<td>
+											<a href="#all_cover" onclick="document.getElementById('new_link').className='';this.className='active';" id="all_link">ALL</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div class="scroller">
+								<div class="content">
+									<div class="section" id="recent_cover">
+										<div id="container" width="480" height="400"><a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this rotator.</div>
+										<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
+										<script type="text/javascript">
+											var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator", "400","300","7");
+											s1.addParam("allowfullscreen","true");
+											s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :top_shown_new, :only_path => false) + '"' %>);
+											s1.addVariable("width","400");
+											s1.addVariable("height","300");
+											s1.addVariable("screencolor", "0x141414");
+											s1.addVariable('repeat', 'true');
+											s1.addVariable('shownavigation', 'false');
+											s1.addVariable('rotatetime', '4');
+											s1.write("container");
+										</script>
+									</div>
+									<div class="section" id="all_cover">
+										<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="480" height="400">
+											<param name="movie" value="http://apps.cooliris.com/embed/cooliris.swf" />
+											<param name="flashvars" value=<%= '"feed=' + url_for(:controller => :albums, :action => :top_shown_all, :only_path => false) + '"' %> />
+											<param name="allowFullScreen" value="true" />
+											<param name="allowScriptAccess" value="always" />
+											<embed type="application/x-shockwave-flash" src="http://apps.cooliris.com/embed/cooliris.swf" width="480" height="400" flashvars=<%= '"feed=' + url_for(:controller => :albums, :action => :top_shown_all, :only_path => false) + '"' %> allowFullScreen="true" allowScriptAccess="always"></embed>
+										</object>
+									</div>
+								</div>
+							</div>
+						</div>
+						<script type="text/javascript"> var my_glider = new Glider('my-glider', {duration:0.5}); </script>
 					</td>
 					<td id="right">
 						<div id="copyright" class="banner">

@@ -1,27 +1,23 @@
-<div id="js0_list">
-	<%= will_paginate @pictures, :params => params %>
-	<div class="clear"></div>
+		<%= javascript_include_tag :defaults %>
+
+<div id="js0_list" class="pic_list">
 	<table>
-		<tr>
-			<td><%= link_to image_tag(@pictures[0].thumb_url), @pictures[0].normal_url, :rel=>'shadowbox', :title=>@pictures[0].filename %></td>
-		</tr>
+		<tr><td><%= will_paginate @pictures, :params => params %></td></tr>
 		<tr>
 			<td>
-				<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="400" height="300">
-				<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="400" height="300">
-					<param name="movie" value="http://apps.cooliris.com/embed/cooliris.swf" />
-					<param name="flashvars" value="feed=http://www.mywebsite.com/photos.rss" />
-					<param name="allowFullScreen" value="true" />
-					<param name="allowScriptAccess" value="always" />
-					<embed type="application/x-shockwave-flash" 
-						src="http://apps.cooliris.com/embed/cooliris.swf" 
-						width="760" height="450" 
-						flashvars="feed=http://www.mywebsite.com/photos.rss" 
-						allowFullScreen="true" allowScriptAccess="always"></embed>
-				</object>
-
+				<ul>
+					<% @pictures.each{|picture| %>
+						<li onmouseout="Element.hide('pic_detail_<%= picture.id %>');" onmouseover="Element.show('pic_detail_<%= picture.id %>');">
+							<%= link_to image_tag(picture.thumb_url), picture.normal_url, :rel=>'shadowbox', :title=>picture.filename %>
+							<br/>
+							<a href="#" style="display:none;" id="pic_detail_<%= picture.id%>">
+								<%= image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>"vertical-align:middle;") %>/<%= image_tag('simpic/comments.gif', :style=>"vertical-align:middle;") %>
+							</a>
+						</li>
+					<% } %>
+				</ul>			
 			</td>
 		</tr>
+		<tr><td><%= will_paginate @pictures, :params => params %></td></tr>
 	</table>
-	<%= will_paginate @pictures, :params => params %>
 </div>
