@@ -74,7 +74,7 @@ class Album < ActiveRecord::Base
 	end
 	
 	def self.find_by_dirname(temp_dirname)
-		self.find(:all, :conditions => {:title => temp_dirname[8..-1], :begin_on => temp_dirname[0..7]})
+		self.find(:first, :conditions => {:title => temp_dirname[8..-1], :begin_on => temp_dirname[0..7]})
 	end
 	
 	private

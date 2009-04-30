@@ -28,6 +28,11 @@ class AlbumsController < ApplicationController
  		render :action => "top_shown_all.xml.builder", :layout => false
 	end
 	
+	def cooliris
+		@pictures = Album.find(params[:album_id]).pictures.authority(session[:user_read_level]).paginate(:page => params[:id], :per_page => PER_PAGE)
+		render :action => "cooliris_album.xml.builder", :layout => false
+	end
+	
 	def show
 		authority_published = Album.authority(session[:user_read_level]).published
 		@app_name = APP_NAME
@@ -45,8 +50,8 @@ class AlbumsController < ApplicationController
 		case @album.appearance
 		when 0
       params[:page] = 1 if params[:page].blank?
-      params[:per_page] = 30 if params[:per_page].blank?
-			@pictures = @album.pictures.paginate(:page => params[:page], :per_page => params[:per_page])
+      params[:per_page] = PER_PAGE if params[:per_page].blank?
+			@pictures = @album.pictures.authority(session[:user_read_level]).paginate(:page => params[:page], :per_page => params[:per_page])
 		when 1
 		when 2
 		end

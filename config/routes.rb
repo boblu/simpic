@@ -47,7 +47,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:year', :controller => "albums", :action => "show", :year => /\d{4}/
   map.connect '/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/
 
-
+#/
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post}, :except => [:show, :destroy] do |albums|
@@ -58,7 +58,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :albums, :only => [] do |albums|
-  	albums.resources :xml, :only => [:show]
+  	albums.connect 'cooliris/:id', :controller => 'albums', :action => 'cooliris'
   	albums.resources :contents, :only => [:index, :show] do |contents|
       contents.resources :comments, :only => [:index, :show]
     end

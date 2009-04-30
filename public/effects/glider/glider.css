@@ -1,19 +1,18 @@
 div.scroller { 
 	width: 493px;; 
-	height: 400px;
-	overflow: hidden;
+	height: 410px;
+	overflow-x:hidden;
 }
 
 div.scroller div.content {
-	width: 1500px;
+	width: 1000px;
 }
 
 div.scroller div.section {
-	width:493px;
-	height:400px;
-	overflow:hidden;
-	float:left;
-	margin:auto;
+	width: 493px;
+	height: 410px;
+	float: left;
+	overflow-x:hidden;
 }
 
 div.controls table {

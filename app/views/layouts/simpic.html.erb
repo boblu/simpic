@@ -10,7 +10,13 @@
 		when 0 %>
 			<%= javascript_include_tag "/effects/shadowbox-build-3.0b/shadowbox" %>
 			<%= stylesheet_link_tag '/effects/shadowbox-build-3.0b/shadowbox' %>
-			<script type="text/javascript">Shadowbox.init();</script>
+			<script type="text/javascript">
+				Shadowbox.init({
+					slideshowDelay: 2,
+					overlayOpacity: 0.9
+				});
+			</script>
+			<link rel="alternate" href=<%= '"' + url_for(:controller => :albums, :action => :cooliris, :album_id => @album.id, :id => params[:page], :only_path => false) + '"' %> type="application/rss+xml"/>
 		<% end %>
 	</head>
 

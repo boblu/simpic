@@ -1,5 +1,3 @@
-		<%= javascript_include_tag :defaults %>
-
 <div id="js0_list" class="pic_list">
 	<table>
 		<tr><td><%= will_paginate @pictures, :params => params %></td></tr>
@@ -8,11 +6,16 @@
 				<ul>
 					<% @pictures.each{|picture| %>
 						<li onmouseout="Element.hide('pic_detail_<%= picture.id %>');" onmouseover="Element.show('pic_detail_<%= picture.id %>');">
-							<%= link_to image_tag(picture.thumb_url), picture.normal_url, :rel=>'shadowbox', :title=>picture.filename %>
-							<br/>
-							<a href="#" style="display:none;" id="pic_detail_<%= picture.id%>">
-								<%= image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>"vertical-align:middle;") %>/<%= image_tag('simpic/comments.gif', :style=>"vertical-align:middle;") %>
-							</a>
+							<div>
+								<%= link_to %Q|<img class='photo' src='#{picture.medium_url}' height='90'/>|,
+														picture.normal_url,
+														:rel => 'shadowbox[' + @album.title + ']',
+														:title => picture.title %>
+								<br/>
+								<a href="#" style="display:none;" id="pic_detail_<%= picture.id%>">
+									<%= image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>"vertical-align:middle;") %>/<%= image_tag('simpic/comments.gif', :style=>"vertical-align:middle;") %>
+								</a>
+							</div>
 						</li>
 					<% } %>
 				</ul>			
