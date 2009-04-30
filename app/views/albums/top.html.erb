@@ -118,8 +118,13 @@
 						<div id="recent_comments" class="banner">
 							<h3>Recent comments</h3>
 							<ul>
-								<li><a href="#">xxxxxxxxxxxxxxxx</a></li>
-								<li><a href="#">xxxxxxxxxxxxxxxx</a></li>
+								<% @latest_comments.each{|comment|
+									if comment.commentable_type == "Album" %>
+										<li><%= link_to comment.name+' on '+comment.commentable.title, url_for(:controller => :albums, :action => :show, :dirname => comment.commentable.dirname, :anchor => "comment_#{comment.id}") %></li>
+									<% else %>
+										<li><%= link_to comment.name+' on picture in '+comment.commentable.album.title, url_for(:controller => :albums, :action => :show, :dirname => comment.commentable.album.dirname, :anchor => "comment_#{comment.id}") %></li>
+									<% end %>
+								<% } %>
 							</ul>
 						</div>
 					</td>

@@ -1,8 +1,10 @@
 class AlbumsController < ApplicationController
   layout 'simpic', :except => [:top]
 
+  before_filter :setup_guest_read_level
+  before_filter :setup_negative_captcha, :only => [:show, :comment]
+
 	def top
-		session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank?
 		unless User.first
 			redirect_to init_admin_users_url
 			return
@@ -12,6 +14,7 @@ class AlbumsController < ApplicationController
 		@latest = authority_published.find(:all, :limit => 5)
 		@top_rated = authority_published.find(:all, :limit => 5, :order => 'rating_average desc')
 		@updated = authority_published.find(:all, :limit => 5, :order => 'updated_at desc')
+		@latest_comments = Comment.authority_latest(session[:user_read_level])
 		@copy_year_string = copyright_year_range
 		@year_range = authority_published.year_range
 	end
@@ -56,6 +59,16 @@ class AlbumsController < ApplicationController
 		when 2
 		end
 	end
+
+	def comment
+		@album = Album.find(params[:id])
+		if @captcha.valid?
+			begin
+				@album.comments.create!(@captcha.values)
+			end
+			redirect_to url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :anchor => "comment_#{@album.comments.first.id}")
+		end
+	end
 	
 	private
 	
@@ -69,4 +82,16 @@ class AlbumsController < ApplicationController
 		end
 		return copy_year_string
 	end
+	
+	def setup_guest_read_level
+		session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank?
+	end
+	
+  def setup_negative_captcha
+    @captcha = NegativeCaptcha.new(
+      :secret => NEGATIVE_CAPTCHA_SECRET, #A secret key entered in environment.rb.  'rake secret' will give you a good one.
+      :spinner => request.remote_ip, 
+      :fields => [:name, :email, :content], #Whatever fields are in your form 
+      :params => params)
+  end
 end

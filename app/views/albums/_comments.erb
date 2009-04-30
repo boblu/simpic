@@ -1,0 +1,25 @@
+<div id="comments_list">
+	<% form_tag commentable_type == 'album' ? comment_album_path(@album) : comment_album_content_path(@album, @content) do %>
+	  <%= negative_captcha(@captcha) %>
+	  <table>
+	  	<caption>Comments:</caption>
+	  	<% comments.reverse.each_with_index{|comment, index| %>
+	  		<tr>
+	  			<td id="comment_<%= comment.id.to_i %>" class="list_name"><%= index+1 %>. <%= h(comment.name) %></td>
+	  			<td><%= h(comment.content) %></td>
+	  		</tr>
+	  	<% } %>
+	  </table>
+	  
+	  <table id="new_comments">
+	  	<caption>New Comment: <span>(all fields are required and should be valid.)</span></caption>
+	    <tr><th>Name:</th></tr>
+	    <tr><td><%= negative_text_field_tag @captcha, :name, :size => 30 %></td></tr>
+	    <tr><th>Email: (not displayed)</th></tr>
+	    <tr><td><%= negative_text_field_tag @captcha, :email, :size => 30 %></td></tr>
+	    <tr><th>Your comment:</th></tr>
+	    <tr><td><%= negative_text_area_tag @captcha, :content, :cols => 50, :rows => 5 %></td></tr>
+			<tr><td><%= submit_tag 'Submit' %></td></tr>
+		</table>
+	<% end %>
+</div>

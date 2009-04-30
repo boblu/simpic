@@ -57,11 +57,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}
   end
   
-  map.resources :albums, :only => [] do |albums|
+  map.resources :albums, :member => {:comment => :post}, :only => [] do |albums|
   	albums.connect 'cooliris/:id', :controller => 'albums', :action => 'cooliris'
-  	albums.resources :contents, :only => [:index, :show] do |contents|
-      contents.resources :comments, :only => [:index, :show]
-    end
-    albums.resources :comments, :only => [:index, :show]
+  	albums.resources :contents, :member => {:comment => :post}, :only => [:show]
   end
 end

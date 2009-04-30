@@ -23,9 +23,9 @@
 				<table>
 					<tr>
 						<td>Rating:</td>
-						<td><%= ratings_for @album, :static, :remote_options => {:url => rate_admin_album_path(@album)} %></td>
+						<td><%= ratings_for @album, :remote_options => {:url => rate_admin_album_path(@album)} %></td>
 						<td class="comment">
-							<%= link_to "Comment(#{@album.comments.size})", '#' %>
+							<%= link_to "Comment(#{@album.comments.size})", '#comments_list' %>
 						</td>
 					</tr>
 				</table>
@@ -43,4 +43,5 @@
 	<% when 2 %>
 		<%= render 'appearance_js2' %>
 	<% end %>
+	<%= render 'comments', :object => @album.comments, :commentable_type => 'album' %>
 </div>

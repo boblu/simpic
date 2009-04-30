@@ -38,4 +38,6 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
+  
+  NEGATIVE_CAPTCHA_SECRET = "27608434f3db9b1970dc2b93dab1a8752c61dd2256ad92b6373a3caec995ade2caef316c483941aef1192a95dbdf6f282e80daa2cc56fa1a58fcc2e3a56cf733"
 end

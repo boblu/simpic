@@ -238,11 +238,6 @@ table.album_info td.tags {
 	width:60%;
 }
 
-table.album_info td.comment {
-	width: 100%;
-	text-align: right;
-}
-
 table.album_info td.comment a {
 	background:transparent url(../images/simpic/comments.gif) no-repeat scroll left bottom;
 	padding-left: 15px;
@@ -251,6 +246,11 @@ table.album_info td.comment a {
 .pic_list {
 	margin-top: 10px;
 	margin-bottom: 20px;
+}
+
+table.album_info td.comment {
+	width: 100%;
+	text-align: right;
 }
 
 .pic_list ul {
@@ -271,4 +271,31 @@ table.album_info td.comment a {
 	border: 1px solid #ddd;
 	padding: 5px;
 	margin: 5px;
+}
+
+#comments_list {
+	margin: 20px 20px;
+}
+
+#comments_list table{
+	text-align: left;
+	width: 100%;
+	padding-bottom: 20px;
+}
+
+#comments_list table caption{
+	font-size: 120%;
+	text-align: left;
+	font-weight: bold;
+	font-family: "Comic Sans MS";
+}
+
+#comments_list table caption span{
+	font-size: 80%;
+	font-family: "Comic Sans MS";
+	color: red;
+}
+
+#comments_list table td.list_name{
+	width: 100px;
 }
