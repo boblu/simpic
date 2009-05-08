@@ -299,3 +299,39 @@ table.album_info td.comment {
 #comments_list table td.list_name{
 	width: 100px;
 }
+
+.normal_picture {
+	text-align: center;
+	width: 100%;
+	padding: 20px 0px;
+}
+
+.normal_picture td.center {
+	width: 700px;
+}
+
+.normal_picture td.left,
+.normal_picture td.right {
+	width: 60px;
+}
+
+.normal_picture td.center img {
+	max-width: 680px;
+	max-height: 510px;
+}
+
+#message {
+	text-align: center;
+}
+
+#message p {
+	font-family: "Comic Sans MS";
+	font-weight: bold;
+	font-size: 120%;
+	margin: 5px 0px;
+}
+
+#timer {
+	color: red;
+	margin: 5px 0px;
+}

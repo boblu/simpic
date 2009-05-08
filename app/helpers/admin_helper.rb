@@ -1,7 +1,7 @@
 module AdminHelper
 	include Settings
 	def js_name
-		{'js0' => 0, 'js1' => 1, 'js2' => 2}
+		{'shadowbox' => 0}
 	end
 
 	def per_page_list

@@ -58,6 +58,12 @@
 						<% end %>
 					</td>
 					<td id="center">
+						<% if not current_user.blank? and current_user.span != 0 %>
+							<div id='message'>
+						 		<%= periodically_call_remote(:url=>url_for(:controller => :application, :action=>:update_timer), :frequency=>'10') %>
+							 	<span id='timer'><%= h(current_user.span) %></span> minutes remain
+						 	</div>
+				 		<% end %>
 						<div id="my-glider">
 							<div class="controls">
 								<table>

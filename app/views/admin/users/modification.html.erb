@@ -21,7 +21,7 @@
 				<th><%= f.label :read_level_label, 'Read level' %></th>
 				<td colspan="3">
 					<% if params[:from] == 'new' %>
-						<%= f.select :read_level, authority_name.to_a, {:selected => authority_name['guest']}, {:onchange => "set_admin_timespan();"} %>
+						<%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]}, {:selected => authority_name['guest']}, {:onchange => "set_admin_timespan();"} %>
 					<% else %>
 						<%= f.select :read_level, authority_name.to_a, {}, {:onchange => "set_admin_timespan();"} %>
 					<% end %>
@@ -29,15 +29,11 @@
 			</tr>
 			<tr>
 				<th><%= f.label :span_label, 'Time span' %></th>
-				<td colspan="3"><%= f.select :span, time_span_list %>minutes</td>
-			</tr>
-			<tr>
-				<th><%= f.label :begin_time_label, 'Begin at' %></th>
-				<td><%= calendar_date_select :user, :begin_time, :size => 18 %></td>
-			</tr>
-			<tr>
-				<th><%= f.label :end_time_label, 'End at' %></th>
-				<td><%= calendar_date_select :user, :end_time, :size => 18 %></td>
+				<td colspan="3">
+					<%= h(@user.span) %>&nbsp;&nbsp;minutes
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset to
+					<%= f.select :span, time_span_list %>minutes
+				</td>
 			</tr>
 		</table>
 	</div>

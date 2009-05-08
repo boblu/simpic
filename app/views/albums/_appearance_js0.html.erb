@@ -7,14 +7,15 @@
 					<% @pictures.each{|picture| %>
 						<li onmouseout="Element.hide('pic_detail_<%= picture.id %>');" onmouseover="Element.show('pic_detail_<%= picture.id %>');">
 							<div>
-								<%= link_to %Q|<img class='photo' src='#{picture.medium_url}' height='90'/>|,
+								<%= link_to %Q|<img class='photo' src='#{picture.thumb_url}'/>|,
 														picture.normal_url,
 														:rel => 'shadowbox[' + @album.title + ']',
 														:title => picture.title %>
 								<br/>
-								<a href="#" style="display:none;" id="pic_detail_<%= picture.id%>">
-									<%= image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>"vertical-align:middle;") %>/<%= image_tag('simpic/comments.gif', :style=>"vertical-align:middle;") %>
-								</a>
+								<%= link_to "#{image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>"vertical-align:middle;")}/#{image_tag('simpic/comments.gif', :style=>"vertical-align:middle;")}",
+											url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename, :page=>params[:page]),
+											:style => "display:none;",
+											:id => "pic_detail_#{picture.id}" %>
 							</div>
 						</li>
 					<% } %>

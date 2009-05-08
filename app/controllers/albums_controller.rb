@@ -32,7 +32,10 @@ class AlbumsController < ApplicationController
 	end
 	
 	def cooliris
-		@pictures = Album.find(params[:album_id]).pictures.authority(session[:user_read_level]).paginate(:page => params[:id], :per_page => PER_PAGE)
+		@contents = Album.find(params[:album_id]).pictures.authority(session[:user_read_level])
+		@pictures = @contents.paginate(:page => params[:id], :per_page => PER_PAGE)
+		@previous = params[:id].to_i==1 ? false : true
+		@next = PER_PAGE*params[:id].to_i>=@contents.size ? false : true
 		render :action => "cooliris_album.xml.builder", :layout => false
 	end
 	
@@ -47,7 +50,7 @@ class AlbumsController < ApplicationController
 			@active_year = params[:year]
 		else
 			@album_list = authority_published.year(params[:dirname][0..3])
-			@album = Album.find_by_dirname(params[:dirname])
+			@album = @album_list.find_by_dirname(params[:dirname])
 			@active_year = params[:dirname][0..3]
 		end
 		case @album.appearance
@@ -65,27 +68,15 @@ class AlbumsController < ApplicationController
 		if @captcha.valid?
 			begin
 				@album.comments.create!(@captcha.values)
-			end
-			redirect_to url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :anchor => "comment_#{@album.comments.first.id}")
+		  rescue
+        redirect_to :back
+      else
+        redirect_to url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :anchor => "comment_#{@album.comments.first.id}")
+      end
 		end
 	end
 	
 	private
-	
-	def copyright_year_range
-		year_range = Album.year_range
-		copy_year_string = nil
-		case year_range.size
-		when 0 then copy_year_string = nil
-		when 1 then copy_year_string = year_range[0]
-		else copy_year_string = year_range.last.to_s + ' ~ ' + year_range.first.to_s
-		end
-		return copy_year_string
-	end
-	
-	def setup_guest_read_level
-		session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank?
-	end
 	
   def setup_negative_captcha
     @captcha = NegativeCaptcha.new(

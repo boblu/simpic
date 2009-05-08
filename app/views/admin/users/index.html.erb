@@ -17,10 +17,6 @@
 					<th><%= link_to 'Name', admin_users_path(params.dup.update({:order => (params[:order]=='name asc'? 'name desc' : 'name asc')})) %></th>
 					<th><%= link_to image_tag('admin/user.png', :width=>'20', :height=>'20'), admin_users_path(params.dup.update({:order => (params[:order]=='read_level asc'? 'read_level desc' : 'read_level asc')})) %></th>
 					<th><%= link_to 'Span', admin_users_path(params.dup.update({:order => (params[:order]=='span asc'? 'span desc' : 'span asc')})) %></th>
-					<th><%= link_to 'Begin', admin_users_path(params.dup.update({:order => (params[:order]=='begin_time asc'? 'begin_time desc' : 'begin_time asc')})) %>
-					</th>
-					<th><%= link_to 'End', admin_users_path(params.dup.update({:order => (params[:order]=='end_time asc'? 'end_time desc' : 'end_time asc')})) %>
-					</th>
 				</tr>
 			</thead>
 			<tbody id='listing_body'>
@@ -32,8 +28,6 @@
 						<td class='text_column'><%= link_to h(user.name), edit_admin_user_path(user) %></td>
 						<td class='level'><%= h(authority_name.invert[user.read_level])%></td>
 						<td class='minute'><%= h(user.span)%></td>
-						<td class='datetime'><%= h(user.begin_time.to_s(:db)) unless user.begin_time.blank? %></td>
-						<td class='datetime'><%= h(user.end_time.to_s(:db)) unless user.end_time.blank? %></td>
 					</tr>
 				<% } %>
 			</tbody>

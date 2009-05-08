@@ -45,9 +45,18 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/top_shown_new.xml', :controller => 'albums', :action => 'top_shown_new'
   map.connect '/top_shown_all.rss', :controller => 'albums', :action => 'top_shown_all'
   map.connect '/:year', :controller => "albums", :action => "show", :year => /\d{4}/
+  map.connect '/:dirname/contents/:content_name',
+              :controller => 'contents',
+              :action => 'show',
+              :dirname => /\d{8}.+/,
+              :content_name => /.+\.(jpg|jpeg|bmp|png|gif)/i
   map.connect '/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/
-
 #/
+
+  map.connect '/udpate_timer', :controller => 'application', :action => 'update_timer'
+  
+
+
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post}, :except => [:show, :destroy] do |albums|
@@ -59,6 +68,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :albums, :member => {:comment => :post}, :only => [] do |albums|
   	albums.connect 'cooliris/:id', :controller => 'albums', :action => 'cooliris'
-  	albums.resources :contents, :member => {:comment => :post}, :only => [:show]
+  	albums.resources :contents, :member => {:comment => :post}, :only => []
   end
 end

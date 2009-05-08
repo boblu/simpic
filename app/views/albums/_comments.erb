@@ -1,5 +1,6 @@
 <div id="comments_list">
 	<% form_tag commentable_type == 'album' ? comment_album_path(@album) : comment_album_content_path(@album, @content) do %>
+		<%= hidden_field_tag 'page', params[:page] %>
 	  <%= negative_captcha(@captcha) %>
 	  <table>
 	  	<caption>Comments:</caption>

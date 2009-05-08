@@ -1,0 +1,49 @@
+<%= render 'albums/left_column' %>
+<div>
+	<table class="album_info">
+		<tr>
+			<td colspan="2">
+				<h3>
+					<%= link_to @album.title, url_for(:controller => :albums, :action => :show, :dirname => @album.dirname) %>
+					<span>
+						<% if @album.begin_on != @album.end_on %>
+							<%= h(@album.begin_on.to_s) %> ~ <%= h(@album.end_on.to_s) %>
+						<% else %>
+							<%= h(@album.begin_on) %>
+						<% end %>
+					</span>
+				</h3>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Title:&nbsp;&nbsp;&nbsp;<%= h(@content.title) %></td>
+		</tr>
+		<tr>
+			<td class="tags">
+				Tags:&nbsp;&nbsp;&nbsp;<%= @content.tag_list.join(', ') %>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td>Rating:</td>
+						<td><%= ratings_for @content, :remote_options => {:url => rate_admin_album_content_path(@album, @content)} %></td>
+						<td class="comment">
+							<%= link_to "Comment(#{@content.comments.size})", '#comments_list' %>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Description: <%= @content.description %></td>
+		</tr>
+	</table>
+	<table class="normal_picture">
+		<tr>
+			<td class='left'><%= link_to image_tag('simpic/go-previous.png'), url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => @previous.filename) unless @previous.blank? %></td>
+			<td class='center'><%= link_to %Q|<img src='#{@content.normal_url}'/>|, "#comments_list" %></td>
+			<td class='right'><%= link_to image_tag('simpic/go-next.png'), url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => @next.filename) unless @next.blank? %></td>
+		</tr>
+	</table>
+	<%= render 'albums/comments', :object => @content.comments, :commentable_type => 'content' %>
+</div>

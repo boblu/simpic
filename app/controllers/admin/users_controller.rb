@@ -81,9 +81,11 @@ class Admin::UsersController < ApplicationController
 	
 	def logout
 		user = User.find(session[:user_id])
-		unless user.span == 0
+		if user.span > 0
 			real_span = ((Time.now - user.begin_time)/60).round
 			user.update_attributes!(:span => (user.span - real_span))
+		elsif user.span < 0 and user.read_level != 0
+			user.destroy
 		end
     session[:user_id] = nil
     session[:user_read_level] = nil
