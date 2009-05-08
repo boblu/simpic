@@ -1,0 +1,3 @@
+This plugin is based on git://github.com/edgarjs/ajaxful-rating.git
+
+I just modified it to let several special users to be able to rate one object multiple times.

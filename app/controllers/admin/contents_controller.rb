@@ -1,7 +1,7 @@
 class Admin::ContentsController < ApplicationController
   layout 'admin'
 
-  before_filter :authorize_admin
+  before_filter :authorize_admin, :except => [:rate]
 
   def index
     @album = Album.find(params[:album_id])
@@ -90,7 +90,7 @@ class Admin::ContentsController < ApplicationController
   def rate
     @content = Content.find(params[:id])
     @content.rate(params[:stars], current_user, params[:dimension])
-    id = "ajaxful-rating-" + (!params[:dimension].blank? ? "#{params[:dimension]}-" : "content-#{@content.id}")
+    id = "simpic-rating-" + (!params[:dimension].blank? ? "#{params[:dimension]}-" : "content-#{@content.id}")
     if params[:small_stars].blank?
       small_stars = false
       url = rate_admin_album_content_path(@content.album, @content)

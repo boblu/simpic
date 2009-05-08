@@ -1,5 +1,5 @@
 class Album < ActiveRecord::Base
-	ajaxful_rateable :stars => 5
+	simpic_rateable :stars => 5
 	acts_as_taggable_on :tags
 	include Settings
 	

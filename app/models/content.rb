@@ -4,7 +4,7 @@ require 'mini_exiftool'
 
 class Content < ActiveRecord::Base
   include Settings
-	ajaxful_rateable :stars => 5
+	simpic_rateable :stars => 5
 	acts_as_taggable_on :tags
 
   default_scope :order => 'display_order asc'
