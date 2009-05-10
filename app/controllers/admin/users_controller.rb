@@ -39,7 +39,7 @@ class Admin::UsersController < ApplicationController
 	def update
     @user = User.find(params[:id])
     begin
-      @user.update_attributes!(params[:user])
+    	@user.update_property(params[:user])
     rescue
       params[:from] = 'edit'
       render :action => "modification"
@@ -69,10 +69,8 @@ class Admin::UsersController < ApplicationController
         session[:user_id] = user.id
         session[:user_read_level] = user.read_level
         temp = Time.now
-        if user.read_level == 0
-        	user.update_attributes!(:begin_time => temp, :end_time => nil)
-        else
-        	user.update_attributes!(:begin_time => temp, :end_time => user.span.minutes.from_now(temp))
+        if user.span != 0
+        	user.update_attributes!(:end_time => user.span.minutes.from_now(temp))
         end
       end
       redirect_to root_url
@@ -80,13 +78,8 @@ class Admin::UsersController < ApplicationController
 	end
 	
 	def logout
-		user = User.find(session[:user_id])
-		if user.span > 0
-			real_span = ((Time.now - user.begin_time)/60).round
-			user.update_attributes!(:span => (user.span - real_span))
-		elsif user.span < 0 and user.read_level != 0
-			user.destroy
-		end
+		user = User.find(params[:id])
+		user.destroy if not params[:time_out].blank? and params[:time_out] == 'true'
     session[:user_id] = nil
     session[:user_read_level] = nil
     redirect_to root_path

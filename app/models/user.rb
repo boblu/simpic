@@ -41,6 +41,22 @@ class User < ActiveRecord::Base
 	  end
   end
 
+	def update_property(option={})
+		if option[:read_level] == "0"
+    	option[:span] = 0
+   		option[:end_time] = nil
+   	elsif option[:reset_span] == 'true' and not option[:span].blank?
+   		
+   		if option[:span].to_i > self.span
+	    	option[:end_time] = (self.end_time || Time.now) + (option[:span].to_i - self.span)*60
+    	else
+    		option[:end_time] = self.end_time - (self.span - option[:span].to_i)*60
+    	end
+   	end
+   	option.delete("reset_span")
+    self.update_attributes!(option)
+	end
+
   private
   
   def self.encrypt_password(pwd)

@@ -23,16 +23,25 @@
 					<% if params[:from] == 'new' %>
 						<%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]}, {:selected => authority_name['guest']}, {:onchange => "set_admin_timespan();"} %>
 					<% else %>
-						<%= f.select :read_level, authority_name.to_a, {}, {:onchange => "set_admin_timespan();"} %>
+						<%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]}, {}, {:onchange => "set_admin_timespan();"} %>
 					<% end %>
 				</td>
 			</tr>
 			<tr>
 				<th><%= f.label :span_label, 'Time span' %></th>
 				<td colspan="3">
-					<%= h(@user.span) %>&nbsp;&nbsp;minutes
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset to
-					<%= f.select :span, time_span_list %>minutes
+					<% if params[:from] == 'new' %>
+						<%= f.select :span, time_span_list.to_a.sort_by{|item| item[1]} %>
+					<% else %>
+						<%= @user.span != 0 ? h(@user.span)+ ' m' : 'None' %>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<%= check_box_tag "user[reset_span]",
+															"true",
+															false,
+															{:onchange => "toggle_timespan_right();", :disabled => (@user.read_level==0 ? true : false)} %>
+						Reset to
+						<%= f.select :span, time_span_list.to_a.sort_by{|item| item[1]}, {}, {:disabled => true} %>
+					<% end %>
 				</td>
 			</tr>
 		</table>

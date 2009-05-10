@@ -10,11 +10,11 @@ class ApplicationController < ActionController::Base
 	include Settings
 
   def update_timer
-  	new_span = current_user.span - 1 if current_user.begin_time < Time.now
+  	new_span = current_user.span - 1
   	current_user.update_attributes!(:span => new_span)
-  	if current_user.span < 0
+  	if current_user.span <= 0
   		render :update do |page|
-  			page.redirect_to logout_admin_users_url(:id => session[:user_id])
+  			page.redirect_to logout_admin_users_url(:id => session[:user_id], :time_out => 'true')
 			end
   	else
   		render :update do |page|
@@ -52,5 +52,26 @@ class ApplicationController < ActionController::Base
 
   def setup_guest_read_level
     session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank?
+  end
+
+  def setup_negative_captcha
+    @captcha = NegativeCaptcha.new(
+      :secret => NEGATIVE_CAPTCHA_SECRET, #A secret key entered in environment.rb.  'rake secret' will give you a good one.
+      :spinner => request.remote_ip, 
+      :fields => [:name, :email, :content], #Whatever fields are in your form 
+      :params => params)
+  end
+
+  def update_span_when_navi
+  	if not current_user.blank? and current_user.span != 0
+  		new_span = ((current_user.end_time - Time.now)/60).round
+  		if new_span == 0
+	  		render :update do |page|
+	  			page.redirect_to logout_admin_users_url(:id => session[:user_id], :time_out => 'true')
+				end
+			else
+		  	current_user.update_attributes!(:span => new_span)
+		  end
+	  end
   end
 end

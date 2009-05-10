@@ -16,7 +16,7 @@ class Comment < ActiveRecord::Base
   def self.authority_latest(auth_level)
   	return self.all.inject([]){|latest, comment|
   		return latest if latest.size >= 5
-  		latest << comment if comment.commentable.read_level >= auth_level
+  		comment.commentable.read_level >= auth_level ? latest << comment : latest
   	}
   end
 end

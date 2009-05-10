@@ -12,7 +12,7 @@
 		<div id='message'>
 			<p>Welcome, <%= h(current_user.name) %></p>
 			 <% if current_user.span != 0 %>
-		 		<%= periodically_call_remote(:url=>url_for(:controller => :application, :action=>:update_timer), :frequency=>'10') %>
+		 		<%= periodically_call_remote(:url=>url_for(:controller => :application, :action=>:update_timer), :frequency=>'60') %>
 			 	<h2><span id='timer'><%= h(current_user.span) %></span></h2>
 			 	minutes remain
 			 <% end %>

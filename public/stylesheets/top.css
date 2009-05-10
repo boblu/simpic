@@ -142,3 +142,7 @@ body {
 #message {
 	color: white;
 }
+
+#timer {
+	text-decoration: blink;
+}

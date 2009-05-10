@@ -334,4 +334,5 @@ table.album_info td.comment {
 #timer {
 	color: red;
 	margin: 5px 0px;
+	text-decoration: blink;
 }

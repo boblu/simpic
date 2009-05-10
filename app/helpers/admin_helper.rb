@@ -9,6 +9,6 @@ module AdminHelper
 	end
 
 	def time_span_list
-		[[0, 0], [30, 30], [60, 60], [90, 90], [120, 120]]
+		{"None" => 0, "30 m" => 30, "60 m" => 60, "90 m" => 90, "120 m" => 120}
 	end
 end

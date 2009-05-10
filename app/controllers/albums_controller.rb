@@ -3,6 +3,7 @@ class AlbumsController < ApplicationController
 
   before_filter :setup_guest_read_level
   before_filter :setup_negative_captcha, :only => [:show, :comment]
+  before_filter :update_span_when_navi, :only => [:show, :comment, :top]
 
 	def top
 		unless User.first
@@ -75,14 +76,4 @@ class AlbumsController < ApplicationController
       end
 		end
 	end
-	
-	private
-	
-  def setup_negative_captcha
-    @captcha = NegativeCaptcha.new(
-      :secret => NEGATIVE_CAPTCHA_SECRET, #A secret key entered in environment.rb.  'rake secret' will give you a good one.
-      :spinner => request.remote_ip, 
-      :fields => [:name, :email, :content], #Whatever fields are in your form 
-      :params => params)
-  end
 end

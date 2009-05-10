@@ -14,10 +14,27 @@ function set_admin_timespan(){
 	if (selected_level == 0) {
 		document.getElementById('user_span')[0].selected = true;
 		document.getElementById('user_span').disabled = true;
+		if (document.getElementById('user_reset_span')) {
+			document.getElementById('user_reset_span').checked = true;
+			document.getElementById('user_reset_span').disabled = true;
+		}
 	}
 	else {
 		document.getElementById('user_span')[1].selected = true;
 		document.getElementById('user_span').disabled = false;
+		if (document.getElementById('user_reset_span')) {
+			document.getElementById('user_reset_span').checked = true;
+			document.getElementById('user_reset_span').disabled = false;
+		}
 	}
-	
+}
+
+function toggle_timespan_right(){
+	var check_value = document.getElementById('user_reset_span').checked
+	if (check_value == true) {
+		document.getElementById('user_span').disabled = false;
+	}
+	else {
+		document.getElementById('user_span').disabled = true;
+	}
 }
