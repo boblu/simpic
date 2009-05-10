@@ -43,6 +43,8 @@ Currently you need all of those things to get SimPic to run:
 		[some_directory]# git clone git://github.com/boblu/simpic.git
 		[some_directory]# cd simpic
 		[some_directory/simpic]# git checkout -b deploy v1.0.0
+		[some_directory/simpic]# git submodule init
+		[some_directory/simpic]# git submodule update
 
 3. modify database configuration file
 
