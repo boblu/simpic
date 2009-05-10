@@ -127,6 +127,6 @@ class Content < ActiveRecord::Base
   end
   
   def set_read_level
-  	read_level = album.read_level
+  	self.read_level = album.read_level
   end
 end

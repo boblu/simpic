@@ -131,7 +131,7 @@ class Admin::ContentsController < ApplicationController
 				filenames << [xyz, xyz] if File.extname(xyz) =~ /(jpg|jpeg|gif|png|bmp)/i
 			end
   	}
-  	return filenames
+  	return filenames.sort
   end
 
   def clean_TMP_DIR
