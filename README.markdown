@@ -27,3 +27,7 @@ Currently you need all of those things to get SimPic to run:
 * A mysql database.
 * Ruby drivers for your database.
 * Apache + mod_rails (aka Passenger) for fast and easy deployment along with speed.
+
+##Bugs##
+
+Please report bugs to [here](http://boblu.lighthouseapp.com/projects/24454-simpic/overview)
