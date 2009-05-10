@@ -27,9 +27,9 @@ class Album < ActiveRecord::Base
   ######################################################
   ##### validation
   ######################################################
-	validates_presence_of :title, :begin_on, :end_on, :appearance, :read_level
+	validates_presence_of :title, :title_meta, :begin_on, :end_on, :appearance, :read_level
 	validate :must_be_valid_range
-	validate :uniq_title_in_one_year
+	validate :uniq_title_meta_in_one_year
 
   ######################################################
   ##### method
@@ -61,7 +61,7 @@ class Album < ActiveRecord::Base
 	end
 
 	def dirname
-		begin_on.to_s(:number) + title
+		begin_on.to_s(:number) + title_meta
 	end
 
 	def path
@@ -74,7 +74,7 @@ class Album < ActiveRecord::Base
 	end
 	
 	def self.find_by_dirname(temp_dirname)
-		self.find(:first, :conditions => {:title => temp_dirname[8..-1], :begin_on => temp_dirname[0..7]})
+		self.find(:first, :conditions => {:title_meta => temp_dirname[8..-1], :begin_on => temp_dirname[0..7]})
 	end
 	
 	private
@@ -85,9 +85,9 @@ class Album < ActiveRecord::Base
 		end
 	end
 	
-	def uniq_title_in_one_year
-		if new_record? and Album.exists?(['title = ? and begin_on >= ? and end_on <= ?', title, begin_on.beginning_of_year, begin_on.end_of_year])
-			errors.add(:title, "has already been userd in year #{begin_on.year}!")
+	def uniq_title_meta_in_one_year
+		if new_record? and Album.exists?(['title_meta = ? and begin_on >= ? and end_on <= ?', title_meta, begin_on.beginning_of_year, begin_on.end_of_year])
+			errors.add(:title_meta, "has already been userd in year #{begin_on.year}!")
 		end
 	end
 
@@ -115,8 +115,8 @@ class Album < ActiveRecord::Base
 
   def update_picture_directory
     old_album = Album.find(id)
-    old_dirname = old_album.begin_on.to_s(:number) + old_album.title
-    new_dirname = begin_on.to_s(:number) + title
+    old_dirname = old_album.begin_on.to_s(:number) + old_album.title_meta
+    new_dirname = begin_on.to_s(:number) + title_meta
     unless old_dirname == new_dirname
     	if old_album.year == year
     		rename_album_dirname(:old_year => year, :old_dirname => old_dirname, :new_year => year, :new_dirname => new_dirname)

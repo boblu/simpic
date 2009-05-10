@@ -4,7 +4,6 @@ class Admin::ContentsController < ApplicationController
   before_filter :authorize_admin, :except => [:rate]
 
   def index
-  	debugger
     @album = Album.find(params[:album_id])
     @title = @album.title
     @subtitle = @album.begin_on.to_s(:number) + '~' + @album.end_on.to_s(:number) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tags:' + @album.tag_list.join(', ')
