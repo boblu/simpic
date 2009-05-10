@@ -40,9 +40,4 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
   
   NEGATIVE_CAPTCHA_SECRET = "27608434f3db9b1970dc2b93dab1a8752c61dd2256ad92b6373a3caec995ade2caef316c483941aef1192a95dbdf6f282e80daa2cc56fa1a58fcc2e3a56cf733"
-  
-	require 'simpic-rating/simpic_rating'
-	require 'simpic-rating/simpic_rating_helper'
-	ActiveRecord::Base.send(:include, SimpicRating) unless ActiveRecord::Base.include?(SimpicRating)
-	ActionView::Base.send(:include, SimpicRating::Helper) unless ActionView::Base.include?(SimpicRating::Helper)
 end
