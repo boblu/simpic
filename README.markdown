@@ -14,7 +14,13 @@ SimPic has the following main features:
 
 with this feature, you can share photo or video between families, relatives, friends and colleges by using one system. You can give every user(or password) an authority level, and let let them see different contents at the same time. This is the reason that I am developing this system, 'cause I cannot find any album display systems having this feature.
 
-2 As many as possible ways to view albums.
+2 Rating and commenting for album or picture
+
+3 As many as possible ways to view albums.
+
+ # [Cooliris](http://www.cooliris.com)
+ # [Shadowbox](http://www.shadowbox-js.com/)
+ # adding...
 
 ##Requirements##
 
@@ -28,6 +34,29 @@ Currently you need all of those things to get SimPic to run:
 * Ruby drivers for your database.
 * Apache + mod_rails (aka Passenger) for fast and easy deployment along with speed.
 
+##Installation##
+
+0 install all the necessary packages described above
+
+1 clone and checkout new local branch
+
+ [some_directory]# git clone git://github.com/boblu/simpic.git
+ [some_directory]# cd simpic
+ [some_directory/simpic]# git checkout -b deploy V1.0.0
+
+2 modify database configuration file
+
+	[some_directory/simpic]# cp config/database.yml.example config/database.yml
+
+and write database information in that new file
+
+3 generate database
+
+	[some_directory/simpic]# rake db:create:production
+	[some_directory/simpic]# rake db:migrate
+
+4 config apache and passenger, and good to go
+
 ##Bugs##
 
-Please report bugs to [here](http://boblu.lighthouseapp.com/projects/24454-simpic/overview)
+Please report bugs to [here](http://boblu.lighthouseapp.com/projects/24454-simpic/overview) or send mail to boblu@jiaeil.com
