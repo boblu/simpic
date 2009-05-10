@@ -4,23 +4,25 @@ class Admin::ContentsController < ApplicationController
   before_filter :authorize_admin, :except => [:rate]
 
   def index
+  	debugger
     @album = Album.find(params[:album_id])
     @title = @album.title
     @subtitle = @album.begin_on.to_s(:number) + '~' + @album.end_on.to_s(:number) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tags:' + @album.tag_list.join(', ')
     params[:page] = 1 if params[:page].blank?
     params[:per_page] = 30 if params[:per_page].blank?
+    temp_collection = params[:filter].blank? ? @album.pictures : @album.pictures.authority_filter(params[:filter])
     case params[:order]
-    when "read_level asc" then collection = @album.pictures.sort_by{|item| item.read_level}
-    when "read_level desc" then collection = @album.pictures.sort_by{|item| item.read_level}.reverse
-    when "comments,asc" then collection = @album.pictures.sort_by{|item| item.comments.size}
-    when "comments,desc" then collection = @album.pictures.sort_by{|item| item.comments.size}.reverse
-    when "rating_average asc" then collection = @album.pictures.sort_by{|item| item.rating_average}
-    when "rating_average desc" then collection = @album.pictures.sort_by{|item| item.rating_average}.reverse
-    when "display_order asc" then collection = @album.pictures
-    when "display_order desc" then collection = @album.pictures.reverse
-    when "top_shown asc" then collection = @album.pictures.sort_by{|item| item.top_shown.to_s}
-    when "top_shown desc" then collection = @album.pictures.sort_by{|item| item.top_shown.to_s}.reverse
-    else collection = @album.pictures
+    when "read_level asc" then collection = temp_collection.sort_by{|item| item.read_level}
+    when "read_level desc" then collection = temp_collection.sort_by{|item| item.read_level}.reverse
+    when "comments,asc" then collection = temp_collection.sort_by{|item| item.comments.size}
+    when "comments,desc" then collection = temp_collection.sort_by{|item| item.comments.size}.reverse
+    when "rating_average asc" then collection = temp_collection.sort_by{|item| item.rating_average}
+    when "rating_average desc" then collection = temp_collection.sort_by{|item| item.rating_average}.reverse
+    when "display_order asc" then collection = temp_collection
+    when "display_order desc" then collection = temp_collection.reverse
+    when "top_shown asc" then collection = temp_collection.sort_by{|item| item.top_shown.to_s}
+    when "top_shown desc" then collection = temp_collection.sort_by{|item| item.top_shown.to_s}.reverse
+    else collection = temp_collection
     end
     @pictures = collection.paginate(:page => params[:page], :per_page => params[:per_page])
   end
@@ -64,27 +66,31 @@ class Admin::ContentsController < ApplicationController
   end
 
   def batch_action
-    if params[:selected_id].blank?
-      redirect_to :back
-    else
-      begin
-        Content.transaction do
-          if params[:commit] == 'Delete'
-            params[:selected_id].each{|id| Content.find(id).destroy}
-          elsif params[:commit] == 'Set'
-            params[:selected_id].each{|id| Content.find(id).update_attributes!(:read_level => params[:read_level].to_i)}
-          else
-            params[:commit] == 'Cover' ? top_shown = true : top_shown = false
-            params[:selected_id].each{|id| Content.find(id).update_attributes!(:top_shown => top_shown)}
-          end
-        end
-      end
-      if Album.find(params[:album_id]).contents.blank?
-        redirect_to admin_albums_url
-      else
-        redirect_to admin_album_contents_url
-      end
-    end
+  	if params[:commit] == "Filter"
+  		redirect_to admin_album_contents_url(:filter => params[:read_level])
+  	elsif params[:commit] == "Set"
+	    if params[:selected_id].blank?
+	      redirect_to :back
+	    else
+	      begin
+	        Content.transaction do
+	          if params[:commit] == 'Delete'
+	            params[:selected_id].each{|id| Content.find(id).destroy}
+	          elsif params[:commit] == 'Set'
+	            params[:selected_id].each{|id| Content.find(id).update_attributes!(:read_level => params[:read_level].to_i)}
+	          else
+	            params[:commit] == 'Cover' ? top_shown = true : top_shown = false
+	            params[:selected_id].each{|id| Content.find(id).update_attributes!(:top_shown => top_shown)}
+	          end
+	        end
+	      end
+	      if Album.find(params[:album_id]).contents.blank?
+	        redirect_to admin_albums_url
+	      else
+	        redirect_to admin_album_contents_url
+	      end
+	    end
+	  end
   end
 
   def rate

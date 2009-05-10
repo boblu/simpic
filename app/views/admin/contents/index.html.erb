@@ -7,13 +7,14 @@
 		<%= submit_tag 'Delete', :class => 'button' %>
 		<%= link_to 'Add', new_admin_album_content_path(@album), :class => 'button' %>
 		<%= link_to 'Sort', sort_admin_album_contents_path(:album_id => @album), :class => 'button' %>
-		<h1><%= @title %></h1>
+		<h1><%= link_to @title, admin_album_contents_path %></h1>
 		<div><%= @subtitle %></div>
 	</div>
 	<div class="select-bar">
 		<div style="float:left;">picture</div>
 		<div style="text-align:right;">
 			<%= select_tag 'read_level', options_for_select(authority_name.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]}) %>
+			<%= submit_tag 'Filter' %>
 			<%= submit_tag 'Set' %>
 		</div>
 	</div>
@@ -77,6 +78,7 @@
 		<td>
 			<div class='per_page'>
 				<% form_tag admin_album_contents_path, :method => :get, :id => 'change_page' do %>
+					<%= hidden_field_tag 'filter', params[:filter].blank? ? nil : params[:filter] %>
 					Display:
 					<%= select_tag 'per_page', options_for_select(per_page_list, params[:per_page].to_i), :onchange => "$('change_page').submit();" %>
 				<% end %>

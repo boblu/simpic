@@ -10,7 +10,8 @@ class Content < ActiveRecord::Base
   default_scope :order => 'display_order asc'
   named_scope :authority, lambda{|auth_level| {:conditions => ['read_level >= ?', auth_level.to_i]}}
   named_scope :covered, :conditions => {:top_shown => true}
-
+	named_scope :authority_filter, lambda{|auth_level| {:conditions => ['read_level = ?', auth_level.to_i]}}
+	
   before_create :arrange_inside_order, :create_picture, :set_read_level
   before_update :update_exif_datetimeoriginal
   after_save :update_album
