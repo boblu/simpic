@@ -2,7 +2,7 @@
 
 Version 1.0.0
 
-You can see an actual deployment at [this site](http://pic.jiaeil.com:113)
+You can see some screenshots of an actual deployment at [here](http://picasaweb.google.com/boblucn/Simpic?feat=directlink)
 
 ##What is it?##
 
