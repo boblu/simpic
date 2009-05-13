@@ -103,4 +103,17 @@ class Admin::AlbumsController < ApplicationController
  			page.visual_effect :highlight, id
  		end
   end
+  
+	def t_publish
+    @album = Album.find(params[:id])
+    begin
+      @album.update_attributes!(:publish => params[:publish])
+    end
+    img_link = @album.publish==true ? "image_tag('admin/publish_y.png')" : "image_tag('admin/publish_x.png')"
+    url_link = "t_publish_admin_album_path(#{@album.id}, :publish => #{@album.publish==true ? false : true})"
+		render :update do |page|
+			page.replace_html 'publish_'+params[:id], :inline => "<%= link_to_remote(#{img_link}, :url => #{url_link}, :method => :get) %>"
+		end
+	end
+  
 end

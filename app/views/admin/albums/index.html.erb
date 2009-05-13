@@ -76,15 +76,10 @@
 							<%= ratings_for album, :small_stars => true,
 												   :remote_options => {:url => rate_admin_album_path(album, :small_stars => true)} %>
 						</td>
-						<td class='icon'>
-							<%= link_to (album.publish==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')),
-										admin_album_path(album,
-					 	  								 :album => {:publish => album.publish==true ? false : true},
-					 	  								 :year => params[:year],
-					 	  								 :order => params[:order],
-					 	  								 :page => params[:page],
-					 	  								 :per_page => params[:per_page]),
-										:method => :put %>
+						<td class='icon' id=<%= 'publish_'+album.id.to_s %>>
+							<%= link_to_remote (album.publish==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')),
+																 :url => t_publish_admin_album_path(album, :publish => album.publish==true ? false : true),
+																 :method => :get %>
 						</td>
 					</tr>
 				<% } %>

@@ -11,11 +11,16 @@
 		<div><%= @subtitle %></div>
 	</div>
 	<div class="select-bar">
-		<div style="float:left;">picture</div>
+		<div style="float:left;">
+			<span style="padding-right: 50px;">
+				<%= select nil, 'filter', authority_name.sort_by{|k,v| v}, {:selected => (params[:filter].blank? ? nil : params[:filter].to_i), :include_blank => true} %>
+				<%= submit_tag 'Filter' %>
+			</span>
+			<%= pluralize(@picture_size, 'picture') %>
+		</div>
 		<div style="text-align:right;">
-			<%= select_tag 'read_level', options_for_select(authority_name.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]}) %>
-			<%= submit_tag 'Filter' %>
-			<%= submit_tag 'Set' %>
+				<%= select_tag 'read_level', options_for_select(authority_name.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]}) %>
+				<%= submit_tag 'Set' %>
 		</div>
 	</div>
 	<div class="listing">
@@ -62,10 +67,10 @@
 													 :remote_options => {:url => rate_admin_album_content_path(@album, picture, :small_stars => true)} %>
 						</td>
 						<td class='number'><%= picture.display_order %></td>
-						<td class='icon'>
-							<%= link_to (picture.top_shown==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')),
-										admin_album_content_path(@album, picture, :content => {:top_shown => picture.top_shown==true ? false : true}),
-										:method => :put %>
+						<td class='icon' id=<%= 'oncover_'+picture.id.to_s %>>
+							<%= link_to_remote (picture.top_shown==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')),
+																 :url => oncover_admin_album_content_path(@album, picture, :top_shown => picture.top_shown==true ? false : true),
+																 :method => :get %>
 						</td>
 					</tr>
 				<% } %>

@@ -1,8 +1,8 @@
 ##State##
 
-Version 1.0.0
+Version 1.0.1
 
-You can see some screenshots of an actual deployment at [here](http://picasaweb.google.com/boblucn/Simpic?feat=directlink)
+You can see some screenshots at the bottom of this page.
 
 ##What is it?##
 
@@ -42,7 +42,7 @@ Currently you need all of those things to get SimPic to run:
 
 		[some_directory]# git clone git://github.com/boblu/simpic.git
 		[some_directory]# cd simpic
-		[some_directory/simpic]# git checkout -b deploy v1.0.0
+		[some_directory/simpic]# git checkout -b deploy v1.0.1
 		[some_directory/simpic]# git submodule init
 		[some_directory/simpic]# git submodule update
 
@@ -62,3 +62,15 @@ Currently you need all of those things to get SimPic to run:
 ##Bugs##
 
 Please report bugs to [here](http://boblu.lighthouseapp.com/projects/24454-simpic/overview) or send mail to boblu@jiaeil.com
+
+##screenshots
+
+![simpic1](http://lh5.ggpht.com/_zwRrYMttoxo/SgbaK7WXcdI/AAAAAAAABME/cdX_6RvL0Eg/s720/Picture%202.png)
+------------------------------------
+![simpic2](http://lh4.ggpht.com/_zwRrYMttoxo/SgbaLMnxNnI/AAAAAAAABMI/tZQeX6QVJNE/s720/Picture%203.png)
+------------------------------------
+![simpic3](http://lh4.ggpht.com/_zwRrYMttoxo/SgbaLPx1SfI/AAAAAAAABMM/AMm9muTy3GY/s720/Picture%204.png)
+------------------------------------
+![simpic4](http://lh5.ggpht.com/_zwRrYMttoxo/SgbaLKMiGsI/AAAAAAAABMQ/XW3DJhC_Uig/s800/Picture%205.png)
+------------------------------------
+![simpic5](http://lh5.ggpht.com/_zwRrYMttoxo/SgbaLeY9qBI/AAAAAAAABMU/yvmiA7RpSzI/s800/Picture%206.png)

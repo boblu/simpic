@@ -5,7 +5,7 @@
 		<%= submit_tag 'Save', :class => 'button', :onclick => "$('sort_results').value=Sortable.serialize('sort_list');" %>
 		<h1><%= @title %></h1>
 	</div>
-	<div class="select-bar"><%= @subtitle %></div>
+	<div class="select-bar"><%= link_to @album.title, admin_album_contents_path %></div>
 	<div>
 		<ul id="sort_list">
 			<% @pictures.each{|picture| %>

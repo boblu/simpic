@@ -49,6 +49,7 @@ ActionController::Routing::Routes.draw do |map|
               :controller => 'contents',
               :action => 'show',
               :dirname => /\d{8}.+/,
+#/
               :content_name => /.+\.(jpg|jpeg|bmp|png|gif)/i
   map.connect '/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/
 #/
@@ -59,8 +60,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
-    admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post}, :except => [:show, :destroy] do |albums|
-      albums.resources :contents, :collection => {:batch_action => :post, :sort => :get, :save_sort => :post}, :member => {:rate => :post}, :except => [:show, :destroy]
+    admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post, :t_publish => :get}, :except => [:show, :destroy] do |albums|
+      albums.resources :contents, :collection => {:batch_action => :post, :sort => :get, :save_sort => :post}, :member => {:rate => :post, :oncover => :get}, :except => [:show, :destroy]
     end
     admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}, :except => [:show]
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}

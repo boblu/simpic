@@ -23,6 +23,7 @@ class Admin::ContentsController < ApplicationController
     when "top_shown desc" then collection = temp_collection.sort_by{|item| item.top_shown.to_s}.reverse
     else collection = temp_collection
     end
+    @picture_size = collection.size
     @pictures = collection.paginate(:page => params[:page], :per_page => params[:per_page])
   end
   
@@ -66,8 +67,8 @@ class Admin::ContentsController < ApplicationController
 
   def batch_action
   	if params[:commit] == "Filter"
-  		redirect_to admin_album_contents_url(:filter => params[:read_level])
-  	elsif params[:commit] == "Set"
+  		redirect_to admin_album_contents_url(:filter => params[:filter])
+  	else
 	    if params[:selected_id].blank?
 	      redirect_to :back
 	    else
@@ -83,11 +84,7 @@ class Admin::ContentsController < ApplicationController
 	          end
 	        end
 	      end
-	      if Album.find(params[:album_id]).contents.blank?
-	        redirect_to admin_albums_url
-	      else
-	        redirect_to admin_album_contents_url
-	      end
+	      redirect_to Album.find(params[:album_id]).contents.blank? ? admin_albums_url : request.referer
 	    end
 	  end
   end
@@ -115,13 +112,24 @@ class Admin::ContentsController < ApplicationController
 	def sort
 		@album = Album.find(params[:album_id])
 		@pictures = @album.pictures
-		@title = 'Sorting'
-		@subtitle = 'pictures in ' + @album.title
+		@title = 'Sorting pictures'
 	end
 	
 	def save_sort
 		params[:sort_results].scan(/\d+/).each_with_index{|id, index| Content.find(id).update_attributes!(:display_order => index+1)}
 		redirect_to admin_album_contents_url
+	end
+
+	def oncover
+    @content = Content.find(params[:id])
+    begin
+      @content.update_attributes!(:top_shown => params[:top_shown])
+    end
+    img_link = @content.top_shown==true ? "image_tag('admin/publish_y.png')" : "image_tag('admin/publish_x.png')"
+    url_link = "oncover_admin_album_content_path(#{@content.album.id}, #{@content.id}, :top_shown => #{@content.top_shown==true ? false : true})"
+		render :update do |page|
+			page.replace_html 'oncover_'+params[:id], :inline => "<%= link_to_remote(#{img_link}, :url => #{url_link}, :method => :get) %>"
+		end
 	end
 	
   private

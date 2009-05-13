@@ -21,7 +21,7 @@
 				<th><%= f.label :read_level_label, 'Read level' %></th>
 				<td colspan="3">
 					<% if params[:from] == 'new' %>
-						<%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]}, {:selected => authority_name['guest']}, {:onchange => "set_admin_timespan();"} %>
+						<%= f.select :read_level, authority_name.select{|k,v| k!="guest"}.sort_by{|item| item[1]}, {:selected => authority_name['reader']}, {:onchange => "set_admin_timespan();"} %>
 					<% else %>
 						<%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]}, {}, {:onchange => "set_admin_timespan();"} %>
 					<% end %>
