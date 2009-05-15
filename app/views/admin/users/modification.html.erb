@@ -22,8 +22,13 @@
 				<td colspan="3">
 					<% if params[:from] == 'new' %>
 						<%= f.select :read_level, authority_name.select{|k,v| k!="guest"}.sort_by{|item| item[1]}, {:selected => authority_name['reader']}, {:onchange => "set_admin_timespan();"} %>
-					<% else %>
-						<%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]}, {}, {:onchange => "set_admin_timespan();"} %>
+					<% else
+						admin_users = User.find_all_by_read_level(0)
+						if admin_users.size == 1 and admin_users[0].id == current_user.id %>
+							Create another admin before changing this field.
+						<% else %>
+							<%= f.select :read_level, authority_name.to_a.sort_by{|item| item[1]}, {}, {:onchange => "set_admin_timespan();"} %>
+						<% end %>
 					<% end %>
 				</td>
 			</tr>
@@ -32,15 +37,19 @@
 				<td colspan="3">
 					<% if params[:from] == 'new' %>
 						<%= f.select :span, time_span_list.to_a.sort_by{|item| item[1]} %>
-					<% else %>
-						<%= @user.span != 0 ? h(@user.span)+ ' m' : 'None' %>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<%= check_box_tag "user[reset_span]",
-															"true",
-															false,
-															{:onchange => "toggle_timespan_right();", :disabled => (@user.read_level==0 ? true : false)} %>
-						Reset to
-						<%= f.select :span, time_span_list.to_a.sort_by{|item| item[1]}, {}, {:disabled => true} %>
+					<% else
+						if admin_users.size == 1 and admin_users[0].id == current_user.id %>
+							Create another admin before changing this field.
+						<% else %>
+							<%= @user.span != 0 ? h(@user.span)+ ' m' : 'None' %>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<%= check_box_tag "user[reset_span]",
+																"true",
+																false,
+																{:onchange => "toggle_timespan_right();", :disabled => (@user.read_level==0 ? true : false)} %>
+							Reset to
+							<%= f.select :span, time_span_list.to_a.sort_by{|item| item[1]}, {}, {:disabled => true} %>
+						<% end %>
 					<% end %>
 				</td>
 			</tr>

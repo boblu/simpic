@@ -403,3 +403,8 @@ ul#sort_list li {
 	padding:0.5em;
 	height: 90px;
 }
+
+#picture_edit img {
+	max-width: 400px;
+	max-height: 300px;
+}

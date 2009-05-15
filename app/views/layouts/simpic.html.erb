@@ -6,6 +6,11 @@
 		<%= javascript_include_tag :defaults %>
 		<%= stylesheet_link_tag 'simpic' %>
 		<%= simpic_rating_style %>
+		<link rel="alternate" href=<%= '"' + url_for(:controller => :albums,
+													 :action => :cooliris,
+													 :album_id => @album.id,
+													 :id => (params[:page] || '1'),
+													 :only_path => false) + '"' %> type="application/rss+xml"/>
 		<% case @album.appearance
 		when 0 %>
 			<%= javascript_include_tag "/effects/shadowbox-build-3.0b/shadowbox" %>
@@ -16,7 +21,6 @@
 					overlayOpacity: 0.9
 				});
 			</script>
-			<link rel="alternate" href=<%= '"' + url_for(:controller => :albums, :action => :cooliris, :album_id => @album.id, :id => params[:page], :only_path => false) + '"' %> type="application/rss+xml"/>
 		<% end %>
 	</head>
 
@@ -44,7 +48,7 @@
 		</div>
 		<div id="bgbottom">
 			<div class="wrapper">
-				<div id="container">
+				<div id="body_container">
 					<div id="left">
 						<%= yield :left_column %>
 					</div>

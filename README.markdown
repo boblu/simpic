@@ -10,17 +10,29 @@ SimPic is an personal album(photos and videos) display and management system whi
 
 SimPic has the following main features:
 
-1. Authority level control.
+1. Frontend
 
-	with this feature, you can share photo or video between families, relatives, friends and colleges by using one system. You can give every user(or password) an authority level, and let let them see different contents at the same time. This is the reason that I am developing this system, 'cause I cannot find any album display systems having this feature.
+> * Authority level control
+>
+>	with this feature, you can let different people view photo or video on different levels by giving them distinct passwords. You can also specify a time limit on each password and that password will be automatically deleted on time up.
+>
+> * Rating and commenting for album or picture
+> * As many as possible ways to view albums.
+>>
+>>	* [Cooliris](http://www.cooliris.com)
+>>	* [Shadowbox](http://www.shadowbox-js.com/)
+>>	* adding...
 
-2. Rating and commenting for album or picture
+2. Backoffice
 
-3. As many as possible ways to view albums.
-
-	* [Cooliris](http://www.cooliris.com)
-	* [Shadowbox](http://www.shadowbox-js.com/)
-	* adding...
+> * Album and picture management
+>
+>	add, modify, delete, sort, publish, cover albums and pictures. Try it by yourself.
+>
+> * Password management
+> add, modify, delete password or time span on that password
+>
+> * Comment management
 
 ##Requirements##
 

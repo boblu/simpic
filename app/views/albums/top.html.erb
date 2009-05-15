@@ -27,7 +27,7 @@
 									<%= password_field_tag :password, nil %>
 									<%= submit_tag 'Login' %>
 								<% end %>
-							<% elsif session[:user_read_level] == 0 %>
+							<% elsif current_read_level == 0 %>
 								<%= link_to 'Admin', admin_albums_path %>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]) %>
@@ -51,7 +51,7 @@
 								<ul>
 									<% @top_rated.each{|album|
 										break if album.rating_average == 0 %>
-										<li><%= link_to album.title, '#' %></li>
+										<li><%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %></li>
 									<% } %>
 								</ul>
 							</div>
@@ -80,14 +80,11 @@
 							<div class="scroller">
 								<div class="content">
 									<div class="section" id="recent_cover">
-										<div id="container" width="480" height="400"><a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this rotator.</div>
+										<div id="container" width="480" height="400"></div>
 										<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
 										<script type="text/javascript">
-											var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator", "400","300","7");
-											s1.addParam("allowfullscreen","true");
+											var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator","400","400","4");
 											s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :top_shown_new, :only_path => false) + '"' %>);
-											s1.addVariable("width","400");
-											s1.addVariable("height","300");
 											s1.addVariable("screencolor", "0x141414");
 											s1.addVariable('repeat', 'true');
 											s1.addVariable('shownavigation', 'false');
@@ -117,7 +114,7 @@
 							<h3>Updated</h3>
 							<ul>
 								<% @updated.each{|album| %>
-									<li><%= link_to album.title, '#' %></li>
+									<li><%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %></li>
 								<% } %>
 							</ul>
 						</div>
@@ -128,7 +125,7 @@
 									if comment.commentable_type == "Album" %>
 										<li><%= link_to comment.name+' on '+comment.commentable.title, url_for(:controller => :albums, :action => :show, :dirname => comment.commentable.dirname, :anchor => "comment_#{comment.id}") %></li>
 									<% else %>
-										<li><%= link_to comment.name+' on picture in '+comment.commentable.album.title, url_for(:controller => :albums, :action => :show, :dirname => comment.commentable.album.dirname, :anchor => "comment_#{comment.id}") %></li>
+										<li><%= link_to comment.name+' on picture in '+comment.commentable.album.title, url_for(:controller => :contents, :action => :show, :dirname => comment.commentable.album.dirname, :content_name => comment.commentable.filename, :anchor => "comment_#{comment.id}") %></li>
 									<% end %>
 								<% } %>
 							</ul>

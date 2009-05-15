@@ -46,7 +46,6 @@ class User < ActiveRecord::Base
     	option[:span] = 0
    		option[:end_time] = nil
    	elsif option[:reset_span] == 'true' and not option[:span].blank?
-   		
    		if option[:span].to_i > self.span
 	    	option[:end_time] = (self.end_time || Time.now) + (option[:span].to_i - self.span)*60
     	else

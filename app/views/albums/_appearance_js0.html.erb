@@ -13,7 +13,7 @@
 														:title => picture.title %>
 								<br/>
 								<%= link_to "#{image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>"vertical-align:middle;")}/#{image_tag('simpic/comments.gif', :style=>"vertical-align:middle;")}",
-											url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename, :page=>params[:page]),
+											url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename),
 											:style => "display:none;",
 											:id => "pic_detail_#{picture.id}" %>
 							</div>

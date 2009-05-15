@@ -63,11 +63,9 @@ class Admin::UsersController < ApplicationController
 	def login
     if request.post?
       session[:user_id] = nil
-      session[:user_read_level] = nil
       user = User.authenticate(params[:password])
       if user
         session[:user_id] = user.id
-        session[:user_read_level] = user.read_level
         temp = Time.now
         if user.span != 0
         	user.update_attributes!(:end_time => user.span.minutes.from_now(temp))
@@ -81,7 +79,6 @@ class Admin::UsersController < ApplicationController
 		user = User.find(params[:id])
 		user.destroy if not params[:time_out].blank? and params[:time_out] == 'true'
     session[:user_id] = nil
-    session[:user_read_level] = nil
     redirect_to root_path
 	end
 	
@@ -97,7 +94,6 @@ class Admin::UsersController < ApplicationController
 					redirect_to :back
 			  else
 		      session[:user_id] = @user.id
-		      session[:user_read_level] = @user.read_level
 		      redirect_to admin_root_url
 		    end
 			else

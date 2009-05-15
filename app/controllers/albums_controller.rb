@@ -1,7 +1,6 @@
 class AlbumsController < ApplicationController
   layout 'simpic', :except => [:top]
 
-  before_filter :setup_guest_read_level
   before_filter :setup_negative_captcha, :only => [:show, :comment]
   before_filter :update_span_when_navi, :only => [:show, :comment, :top]
 
@@ -11,37 +10,40 @@ class AlbumsController < ApplicationController
 			return
 		end
 		@app_name = APP_NAME
-		authority_published = Album.authority(session[:user_read_level]).published
+		authority_published = Album.authority(current_read_level).published
 		@latest = authority_published.find(:all, :limit => 5)
 		@top_rated = authority_published.find(:all, :limit => 5, :order => 'rating_average desc')
 		@updated = authority_published.find(:all, :limit => 5, :order => 'updated_at desc')
-		@latest_comments = Comment.authority_latest(session[:user_read_level])
+		@latest_comments = Comment.authority_latest(current_read_level)
 		@copy_year_string = copyright_year_range
 		@year_range = authority_published.year_range
 	end
 	
 	def top_shown_new
-		@pictures = Album.authority(session[:user_read_level]).published.first.pictures.authority(session[:user_read_level]).covered
- 		render :action => "top_shown_new.xml.builder", :layout => false
+		@pictures = Album.authority(current_read_level).published.first.pictures.authority(current_read_level).covered
+ 		render :action => "xml_feeds.xml.builder", :layout => false
 	end
 	
 	def top_shown_all
-		@pictures = Album.authority(session[:user_read_level]).published.inject([]){|pictures, album|
-			pictures.concat(album.pictures.authority(session[:user_read_level]).covered)
+		@pictures = Album.authority(current_read_level).published.inject([]){|pictures, album|
+			pictures.concat(album.pictures.authority(current_read_level).covered)
 		}
- 		render :action => "top_shown_all.xml.builder", :layout => false
+    @http_header = request.protocol + request.host_with_port
+ 		render :action => "cooliris_album.xml.builder", :layout => false
 	end
 	
 	def cooliris
-		@contents = Album.find(params[:album_id]).pictures.authority(session[:user_read_level])
+		@contents = Album.find(params[:album_id]).pictures.authority(current_read_level)
 		@pictures = @contents.paginate(:page => params[:id], :per_page => PER_PAGE)
+    @http_header = request.protocol + request.host_with_port
 		@previous = params[:id].to_i==1 ? false : true
 		@next = PER_PAGE*params[:id].to_i>=@contents.size ? false : true
+    @for_album = true
 		render :action => "cooliris_album.xml.builder", :layout => false
 	end
 	
 	def show
-		authority_published = Album.authority(session[:user_read_level]).published
+		authority_published = Album.authority(current_read_level).published
 		@app_name = APP_NAME
 		@copy_year_string = copyright_year_range
 		@year_range = authority_published.year_range
@@ -58,8 +60,13 @@ class AlbumsController < ApplicationController
 		when 0
       params[:page] = 1 if params[:page].blank?
       params[:per_page] = PER_PAGE if params[:per_page].blank?
-			@pictures = @album.pictures.authority(session[:user_read_level]).paginate(:page => params[:page], :per_page => params[:per_page])
-		when 1
+			@pictures = @album.pictures.authority(current_read_level).paginate(:page => params[:page], :per_page => params[:per_page])
+	  when 1
+      @pictures = @album.pictures.authority(current_read_level)
+      if not params[:xml].blank? and params[:xml] == 'true'
+        render :action => "xml_feeds.xml.builder", :layout => false
+        return
+      end
 		when 2
 		end
 	end
@@ -75,5 +82,5 @@ class AlbumsController < ApplicationController
         redirect_to url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :anchor => "comment_#{@album.comments.first.id}")
       end
 		end
-	end
+  end
 end

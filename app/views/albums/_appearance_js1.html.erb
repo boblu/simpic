@@ -1,0 +1,35 @@
+<table style="margin:auto;text-align:center;width:650px;">
+	<tr>
+		<td>
+			<div id="container" style="height:560px;" class="photo"></div>
+			<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
+			<script type="text/javascript">
+				var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator","640","560","10");
+				s1.addParam('allowfullscreen','true');
+				s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :xml => 'true') + '"' %>);
+				s1.addVariable("screencolor", "0xEEEEEE");
+				s1.addVariable('repeat', 'true');
+				s1.addVariable('shownavigation', 'true');
+				s1.addVariable('rotatetime', '10');
+				s1.write("container");
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table class="js1_number">
+				<% @pictures.each_with_index{|picture, index|
+					if index == 0 %>
+						<tr>
+					<% elsif (index % 27 == 0) and not (index == @pictures.size - 1) %>
+						</tr><tr>
+					<% end %>
+					<td>
+						<%= link_to(index+1, url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename)) %>
+					</td>
+					<%= '</tr>' if index == @pictures.size - 1 %>
+				<% } %>			
+			</table>
+		</td>
+	</tr>
+</table>

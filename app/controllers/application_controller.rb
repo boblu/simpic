@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-	helper_method :current_user
+	helper_method :current_user, :current_read_level
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 	include Settings
@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
 			User.find(session[:user_id])
 		end
 	end
+	
+	def current_read_level
+		current_user.blank? ? 50 : current_user.read_level
+	end
   
   def authorize_admin
   	unless (not current_user.blank? and current_user.read_level == 0)
@@ -48,10 +52,6 @@ class ApplicationController < ActionController::Base
     else copy_year_string = year_range.last.to_s + ' ~ ' + year_range.first.to_s
     end
     return copy_year_string
-  end
-
-  def setup_guest_read_level
-    session[:user_read_level] = authority_name['guest'] if session[:user_read_level].blank?
   end
 
   def setup_negative_captcha

@@ -1,7 +1,7 @@
 module AdminHelper
 	include Settings
 	def js_name
-		{'shadowbox' => 0}
+		{'Shadowbox' => 0, 'JW image rotator' => 1, 'Embedded cooliris' => 2}
 	end
 
 	def per_page_list

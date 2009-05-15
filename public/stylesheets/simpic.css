@@ -77,7 +77,7 @@ body {
 	text-align: center;
 }
 
-#container {
+#body_container {
 	background-color:#FFFFFF;
 	border-color:#FFFFFF #FFFFFF -moz-use-text-color;
 	border-style:solid solid none;
@@ -335,4 +335,13 @@ table.album_info td.comment {
 	color: red;
 	margin: 5px 0px;
 	text-decoration: blink;
+}
+
+.js1_number {
+	margin: auto;
+}
+
+.js1_number a:hover {
+	background-color: blue;
+	color: white;
 }
