@@ -61,13 +61,12 @@ class AlbumsController < ApplicationController
       params[:page] = 1 if params[:page].blank?
       params[:per_page] = PER_PAGE if params[:per_page].blank?
 			@pictures = @album.pictures.authority(current_read_level).paginate(:page => params[:page], :per_page => params[:per_page])
-	  when 1
+	  when 1, 3
       @pictures = @album.pictures.authority(current_read_level)
       if not params[:xml].blank? and params[:xml] == 'true'
         render :action => "xml_feeds.xml.builder", :layout => false
         return
       end
-		when 2
 		end
 	end
 

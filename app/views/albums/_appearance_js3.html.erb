@@ -1,0 +1,13 @@
+<div id="flashcontent" style="margin:auto;text-align:center;">
+  <p>
+  	AutoViewer requires JavaScript and the Flash Player.
+  	<a href="http://www.macromedia.com/go/getflashplayer/">Get Flash here.</a>
+  </p>
+</div>
+<script type="text/javascript">
+	var fo = new SWFObject("/effects/simpleviewer/viewer.swf", "viewer", "640", "850", "8", "#ffffff");
+	fo.addVariable("firstImageIndex", <%= '"' + @pictures.index(@pictures.sort_by{|item| item.rating_average}[-1]).to_s + '"' %>)
+	fo.addVariable("xmlDataPath", <%= '"' + url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :xml => 'true') + '"' %>);
+	fo.addVariable("preloaderColor", "0x999999");
+	fo.write("flashcontent");
+</script>	
