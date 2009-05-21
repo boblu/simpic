@@ -15,6 +15,7 @@ class Content < ActiveRecord::Base
   before_create :arrange_inside_order, :create_picture, :set_read_level
   before_update :update_exif_datetimeoriginal
   after_save :update_album
+  after_create :remove_temp_picture
   after_destroy :delete_picture, :update_album
 	
   ######################################################
@@ -129,5 +130,9 @@ class Content < ActiveRecord::Base
   
   def set_read_level
   	self.read_level = album.read_level
+  end
+  
+  def remove_temp_picture
+  	FileUtils.rm_rf(TMP_PIC_DIR + @temp_filename)
   end
 end

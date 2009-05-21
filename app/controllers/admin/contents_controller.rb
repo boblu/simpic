@@ -39,7 +39,6 @@ class Admin::ContentsController < ApplicationController
 			if params[:partten] == 'files'
 				begin
 					params[:filenames].each{|file| @album.contents.create!(:content_type => 'picture', :temp_filename => file)}
-          clean_TMP_DIR
 				end
 			else params[:partten] == 'zip'
 			end
@@ -139,18 +138,12 @@ class Admin::ContentsController < ApplicationController
   	Dir.foreach(directory){|xyz|
   		next if ['.', '..'].include?(xyz)
 			if File.directory?(directory + xyz)
-				filenames.concat(get_all_pictures_in_upload_dir(directory + xyz + '/').map{|item| [xyz+'/'+item[0], xyz+'/'+item[1]]})
+				temp = get_all_pictures_in_upload_dir(directory + xyz + '/').map{|item| [xyz+'/'+item[0], xyz+'/'+item[1]]}
+				temp.blank? ? FileUtils.rm_rf(directory + xyz) : filenames.concat(temp)
 			else
 				filenames << [xyz, xyz] if File.extname(xyz) =~ /(jpg|jpeg|gif|png|bmp)/i
 			end
   	}
   	return filenames.sort
-  end
-
-  def clean_TMP_DIR
-    Dir.foreach(TMP_PIC_DIR){|xyz|
-      next if ['.', '..', '.gitignore'].include?(xyz)
-      FileUtils.rm_rf(TMP_PIC_DIR + xyz)
-    }
   end
 end
