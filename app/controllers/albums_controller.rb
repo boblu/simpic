@@ -74,12 +74,18 @@ class AlbumsController < ApplicationController
 		@album = Album.find(params[:id])
 		if @captcha.valid?
 			begin
-				@album.comments.create!(@captcha.values)
-		  rescue
-        redirect_to :back
-      else
-        redirect_to url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :anchor => "comment_#{@album.comments.first.id}")
-      end
+				new_comment = @album.comments.create!(@captcha.values)
+			end
+			respond_to do |format|
+				format.html {redirect_to url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :anchor => "comment_#{@album.comments.first.id}")}
+				format.js {
+					render :update do |page|
+						page.insert_html :bottom, :comments_container, :partial => 'each_comment', :object => new_comment, :locals=>{:each_comment_counter => (@album.comments.size==1 ? 0 : nil)}
+						page["old_comments"].show if @album.comments.size==1
+						page["new_comment_form"].reset
+					end
+				}
+			end
 		end
   end
 end

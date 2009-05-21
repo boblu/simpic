@@ -1,0 +1,5 @@
+<div class=<%= each_comment_counter == 0 ? "first_comment" : "each_comment" %>>
+	<span class="commenter"><%= h(each_comment.name) %></span>
+	<span><%= each_comment.created_at.to_s(:db) %></span>
+	<div><%= h(each_comment.content) %></div>
+</div>

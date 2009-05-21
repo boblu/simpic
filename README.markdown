@@ -20,7 +20,10 @@ SimPic has the following main features:
 > * As many as possible ways to view albums.
 >>
 >>	* [Cooliris](http://www.cooliris.com)
+>>	* [Embedded Cooliris](http://www.cooliris.com)
 >>	* [Shadowbox](http://www.shadowbox-js.com/)
+>>	* [JW Image Rotator](http://www.longtailvideo.com/players/jw-image-rotator/)
+>>	* [Simple Viewer](http://www.airtightinteractive.com/simpleviewer/)
 >>	* adding...
 
 2. Backoffice
@@ -36,7 +39,7 @@ SimPic has the following main features:
 
 ##Requirements##
 
-Currently you need all of those things to get SimPic to run:
+Currently you need all of these tools to get SimPic running:
 
 * Ruby 1.8.6
 * Rails 2.3.2

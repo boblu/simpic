@@ -253,6 +253,11 @@ table.album_info td.comment {
 	text-align: right;
 }
 
+table.album_info td.comment a:hover {
+	color:white;
+	background-color: #99334f;
+}
+	
 .pic_list ul {
 	padding-left: 0px;
 }
@@ -273,31 +278,52 @@ table.album_info td.comment {
 	margin: 5px;
 }
 
+
+
 #comments_list {
 	margin: 20px 20px;
 }
 
-#comments_list table{
-	text-align: left;
-	width: 100%;
+#comments_list div.comments_header{
+	font-family: "Comic Sans MS";
+	font-weight: bold;
+	font-size: 150%;
 	padding-bottom: 20px;
 }
 
-#comments_list table caption{
-	font-size: 120%;
-	text-align: left;
-	font-weight: bold;
-	font-family: "Comic Sans MS";
+#comments_list div.comments_header span{
+	padding-left: 50px;
+	font-size: 60%;
+	font-weight: normal;
+	color:red;
 }
 
-#comments_list table caption span{
-	font-size: 80%;
-	font-family: "Comic Sans MS";
-	color: red;
+#comments_list div.comments_header span a:hover{
+	color:white;
+	background-color: #99334f;
 }
 
-#comments_list table td.list_name{
-	width: 100px;
+#comments_list div.comments_container{
+	background-color:#EEEEEE;
+	border:#999999 1px solid;
+	width:500px;
+	padding:10px 30px;
+	margin-bottom:30px;
+}
+
+#comments_list div.comments_container div.each_comment{
+	border-top:#C4C4C4 1px solid;
+	padding:10px 10px;
+}
+
+#comments_list div.comments_container div.first_comment{
+	padding:10px 10px;
+}
+
+#comments_list div.comments_container span.commenter{
+	font-weight:bold;
+	font-size:140%;
+	padding-right:30px;
 }
 
 .normal_picture {
