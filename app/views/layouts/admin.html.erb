@@ -8,6 +8,8 @@
 		<%= simpic_rating_style %>
 		<%= calendar_date_select_includes :silver %>
 		<% CalendarDateSelect.default_options.update({:year_range => [1978, 0.years.from_now.year]}) %>
+		<%= javascript_include_tag '/javascripts/SWFUpload/swfupload.js' %>
+		<%= javascript_include_tag '/javascripts/SWFUpload/swfupload_handlers.js' %>
 	</head>
 	<body>
 		<div id="main">

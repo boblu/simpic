@@ -1,6 +1,7 @@
 require 'digest/sha1'
 require 'image_science'
 require 'mini_exiftool'
+require 'mime/types'
 
 class Content < ActiveRecord::Base
   include Settings
@@ -33,12 +34,17 @@ class Content < ActiveRecord::Base
   end
   validates_presence_of :content_type, :album_id, :filename, :token_time, :read_level, :display_order
   
+  def uploaded?
+  	@uploaded_from_client
+  end
+  
   def temp_filename
   	@temp_filename
   end
   
   def temp_filename=(tfn)
   	@temp_filename = tfn
+  	@uploaded_from_client = false
   	self.filename = Digest::SHA1.hexdigest(tfn + 'simpic' + Time.now.to_s) + File.extname(TMP_PIC_DIR + tfn).downcase
   	self.token_time = MiniExiftool.new(TMP_PIC_DIR + tfn).datetimeoriginal || Time.now
   end
@@ -71,6 +77,15 @@ class Content < ActiveRecord::Base
   	'/' + File.basename(PIC_DIR) + '/thumbnail/' + album.path + '/' + filename
   end
   
+  def swf_uploaded_picture=(filedata)
+  	@uploaded_from_client = true
+		filedata.content_type = MIME::Types.type_for(filedata.original_filename)
+		self.content_type = 'picture'
+		self.filename = Digest::SHA1.hexdigest(filedata.original_filename + 'simpic' + Time.now.to_s) + File.extname(filedata.original_filename).downcase
+		File.open(original_path, "wb") {|f| f.write(filedata.read)}
+		self.token_time = MiniExiftool.new(original_path).datetimeoriginal || Time.now
+  end
+  
   private
   
   def arrange_inside_order
@@ -79,7 +94,7 @@ class Content < ActiveRecord::Base
   end
   
   def create_picture
-  	FileUtils.cp(TMP_PIC_DIR + temp_filename, original_path)
+	 	FileUtils.cp(TMP_PIC_DIR + temp_filename, original_path) unless uploaded?
     ImageScience.with_image(original_path) do |img|
     	if img.width >= img.height and img.width > NORMAIL_SIZE[0]
     		img.thumbnail(NORMAIL_SIZE[0]){|thumb| thumb.save(normal_path)}
@@ -133,6 +148,6 @@ class Content < ActiveRecord::Base
   end
   
   def remove_temp_picture
-  	FileUtils.rm_rf(TMP_PIC_DIR + @temp_filename)
+  	FileUtils.rm_rf(TMP_PIC_DIR + @temp_filename) unless uploaded?
   end
 end

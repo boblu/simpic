@@ -38,7 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
-  # map.connect ':controller/:action/:id'
+	# map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'
 
   map.root :controller => 'albums', :action => 'top'
@@ -61,7 +61,7 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post, :t_publish => :get}, :except => [:show, :destroy] do |albums|
-      albums.resources :contents, :collection => {:batch_action => :post, :sort => :get, :save_sort => :post}, :member => {:rate => :post, :oncover => :get}, :except => [:show, :destroy]
+      albums.resources :contents, :collection => {:batch_action => :post, :sort => :get, :save_sort => :post, :upload => :post}, :member => {:rate => :post, :oncover => :get}, :except => [:show, :destroy]
     end
     admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}, :except => [:show]
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}

@@ -35,15 +35,17 @@ class Admin::ContentsController < ApplicationController
   
   def create
 		@album = Album.find(params[:album_id])
-		if params[:type] == 'picture'
-			if params[:partten] == 'files'
-				begin
+		begin
+			if params[:type] == 'picture'
+				if params[:pattern] == 'local'
 					params[:filenames].each{|file| @album.contents.create!(:content_type => 'picture', :temp_filename => file)}
+					redirect_to admin_album_contents_url
+				elsif params[:pattern] == 'remote'
+					@album.contents.create!(:album_id => @album.id, :swf_uploaded_picture => params[:Filedata])
+					render :nothing => true
 				end
-			else params[:partten] == 'zip'
+			elsif params[:type] == 'video'
 			end
-			redirect_to admin_album_contents_url
-		else params[:type] == 'video'
 		end
   end
 

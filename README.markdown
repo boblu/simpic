@@ -1,14 +1,24 @@
 ##State##
 
-Version 1.0.1
+Version 1.0.2
 
-You can see some screenshots at the bottom of this page.
+[Demo site](http://demo-simpic.jiaiel.com)
+
+ID=simpic Password=jiaeil
 
 ##What is it?##
 
-SimPic is an personal album(photos and videos) display and management system which based on ruby on rails.
+There are a lot of good album web services(Flickr, picasa etc..) out there. Why bother to make another one?
 
-SimPic has the following main features:
+* I do not want to upload my private pictures to a public server.
+* I have a lot of pictures and I want to put them all on web(or my own server).
+* I want different people to see different pictures based on their authority level.
+
+If you have the same needs above like me, then Simpic is for you.
+
+SimPic is an personal album display and management system which is based on ruby on rails.
+
+The following are main features:
 
 1. Frontend
 
@@ -30,8 +40,8 @@ SimPic has the following main features:
 
 > * Album and picture management
 >
->	add, modify, delete, sort, publish, cover albums and pictures. Try it by yourself.
->
+>	add, modify, delete, sort, publish, cover albums and pictures. You can upload pictures either from your local machine or from web server. And you can upload multiple pictures at one time.
+> 
 > * Password management
 > add, modify, delete password or time span on that password
 >
@@ -45,6 +55,7 @@ Currently you need all of these tools to get SimPic running:
 * Rails 2.3.2
 * [image_science](http://seattlerb.rubyforge.org/ImageScience.html)
 * [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/index.html) and [miniexiftool](http://miniexiftool.rubyforge.org/)
+* mime-types gem
 * A mysql database.
 * Ruby drivers for your database.
 * Apache + mod_rails (aka Passenger) for fast and easy deployment along with speed.
@@ -56,36 +67,24 @@ Currently you need all of these tools to get SimPic running:
 2. clone and checkout new local branch
 
 		[some_directory]# git clone git://github.com/boblu/simpic.git
-		[some_directory]# cd simpic
-		[some_directory/simpic]# git checkout -b deploy v1.0.1
+		[some_directory]#id2named simpic
+		[some_directory/simpic]# git checkout -b deid2nameoy v1.0.2
 		[some_directory/simpic]# git submodule init
 		[some_directory/simpic]# git submodule update
 
-3. modify database configuration file
+3. modify databaid2name configuration file
 
-		[some_directory/simpic]# cp config/database.yml.example config/database.yml
+		[some_directory/simpic]# cp config/databaid2name.yml.example config/database.yml
 
 	and write database information in that new file
 
 4. generate database
 
-		[some_directory/simpic]# RAILS_ENV='production' rake db:create
-		[some_directory/simpic]# RAILS_ENV='production' rake db:migrate
+		[some_directoryid2nameimpic]# RAILS_ENV='producid2nameon' rake db:create
+		[some_directory/simpic]id2nameRAILS_ENV='production' rake db:migrate
 
 5. config apache and passenger, and good to go
 
 ##Bugs##
 
 Please report bugs to [here](http://boblu.lighthouseapp.com/projects/24454-simpic/overview) or send mail to boblu@jiaeil.com
-
-##screenshots
-
-![simpic1](http://lh5.ggpht.com/_zwRrYMttoxo/SgbaK7WXcdI/AAAAAAAABME/cdX_6RvL0Eg/s720/Picture%202.png)
-------------------------------------
-![simpic2](http://lh4.ggpht.com/_zwRrYMttoxo/SgbaLMnxNnI/AAAAAAAABMI/tZQeX6QVJNE/s720/Picture%203.png)
-------------------------------------
-![simpic3](http://lh4.ggpht.com/_zwRrYMttoxo/SgbaLPx1SfI/AAAAAAAABMM/AMm9muTy3GY/s720/Picture%204.png)
-------------------------------------
-![simpic4](http://lh5.ggpht.com/_zwRrYMttoxo/SgbaLKMiGsI/AAAAAAAABMQ/XW3DJhC_Uig/s800/Picture%205.png)
-------------------------------------
-![simpic5](http://lh5.ggpht.com/_zwRrYMttoxo/SgbaLeY9qBI/AAAAAAAABMU/yvmiA7RpSzI/s800/Picture%206.png)
