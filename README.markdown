@@ -67,21 +67,21 @@ Currently you need all of these tools to get SimPic running:
 2. clone and checkout new local branch
 
 		[some_directory]# git clone git://github.com/boblu/simpic.git
-		[some_directory]#id2named simpic
-		[some_directory/simpic]# git checkout -b deid2nameoy v1.0.2
+		[some_directory]# cd simpic
+		[some_directory/simpic]# git checkout -b deploy v1.0.2
 		[some_directory/simpic]# git submodule init
 		[some_directory/simpic]# git submodule update
 
-3. modify databaid2name configuration file
+3. modify database configuration file
 
-		[some_directory/simpic]# cp config/databaid2name.yml.example config/database.yml
+		[some_directory/simpic]# cp config/database.yml.example config/database.yml
 
 	and write database information in that new file
 
 4. generate database
 
-		[some_directoryid2nameimpic]# RAILS_ENV='producid2nameon' rake db:create
-		[some_directory/simpic]id2nameRAILS_ENV='production' rake db:migrate
+		[some_directory/simpic]# RAILS_ENV='production' rake db:create
+		[some_directory/simpic]# RAILS_ENV='production' rake db:migrate
 
 5. config apache and passenger, and good to go
 
