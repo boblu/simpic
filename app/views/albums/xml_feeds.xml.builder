@@ -1,6 +1,5 @@
 xml.instruct!
-case @album.appearance
-when 1
+if @album.blank? or @album.appearance == 1
 	xml.playlist do
 		xml.trackList do
 			@pictures.each do |picture|
@@ -10,7 +9,7 @@ when 1
 			end
 		end
 	end
-when 3
+elsif @album.appearance == 3
 	xml.simpleviewergallery :maxImageWidth => "640",
 													:maxImageHeight => "560",
 													:textColor => "0x333333",

@@ -51,7 +51,7 @@ The following are main features:
 
 Currently you need all of these tools to get SimPic running:
 
-* Ruby 1.8.6
+* Ruby 1.8.7
 * Rails 2.3.2
 * [image_science](http://seattlerb.rubyforge.org/ImageScience.html)
 * [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/index.html) and [miniexiftool](http://miniexiftool.rubyforge.org/)
