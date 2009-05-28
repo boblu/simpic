@@ -2,9 +2,9 @@
 
 Version 1.0.2
 
-[Demo site](http://demo-simpic.jiaiel.com)
+[Demo site](http://demo-simpic.jiaeil.com)
 
-ID=simpic Password=jiaeil
+Password=jiaeil
 
 ##What is it?##
 
