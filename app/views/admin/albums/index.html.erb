@@ -19,7 +19,7 @@
 			<% end %>
 		</div>
 		<div style="text-align:right;">
-			<%= select_tag 'read_level', options_for_select(authority_name.to_a.sort_by{|item| item[1]}) %>
+			<%= select_tag 'read_level', options_for_select(@authority_name_list.to_a.sort_by{|item| item[1]}) %>
 			<%= submit_tag 'Set' %>
 		</div>
 	</div>
@@ -71,7 +71,7 @@
 						<td class='number'><%= album.videos.size == 0 ? '0' : link_to(album.videos.size, admin_album_contents_path(album)) %></td>
 						<td class='icon'><%= link_to image_tag('admin/modify.png', :width=>'16', :height=>'16'), new_admin_album_content_path(album) %></td>
 						<td class='icon'><%= link_to album.comments.size, admin_comments_path(:album_id => album.id) %></td>
-						<td class='level'><%= authority_name.invert[album.read_level] %></td>
+						<td class='level'><%= @authority_name_list.invert[album.read_level] %></td>
 						<td class='icon'>
 							<%= ratings_for album, :small_stars => true,
 												   :remote_options => {:url => rate_admin_album_path(album, :small_stars => true)} %>

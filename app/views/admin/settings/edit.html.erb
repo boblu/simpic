@@ -1,0 +1,10 @@
+<% form_tag url_for(:controller => "admin/settings", :action => "update"), :method => :post do %>
+	<div class="top-bar">
+		<%= submit_tag 'Save', :class => 'button' %>
+		<h1>Settings</h1>
+	</div>
+	<div class="select-bar">
+		<%= label_tag 'App Name' %>
+		<%= text_field_tag 'app_name', @settings["app_name"] %>
+	</div>
+<% end %>

@@ -64,7 +64,7 @@ module SimpicRating # :nodoc:
       if user.blank?
         rate = rates(dimension).build
         rate.stars = stars
-      elsif authority_name[user.name] == user.read_level
+      elsif App.first.settings["authority_name"][user.name] == user.read_level
         rate = rates(dimension).build
         rate.stars = stars
         if user.respond_to?(:rates)

@@ -9,7 +9,7 @@ class AlbumsController < ApplicationController
 			redirect_to init_admin_users_url
 			return
 		end
-		@app_name = APP_NAME
+		@app_name = App.first.settings["app_name"]
 		authority_published = Album.authority(current_read_level).published
 		@latest = authority_published.find(:all, :limit => 5)
 		@top_rated = authority_published.find(:all, :limit => 5, :order => 'rating_average desc')
@@ -33,18 +33,20 @@ class AlbumsController < ApplicationController
 	end
 	
 	def cooliris
+    settings = App.first.settings
 		@contents = Album.find(params[:album_id]).pictures.authority(current_read_level)
-		@pictures = @contents.paginate(:page => params[:id], :per_page => PER_PAGE)
+		@pictures = @contents.paginate(:page => params[:id], :per_page => settings["per_page"])
     @http_header = request.protocol + request.host_with_port
 		@previous = params[:id].to_i==1 ? false : true
-		@next = PER_PAGE*params[:id].to_i>=@contents.size ? false : true
+		@next = settings["per_page"]*params[:id].to_i>=@contents.size ? false : true
     @for_album = true
 		render :action => "cooliris_album.xml.builder", :layout => false
 	end
-	
-	def show
+
+	def show 
 		authority_published = Album.authority(current_read_level).published
-		@app_name = APP_NAME
+    settings = App.first.settings
+		@app_name = settings["app_name"]
 		@copy_year_string = copyright_year_range
 		@year_range = authority_published.year_range
 		if params[:dirname].blank?
@@ -59,7 +61,7 @@ class AlbumsController < ApplicationController
 		case @album.appearance
 		when 0
       params[:page] = 1 if params[:page].blank?
-      params[:per_page] = PER_PAGE if params[:per_page].blank?
+      params[:per_page] = settings["per_page"] if params[:per_page].blank?
 			@pictures = @album.pictures.authority(current_read_level).paginate(:page => params[:page], :per_page => params[:per_page])
 	  when 1, 3
       @pictures = @album.pictures.authority(current_read_level)

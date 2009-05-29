@@ -6,7 +6,7 @@ class ContentsController < ApplicationController
 
   def show
     authority_published = Album.authority(current_read_level).published
-    @app_name = APP_NAME
+    @app_name = App.first.settings["app_name"]
     @copy_year_string = copyright_year_range
     @year_range = authority_published.year_range
     @album_list = authority_published.year(params[:dirname][0..3])

@@ -7,8 +7,7 @@ class ApplicationController < ActionController::Base
 	helper_method :current_user, :current_read_level
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
-	include Settings
-
+  
   def update_timer
   	new_span = current_user.span - 1
   	current_user.update_attributes!(:span => new_span)

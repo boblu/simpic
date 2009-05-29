@@ -4,6 +4,7 @@ class Admin::UsersController < ApplicationController
 	before_filter :authorize_admin, :except => [:login, :logout, :init]
 	
 	def index
+    @authority_name_list = App.first.settings["authority_name"]
 		@title = 'User list'
     @users = User.find_by_read_level_with_order(params[:read_level], params[:order])
 	  @sub_title = params[:read_level]
@@ -13,12 +14,14 @@ class Admin::UsersController < ApplicationController
 	end
 	
 	def new
+    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.new(:name=>'guest')
     params[:from] = 'new'
     render :action => "modification"
 	end
 
 	def create
+    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.new(params[:user])
     begin
       @user.save!
@@ -31,12 +34,14 @@ class Admin::UsersController < ApplicationController
 	end
 	
 	def edit
+    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.find(params[:id])
     params[:from] = 'edit'
     render :action => "modification"
 	end
 	
 	def update
+    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.find(params[:id])
     begin
     	@user.update_property(params[:user])

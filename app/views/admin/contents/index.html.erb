@@ -13,13 +13,13 @@
 	<div class="select-bar">
 		<div style="float:left;">
 			<span style="padding-right: 50px;">
-				<%= select nil, 'filter', authority_name.sort_by{|k,v| v}, {:selected => (params[:filter].blank? ? nil : params[:filter].to_i), :include_blank => true} %>
+				<%= select nil, 'filter', @authority_name_list.sort_by{|k,v| v}, {:selected => (params[:filter].blank? ? nil : params[:filter].to_i), :include_blank => true} %>
 				<%= submit_tag 'Filter' %>
 			</span>
 			<%= pluralize(@picture_size, 'picture') %>
 		</div>
 		<div style="text-align:right;">
-				<%= select_tag 'read_level', options_for_select(authority_name.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]}) %>
+				<%= select_tag 'read_level', options_for_select(@authority_name_list.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]}) %>
 				<%= submit_tag 'Set' %>
 		</div>
 	</div>
@@ -60,7 +60,7 @@
 						<td class='thumb'><%= link_to image_tag(picture.thumb_url), edit_admin_album_content_path(@album, picture) %></td>
 						<td class='text_column'><%= h(picture.title) %></td>
 						<td class='text_column'><%= h(picture.tag_list.join(', ')) %></td>
-						<td class='level'><%= authority_name.invert[picture.read_level] %></td>
+						<td class='level'><%= @authority_name_list.invert[picture.read_level] %></td>
 						<td class='icon'><%= link_to picture.comments.size, admin_comments_path(:album_id => @album.id, :content_id => picture.id) %></td>
 						<td class='icon'>
 							<%= ratings_for picture, :small_stars => true,

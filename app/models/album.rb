@@ -1,7 +1,6 @@
 class Album < ActiveRecord::Base
 	simpic_rateable :stars => 5
 	acts_as_taggable_on :tags
-	include Settings
 	
   default_scope :order => 'begin_on desc, created_at desc'
 	named_scope :published, :conditions => {:publish => true}
@@ -93,17 +92,19 @@ class Album < ActiveRecord::Base
 
   def create_picture_directory
   	create_year_directory(year)
-    Dir.mkdir(PIC_DIR + 'original/' + path)
-    Dir.mkdir(PIC_DIR + 'normal/' + path)
-    Dir.mkdir(PIC_DIR + 'medium/' + path)
-    Dir.mkdir(PIC_DIR + 'thumbnail/' + path)
+    temp = eval(App.first.settings["pic_dir"])
+    Dir.mkdir(temp + 'original/' + path)
+    Dir.mkdir(temp + 'normal/' + path)
+    Dir.mkdir(temp + 'medium/' + path)
+    Dir.mkdir(temp + 'thumbnail/' + path)
   end
 	
 	def create_year_directory(temp_year = nil)
-    Dir.mkdir(PIC_DIR + 'original/' + temp_year) unless File.directory?(PIC_DIR + 'original/' + temp_year)
-    Dir.mkdir(PIC_DIR + 'normal/' + temp_year) unless File.directory?(PIC_DIR + 'normal/' + temp_year)
-    Dir.mkdir(PIC_DIR + 'medium/' + temp_year) unless File.directory?(PIC_DIR + 'medium/' + temp_year)
-    Dir.mkdir(PIC_DIR + 'thumbnail/' + temp_year) unless File.directory?(PIC_DIR + 'thumbnail/' + temp_year)
+    temp = eval(App.first.settings["pic_dir"])
+    Dir.mkdir(temp + 'original/' + temp_year) unless File.directory?(temp + 'original/' + temp_year)
+    Dir.mkdir(temp + 'normal/' + temp_year) unless File.directory?(temp + 'normal/' + temp_year)
+    Dir.mkdir(temp + 'medium/' + temp_year) unless File.directory?(temp + 'medium/' + temp_year)
+    Dir.mkdir(temp + 'thumbnail/' + temp_year) unless File.directory?(temp + 'thumbnail/' + temp_year)
 	end
 	
 	def check_read_level
@@ -128,22 +129,24 @@ class Album < ActiveRecord::Base
   end
   
   def rename_album_dirname(options)
-    File.rename(PIC_DIR + 'original/' + options[:old_year] + '/' + options[:old_dirname], PIC_DIR + 'original/' + options[:new_year] + '/' + options[:new_dirname])
-    File.rename(PIC_DIR + 'normal/' + options[:old_year] + '/' + options[:old_dirname], PIC_DIR + 'normal/' + options[:new_year] + '/' + options[:new_dirname])
-	  File.rename(PIC_DIR + 'medium/' + options[:old_year] + '/' + options[:old_dirname], PIC_DIR + 'medium/' + options[:new_year] + '/' + options[:new_dirname])
-  	File.rename(PIC_DIR + 'thumbnail/' + options[:old_year] + '/' + options[:old_dirname], PIC_DIR + 'thumbnail/' + options[:new_year] + '/' + options[:new_dirname])
+    temp = eval(App.first.settings["pic_dir"])
+    File.rename(temp + 'original/' + options[:old_year] + '/' + options[:old_dirname], temp + 'original/' + options[:new_year] + '/' + options[:new_dirname])
+    File.rename(temp + 'normal/' + options[:old_year] + '/' + options[:old_dirname], temp + 'normal/' + options[:new_year] + '/' + options[:new_dirname])
+	  File.rename(temp + 'medium/' + options[:old_year] + '/' + options[:old_dirname], temp + 'medium/' + options[:new_year] + '/' + options[:new_dirname])
+  	File.rename(temp + 'thumbnail/' + options[:old_year] + '/' + options[:old_dirname], temp + 'thumbnail/' + options[:new_year] + '/' + options[:new_dirname])
   end
   
   def delete_picture_directory
-    FileUtils.rm_rf(PIC_DIR + 'original/' + path)
-    FileUtils.rm_rf(PIC_DIR + 'normal/' + path)
-    FileUtils.rm_rf(PIC_DIR + 'medium/' + path)
-    FileUtils.rm_rf(PIC_DIR + 'thumbnail/' + path)
+    temp = eval(App.first.settings["pic_dir"])
+    FileUtils.rm_rf(temp + 'original/' + path)
+    FileUtils.rm_rf(temp + 'normal/' + path)
+    FileUtils.rm_rf(temp + 'medium/' + path)
+    FileUtils.rm_rf(temp + 'thumbnail/' + path)
     unless Album.exists?(['begin_on >= ? and end_on <= ?', begin_on.beginning_of_year, begin_on.end_of_year])
-      FileUtils.rm_rf(PIC_DIR + 'original/' + year)
-      FileUtils.rm_rf(PIC_DIR + 'normal/' + year)
-      FileUtils.rm_rf(PIC_DIR + 'medium/' + year)
-      FileUtils.rm_rf(PIC_DIR + 'thumbnail/' + year)
+      FileUtils.rm_rf(temp + 'original/' + year)
+      FileUtils.rm_rf(temp + 'normal/' + year)
+      FileUtils.rm_rf(temp + 'medium/' + year)
+      FileUtils.rm_rf(temp + 'thumbnail/' + year)
     end
   end
 end

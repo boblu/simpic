@@ -4,7 +4,6 @@ require 'mini_exiftool'
 require 'mime/types'
 
 class Content < ActiveRecord::Base
-  include Settings
 	simpic_rateable :stars => 5
 	acts_as_taggable_on :tags
 
@@ -45,36 +44,37 @@ class Content < ActiveRecord::Base
   def temp_filename=(tfn)
   	@temp_filename = tfn
   	@uploaded_from_client = false
-  	self.filename = Digest::SHA1.hexdigest(tfn + 'simpic' + Time.now.to_s) + File.extname(TMP_PIC_DIR + tfn).downcase
-  	self.token_time = MiniExiftool.new(TMP_PIC_DIR + tfn).datetimeoriginal || Time.now
+    temp = eval(App.first.settings["tmp_pic_dir"])
+  	self.filename = Digest::SHA1.hexdigest(tfn + 'simpic' + Time.now.to_s) + File.extname(temp + tfn).downcase
+  	self.token_time = MiniExiftool.new(temp + tfn).datetimeoriginal || Time.now
   end
   
   def original_path
-  	PIC_DIR + 'original/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + 'original/' + album.path + '/' + filename
   end
   
   def normal_path
-  	PIC_DIR + 'normal/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + 'normal/' + album.path + '/' + filename
   end
   
   def medium_path
-  	PIC_DIR + 'medium/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + 'medium/' + album.path + '/' + filename
   end
   
   def thumb_path
-  	PIC_DIR + 'thumbnail/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + 'thumbnail/' + album.path + '/' + filename
   end
   
   def normal_url
-    '/' + File.basename(PIC_DIR) + '/normal/' + album.path + '/' + filename
+    '/' + File.basename(eval(App.first.settings["pic_dir"])) + '/normal/' + album.path + '/' + filename
   end
   
   def medium_url
-    '/' + File.basename(PIC_DIR) + '/medium/' + album.path + '/' + filename
+    '/' + File.basename(eval(App.first.settings["pic_dir"])) + '/medium/' + album.path + '/' + filename
   end
   
   def thumb_url
-  	'/' + File.basename(PIC_DIR) + '/thumbnail/' + album.path + '/' + filename
+  	'/' + File.basename(eval(App.first.settings["pic_dir"])) + '/thumbnail/' + album.path + '/' + filename
   end
   
   def swf_uploaded_picture=(filedata)
@@ -94,26 +94,27 @@ class Content < ActiveRecord::Base
   end
   
   def create_picture
-	 	FileUtils.cp(TMP_PIC_DIR + temp_filename, original_path) unless uploaded?
+    settings = App.first.settings
+	 	FileUtils.cp(eval(settings["tmp_pic_dir"]) + temp_filename, original_path) unless uploaded?
     ImageScience.with_image(original_path) do |img|
-    	if img.width >= img.height and img.width > NORMAIL_SIZE[0]
-    		img.thumbnail(NORMAIL_SIZE[0]){|thumb| thumb.save(normal_path)}
-    	elsif img.width < img.height and img.height > NORMAIL_SIZE[1]
-    		img.thumbnail(NORMAIL_SIZE[1]){|thumb| thumb.save(normal_path)}
+    	if img.width >= img.height and img.width > settings.normal_size[0]
+    		img.thumbnail(settings.normal_size[0]){|thumb| thumb.save(normal_path)}
+    	elsif img.width < img.height and img.height > settings.normal_size[1]
+    		img.thumbnail(settings.normal_size[1]){|thumb| thumb.save(normal_path)}
     	else
 				FileUtils.cp(original_path, normal_path)
       end
-    	if img.width >= img.height and img.width > MEDIUM_SIZE[0]
-    		img.thumbnail(MEDIUM_SIZE[0]){|thumb| thumb.save(medium_path)}
-    	elsif img.width < img.height and img.height > MEDIUM_SIZE[1]
-    		img.thumbnail(MEDIUM_SIZE[1]){|thumb| thumb.save(medium_path)}
+    	if img.width >= img.height and img.width > settings.medium_size[0]
+    		img.thumbnail(settings.medium_size[0]){|thumb| thumb.save(medium_path)}
+    	elsif img.width < img.height and img.height > settings.medium_size[1]
+    		img.thumbnail(settings.medium_size[1]){|thumb| thumb.save(medium_path)}
     	else
 				FileUtils.cp(original_path, medium_path)
       end
-    	if img.width >= img.height and img.width > THUMB_SIZE[0]
-    		img.thumbnail(THUMB_SIZE[0]){|thumb| thumb.save(thumb_path)}
-    	elsif img.width < img.height and img.height > THUMB_SIZE[1]
-    		img.thumbnail(THUMB_SIZE[1]){|thumb| thumb.save(thumb_path)}
+    	if img.width >= img.height and img.width > settings.thumb_size[0]
+    		img.thumbnail(settings.thumb_size[0]){|thumb| thumb.save(thumb_path)}
+    	elsif img.width < img.height and img.height > settings.thumb_size[1]
+    		img.thumbnail(settings.thumb_size[1]){|thumb| thumb.save(thumb_path)}
     	else
 				FileUtils.cp(original_path, thumb_path)
       end
@@ -148,6 +149,6 @@ class Content < ActiveRecord::Base
   end
   
   def remove_temp_picture
-  	FileUtils.rm_rf(TMP_PIC_DIR + @temp_filename) unless uploaded?
+  	FileUtils.rm_rf(eval(App.first.settings["tmp_pic_dir"]) + @temp_filename) unless uploaded?
   end
 end

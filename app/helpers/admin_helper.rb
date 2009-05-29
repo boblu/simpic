@@ -1,5 +1,4 @@
 module AdminHelper
-	include Settings
 	def js_name
 		{'Shadowbox' => 0, 'JW image rotator' => 1, 'Embedded cooliris' => 2, 'Simple Viewer' => 3}
 	end

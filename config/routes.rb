@@ -65,6 +65,8 @@ ActionController::Routing::Routes.draw do |map|
     end
     admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}, :except => [:show]
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}
+    admin.connect "/settings", :controller => "settings", :action => "edit"
+    admin.connect "/settings/update", :controller => "settings", :action => "update"
   end
   
   map.resources :albums, :member => {:comment => :post}, :only => [] do |albums|
