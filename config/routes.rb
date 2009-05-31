@@ -42,6 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect ':controller/:action/:id.:format'
 
   map.root :controller => 'albums', :action => 'top'
+  map.top_rss '/albums.rss', :controller => 'albums', :action => 'albums'
   map.connect '/top_shown_new.xml', :controller => 'albums', :action => 'top_shown_new'
   map.connect '/top_shown_all.rss', :controller => 'albums', :action => 'top_shown_all'
   map.connect '/:year', :controller => "albums", :action => "show", :year => /\d{4}/

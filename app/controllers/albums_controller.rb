@@ -43,6 +43,14 @@ class AlbumsController < ApplicationController
 		render :action => "cooliris_album.xml.builder", :layout => false
 	end
 
+	def albums
+		@app_name = App.first.settings["app_name"]
+		@guest_level = App.first.settings["authority_name"]["guest"]
+		@latest = Album.authority(@guest_level).published.find(:all, :limit => 5)
+		@domain_and_port = request.protocol + request.host_with_port
+		render :action => "xml_feeds.xml.builder", :layout => false
+	end
+
 	def show 
 		authority_published = Album.authority(current_read_level).published
     settings = App.first.settings

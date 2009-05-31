@@ -22,6 +22,13 @@ class ApplicationController < ActionController::Base
   	end
   end
 
+	protected
+
+#	Use this when testing production environment	
+#	 def local_request?
+#		 false
+#	 end
+
 	private
 
   def current_user
