@@ -92,7 +92,7 @@ class Album < ActiveRecord::Base
 
   def create_picture_directory
   	create_year_directory(year)
-    temp = eval(App.first.settings["pic_dir"])
+    temp = eval(App.first.settings["pic_dir"]) + '/'
     Dir.mkdir(temp + 'original/' + path)
     Dir.mkdir(temp + 'normal/' + path)
     Dir.mkdir(temp + 'medium/' + path)
@@ -100,7 +100,7 @@ class Album < ActiveRecord::Base
   end
 	
 	def create_year_directory(temp_year = nil)
-    temp = eval(App.first.settings["pic_dir"])
+    temp = eval(App.first.settings["pic_dir"]) + '/'
     Dir.mkdir(temp + 'original/' + temp_year) unless File.directory?(temp + 'original/' + temp_year)
     Dir.mkdir(temp + 'normal/' + temp_year) unless File.directory?(temp + 'normal/' + temp_year)
     Dir.mkdir(temp + 'medium/' + temp_year) unless File.directory?(temp + 'medium/' + temp_year)
@@ -129,7 +129,7 @@ class Album < ActiveRecord::Base
   end
   
   def rename_album_dirname(options)
-    temp = eval(App.first.settings["pic_dir"])
+    temp = eval(App.first.settings["pic_dir"]) + '/'
     File.rename(temp + 'original/' + options[:old_year] + '/' + options[:old_dirname], temp + 'original/' + options[:new_year] + '/' + options[:new_dirname])
     File.rename(temp + 'normal/' + options[:old_year] + '/' + options[:old_dirname], temp + 'normal/' + options[:new_year] + '/' + options[:new_dirname])
 	  File.rename(temp + 'medium/' + options[:old_year] + '/' + options[:old_dirname], temp + 'medium/' + options[:new_year] + '/' + options[:new_dirname])
@@ -137,7 +137,7 @@ class Album < ActiveRecord::Base
   end
   
   def delete_picture_directory
-    temp = eval(App.first.settings["pic_dir"])
+    temp = eval(App.first.settings["pic_dir"]) + '/'
     FileUtils.rm_rf(temp + 'original/' + path)
     FileUtils.rm_rf(temp + 'normal/' + path)
     FileUtils.rm_rf(temp + 'medium/' + path)

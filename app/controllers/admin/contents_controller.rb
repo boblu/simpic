@@ -130,15 +130,15 @@ class Admin::ContentsController < ApplicationController
       @content.update_attributes!(:top_shown => params[:top_shown])
     end
     img_link = @content.top_shown==true ? "image_tag('admin/publish_y.png')" : "image_tag('admin/publish_x.png')"
-    url_link = "oncover_admin_album_content_path(#{@content.album.id}, #{@content.id}, :top_shown => #{@content.top_shown==true ? false : true})"
-		render :update do |page|
-			page.replace_html 'oncover_'+params[:id], :inline => "<%= link_to_remote(#{img_link}, :url => #{url_link}, :method => :get) %>"
+    url_link = oncover_admin_album_content_url(@content.album.id, @content.id, :top_shown => (@content.top_shown==true ? 'false' : 'true'))
+    render :update do |page|
+			page.replace_html 'oncover_'+params[:id], :inline => "<%= link_to_remote(#{img_link}, :url => '#{url_link}', :method => :get) %>"
 		end
 	end
 	
   private
   
-  def get_all_pictures_in_upload_dir(directory = eval(App.first.settings["tmp_pic_dir"]))
+  def get_all_pictures_in_upload_dir(directory = eval(App.first.settings["tmp_pic_dir"])+'/')
   	filenames = Array.new
   	Dir.foreach(directory){|xyz|
   		next if ['.', '..'].include?(xyz)

@@ -14,9 +14,8 @@ class Content < ActiveRecord::Base
 	
   before_create :arrange_inside_order, :create_picture, :set_read_level
   before_update :update_exif_datetimeoriginal
-  after_save :update_album
-  after_create :remove_temp_picture
-  after_destroy :delete_picture, :update_album
+  after_create :remove_temp_picture, :update_album_inserted_at
+  after_destroy :delete_picture
 	
   ######################################################
   ##### association
@@ -44,25 +43,25 @@ class Content < ActiveRecord::Base
   def temp_filename=(tfn)
   	@temp_filename = tfn
   	@uploaded_from_client = false
-    temp = eval(App.first.settings["tmp_pic_dir"])
+    temp = eval(App.first.settings["tmp_pic_dir"]) + '/'
   	self.filename = Digest::SHA1.hexdigest(tfn + 'simpic' + Time.now.to_s) + File.extname(temp + tfn).downcase
   	self.token_time = MiniExiftool.new(temp + tfn).datetimeoriginal || Time.now
   end
   
   def original_path
-  	eval(App.first.settings["pic_dir"]) + 'original/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + '/original/' + album.path + '/' + filename
   end
   
   def normal_path
-  	eval(App.first.settings["pic_dir"]) + 'normal/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + '/normal/' + album.path + '/' + filename
   end
   
   def medium_path
-  	eval(App.first.settings["pic_dir"]) + 'medium/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + '/medium/' + album.path + '/' + filename
   end
   
   def thumb_path
-  	eval(App.first.settings["pic_dir"]) + 'thumbnail/' + album.path + '/' + filename
+  	eval(App.first.settings["pic_dir"]) + '/thumbnail/' + album.path + '/' + filename
   end
   
   def normal_url
@@ -95,26 +94,26 @@ class Content < ActiveRecord::Base
   
   def create_picture
     settings = App.first.settings
-	 	FileUtils.cp(eval(settings["tmp_pic_dir"]) + temp_filename, original_path) unless uploaded?
+	 	FileUtils.cp(eval(settings["tmp_pic_dir"]) + '/' + temp_filename, original_path) unless uploaded?
     ImageScience.with_image(original_path) do |img|
-    	if img.width >= img.height and img.width > settings.normal_size[0]
-    		img.thumbnail(settings.normal_size[0]){|thumb| thumb.save(normal_path)}
-    	elsif img.width < img.height and img.height > settings.normal_size[1]
-    		img.thumbnail(settings.normal_size[1]){|thumb| thumb.save(normal_path)}
+    	if img.width >= img.height and img.width > settings["normal_size"][0]
+    		img.thumbnail(settings["normal_size"][0]){|thumb| thumb.save(normal_path)}
+    	elsif img.width < img.height and img.height > settings["normal_size"][1]
+    		img.thumbnail(settings["normal_size"][1]){|thumb| thumb.save(normal_path)}
     	else
 				FileUtils.cp(original_path, normal_path)
       end
-    	if img.width >= img.height and img.width > settings.medium_size[0]
-    		img.thumbnail(settings.medium_size[0]){|thumb| thumb.save(medium_path)}
-    	elsif img.width < img.height and img.height > settings.medium_size[1]
-    		img.thumbnail(settings.medium_size[1]){|thumb| thumb.save(medium_path)}
+    	if img.width >= img.height and img.width > settings["medium_size"][0]
+    		img.thumbnail(settings["medium_size"][0]){|thumb| thumb.save(medium_path)}
+    	elsif img.width < img.height and img.height > settings["medium_size"][1]
+    		img.thumbnail(settings["medium_size"][1]){|thumb| thumb.save(medium_path)}
     	else
 				FileUtils.cp(original_path, medium_path)
       end
-    	if img.width >= img.height and img.width > settings.thumb_size[0]
-    		img.thumbnail(settings.thumb_size[0]){|thumb| thumb.save(thumb_path)}
-    	elsif img.width < img.height and img.height > settings.thumb_size[1]
-    		img.thumbnail(settings.thumb_size[1]){|thumb| thumb.save(thumb_path)}
+    	if img.width >= img.height and img.width > settings["thumb_size"][0]
+    		img.thumbnail(settings["thumb_size"][0]){|thumb| thumb.save(thumb_path)}
+    	elsif img.width < img.height and img.height > settings["thumb_size"][1]
+    		img.thumbnail(settings["thumb_size"][1]){|thumb| thumb.save(thumb_path)}
     	else
 				FileUtils.cp(original_path, thumb_path)
       end
@@ -140,8 +139,8 @@ class Content < ActiveRecord::Base
     FileUtils.rm_rf(thumb_path)
   end
   
-  def update_album
-  	album.update_attributes!(:updated_at => Time.now)
+  def update_album_inserted_at
+  	album.update_attributes!(:inserted_at => Time.now)
   end
   
   def set_read_level
@@ -149,6 +148,6 @@ class Content < ActiveRecord::Base
   end
   
   def remove_temp_picture
-  	FileUtils.rm_rf(eval(App.first.settings["tmp_pic_dir"]) + @temp_filename) unless uploaded?
+  	FileUtils.rm_rf(eval(App.first.settings["tmp_pic_dir"]) + '/' + @temp_filename) unless uploaded?
   end
 end

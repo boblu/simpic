@@ -69,7 +69,7 @@
 						<td class='number'><%= picture.display_order %></td>
 						<td class='icon' id=<%= 'oncover_'+picture.id.to_s %>>
 							<%= link_to_remote (picture.top_shown==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')),
-																 :url => oncover_admin_album_content_path(@album, picture, :top_shown => picture.top_shown==true ? false : true),
+																 :url => oncover_admin_album_content_path(@album, picture, :top_shown => picture.top_shown==true ? 'false' : 'true'),
 																 :method => :get %>
 						</td>
 					</tr>

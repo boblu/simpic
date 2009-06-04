@@ -114,7 +114,7 @@
 						<div id="updated" class="banner">
 							<h3>Updated</h3>
 							<ul>
-								<% @updated.each{|album| %>
+								<% @inserted.each{|album| %>
 									<li><%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %></li>
 								<% } %>
 							</ul>

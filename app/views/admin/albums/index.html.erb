@@ -78,7 +78,7 @@
 						</td>
 						<td class='icon' id=<%= 'publish_'+album.id.to_s %>>
 							<%= link_to_remote (album.publish==true ? image_tag('admin/publish_y.png') : image_tag('admin/publish_x.png')),
-																 :url => t_publish_admin_album_path(album, :publish => album.publish==true ? false : true),
+																 :url => t_publish_admin_album_path(album, :publish => album.publish==true ? 'false' : 'true'),
 																 :method => :get %>
 						</td>
 					</tr>

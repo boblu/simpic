@@ -13,7 +13,7 @@ class AlbumsController < ApplicationController
 		authority_published = Album.authority(current_read_level).published
 		@latest = authority_published.find(:all, :limit => 5)
 		@top_rated = authority_published.find(:all, :limit => 5, :order => 'rating_average desc')
-		@updated = authority_published.find(:all, :limit => 5, :order => 'updated_at desc')
+		@inserted = authority_published.find(:all, :limit => 5, :order => 'inserted_at desc')
 		@latest_comments = Comment.authority_latest(current_read_level)
 		@copy_year_string = copyright_year_range
 		@year_range = authority_published.year_range
