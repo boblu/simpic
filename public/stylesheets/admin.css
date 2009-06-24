@@ -1,4 +1,11 @@
-@import "general.css";
+img {border:none;}
+a {color: black;text-decoration: none}
+input[type="text"], input[type="password"], textarea, select { border: 1px solid #CCCCCC; font-size:12px; }
+input[type="text"]:hover, input[type="password"]:hover, textarea:hover, select:hover { border-color: #06c; }
+input[type='text']:focus, input[type='password']:focus, select:focus, textarea:focus { background-color:#FFFFDD; }
+.calendar_date_select_popup_icon { vertical-align: middle; }
+
+@import "pagination.css";
 
 /*****************/
 /*    layout     */

@@ -1,27 +1,20 @@
-<div id="js0_list" class="pic_list">
-	<table>
-		<tr><td><%= will_paginate @pictures, :params => params %></td></tr>
-		<tr>
-			<td>
-				<ul>
-					<% @pictures.each{|picture| %>
-						<li onmouseout="Element.hide('pic_detail_<%= picture.id %>');" onmouseover="Element.show('pic_detail_<%= picture.id %>');">
-							<div>
-								<%= link_to %Q|<img class='photo' src='#{picture.thumb_url}'/>|,
-														picture.normal_url,
-														:rel => 'shadowbox[' + @album.title + ']',
-														:title => picture.title %>
-								<br/>
-								<%= link_to "#{image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>"vertical-align:middle;")}/#{image_tag('simpic/comments.gif', :style=>"vertical-align:middle;")}",
+<div id="js0_list">
+	<div class="navigator"><%= will_paginate @pictures, :params => params %></div>
+	<ul>
+		<% @pictures.each{|picture| %>
+			<li onmouseout="Element.hide('pic_detail_<%= picture.id %>');" onmouseover="Element.show('pic_detail_<%= picture.id %>');">
+				<div class='photo'>
+					<%= link_to %Q|<img src='#{picture.thumb_url}'/>|, picture.normal_url,
+											:rel => 'shadowbox[' + @album.title + ']', :title => picture.title %>
+				</div>
+				<div>
+					<%= link_to "#{image_tag('simpic/star.png', :width=>'16', :height=>'16', :style=>'vertical-align:middle;')}/#{image_tag('simpic/comments.gif', :style=>'vertical-align:middle;')}",
 											url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename),
 											:style => "display:none;",
 											:id => "pic_detail_#{picture.id}" %>
-							</div>
-						</li>
-					<% } %>
-				</ul>			
-			</td>
-		</tr>
-		<tr><td><%= will_paginate @pictures, :params => params %></td></tr>
-	</table>
+				</div>
+			</li>
+		<% } %>
+	</ul>	
+	<div class="navigator"><%= will_paginate @pictures, :params => params %></div>
 </div>

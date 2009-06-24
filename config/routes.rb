@@ -44,7 +44,9 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'albums', :action => 'top'
   map.top_rss '/albums.rss', :controller => 'albums', :action => 'albums'
   map.connect '/top_shown_new.xml', :controller => 'albums', :action => 'top_shown_new'
-  map.connect '/top_shown_all.rss', :controller => 'albums', :action => 'top_shown_all'
+  map.connect '/top_shown_all.rss', :controller => 'albums', :action => 'cooliris'
+  map.login '/login', :controller => 'admin/users', :action => 'login'
+  map.logout '/logout', :controller => 'admin/users', :action => 'logout'
   map.connect '/:year', :controller => "albums", :action => "show", :year => /\d{4}/
   map.connect '/:dirname/contents/:content_name',
               :controller => 'contents',
@@ -55,22 +57,18 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/
 #/
 
-  map.connect '/udpate_timer', :controller => 'application', :action => 'update_timer'
-  
-
-
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
     admin.resources :albums, :collection => {:batch_action => :post}, :member => {:rate => :post, :t_publish => :get}, :except => [:show, :destroy] do |albums|
       albums.resources :contents, :collection => {:batch_action => :post, :sort => :get, :save_sort => :post, :upload => :post}, :member => {:rate => :post, :oncover => :get}, :except => [:show, :destroy]
     end
-    admin.resources :users, :collection => {:login => :post, :logout => :get, :init => :get}, :except => [:show]
+    admin.resources :users, :collection => {:init => :get}, :except => [:show]
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}
     admin.connect "/settings", :controller => "settings", :action => "edit"
     admin.connect "/settings/update", :controller => "settings", :action => "update"
   end
   
-  map.resources :albums, :member => {:comment => :post}, :only => [] do |albums|
+  map.resources :albums, :member => {:comment => :post, :render_xml => :get}, :only => [] do |albums|
   	albums.connect 'cooliris/:id', :controller => 'albums', :action => 'cooliris'
   	albums.resources :contents, :member => {:comment => :post}, :only => []
   end

@@ -21,13 +21,13 @@
 				<th><%= f.label :read_level_label, 'Read level' %></th>
 				<td colspan="3">
 					<% if params[:from] == 'new' %>
-						<%= f.select :read_level, @authority_name_list.select{|k,v| k!="guest"}.sort_by{|item| item[1]}, {:selected => @authority_name_list['reader']}, {:onchange => "set_admin_timespan();"} %>
+						<%= f.select :read_level, authority_name_list.select{|k,v| k!="guest"}.sort_by{|item| item[1]}, {:selected => authority_name_list['reader']}, {:onchange => "set_admin_timespan();"} %>
 					<% else
 						admin_users = User.find_all_by_read_level(0)
 						if admin_users.size == 1 and admin_users[0].id == current_user.id %>
 							Create another admin before changing this field.
 						<% else %>
-							<%= f.select :read_level, @authority_name_list.to_a.sort_by{|item| item[1]}, {}, {:onchange => "set_admin_timespan();"} %>
+							<%= f.select :read_level, authority_name_list.to_a.sort_by{|item| item[1]}, {}, {:onchange => "set_admin_timespan();"} %>
 						<% end %>
 					<% end %>
 				</td>

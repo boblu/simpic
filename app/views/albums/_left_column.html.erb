@@ -1,37 +1,26 @@
 <% content_for :left_column do %>
-	<div id="copyright">
-		<table>
-			<tr>
-				<td>
-					Copyright&copy; <%= @copy_year_string %><br/>All Rights Reserved.
-				</td>
-			</tr>
-		</table>
-	</div>
-	<% if not current_user.blank? %>
-		<div id='message'>
-			<p>Welcome, <%= h(current_user.name) %></p>
-			 <% if current_user.span != 0 %>
-		 		<%= periodically_call_remote(:url=>url_for(:controller => :application, :action=>:update_timer), :frequency=>'60') %>
-			 	<h2><span id='timer'><%= h(current_user.span) %></span></h2>
-			 	minutes remain
-			 <% end %>
-		</div>
-	<% end %>
-	<div id="bg_menu">
-		<ul class="menu">
-			<% @year_range.each{|year| %>
-				<li class="menuli"><span><%= link_to year, url_for(:controller => :albums, :action => :show, :year => year) %></span></li>
-				<% if year == @active_year.to_i %>
-					<ul class="submenu">
-						<% @album_list.each{|album| %>
-							<li class="submenuli">
-								<%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %>
-							</li>
-						<% } %>
-					</ul>
-				<% end %>
-			<% } %>
-		</ul>
-	</div>
+	<table cellspacing="0" cellpadding="0" border="0" class="rounded">
+		<tr><td class="corner top_left"/><td class="fillin"/><td class="corner top_right"/></tr>
+		<tr>
+			<td class="fillin"/>
+			<td class="fillin content">
+				<ul>
+					<% @layout_year_range.each do |year| %>
+						<li class="year_item"><%= link_to year, url_for(:controller => :albums, :action => :show, :year => year) %></li>
+						<% if year.to_s == @active_year %>
+							<ul class="year_active">
+								<% @album_list.each do |album| %>
+									<li class="<%= album == @album ? "album_active" : "album_item" %>">
+										<%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %>
+									</li>
+								<% end %>
+							</ul>
+						<% end %>
+					<% end %>
+				</ul>
+			</td>
+			<td class="fillin"/>
+		</tr>
+		<tr><td class="corner bottom_left"/><td class="fillin"/><td class="corner bottom_right"/></tr>
+	</table>
 <% end %>

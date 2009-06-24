@@ -1,12 +1,12 @@
-<table style="margin:auto;text-align:center;width:650px;">
+<table id="js1_list">
 	<tr>
 		<td>
-			<div id="container" style="height:560px;" class="photo"></div>
+			<div id="container"></div>
 			<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
 			<script type="text/javascript">
 				var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator","640","560","10");
 				s1.addParam('allowfullscreen','true');
-				s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :show, :dirname => @album.dirname, :xml => 'true') + '"' %>);
+				s1.addVariable("file", <%= '"' + render_xml_album_path(@album) + '"' %>);
 				s1.addVariable("screencolor", "0xEEEEEE");
 				s1.addVariable('repeat', 'true');
 				s1.addVariable('shownavigation', 'true');
@@ -17,7 +17,7 @@
 	</tr>
 	<tr>
 		<td>
-			<table class="js1_number">
+			<table id="js1_number">
 				<% @pictures.each_with_index{|picture, index|
 					if index == 0 %>
 						<tr>

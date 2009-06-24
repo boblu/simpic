@@ -1,36 +1,50 @@
 div.scroller { 
-	width: 493px;; 
-	height: 410px;
+	width: 560px;; 
+	height: 500px;
 	overflow-x:hidden;
 }
 
 div.scroller div.content {
-	width: 1000px;
+	width: 1500px;
 }
 
 div.scroller div.section {
-	width: 493px;
-	height: 410px;
+	width: 560px;
+	height: 500px;
 	float: left;
 	overflow-x:hidden;
 }
 
+div.scroller div.section div.cooliris { padding-top: 25px; }
+
 div.controls table {
-	margin: auto;
+	height: 500px;
+	margin-left: 30px;
+	margin: 0;
 }
 
+div.controls div { height:50px; }
+
 div.controls a {
+	text-decoration: none;
+	color: black;
+	height: 20px;
+	outline: none;
+}
+
+div.controls a span {
 	display: block;
-	color: white;
-  outline: none;
-	padding: 10px 20px 10px 15px;
+	text-decoration: none;
+	font-size: 1.2em;
+	padding: 2px 0 0 25px;
+	font-weight: bold;
 }
 
 div.controls a.active {
 	display: block;
-	color: white;
-  outline: none;
-	padding: 10px 20px 10px 15px;
+	text-decoration: none;
+	color: red;
+  	outline: none;
+	height: 20px;
 	background: transparent url(../../images/simpic/star.png) no-repeat;
 }
-

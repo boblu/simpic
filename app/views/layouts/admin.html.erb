@@ -41,7 +41,7 @@
 			<div id="middle">
 				<div id="left-column">
 					<%= link_to 'FrontPage', root_path, :class => 'link' %>
-					<%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]), :class => 'link' %>
+					<%= link_to 'Logout', logout_path, :class => 'link' %>
 					<%= yield :left_column %>
 				</div>
 				<div id="center-column">

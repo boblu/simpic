@@ -1,0 +1,9 @@
+.navigation_wrap { margin-left: auto; margin-right: auto; padding-top:5px; padding-bottom:5px; }
+.pagination { padding-top: 3px; margin: 0px; font-size: 9px; float: left; }
+.pagination a { padding: 1px 3px 1px 3px; margin: 1px; text-decoration: none; color: #0080ff; }
+.pagination a:hover, .pagination a:active { background-color: #0080ff; color: white; }
+.pagination span.current { padding: 1px 3px 1px 3px; margin: 1px; border: 1px solid #0080ff; font-weight: bold; background-color: #0080ff; color: #FFF; }
+.pagination span.disabled { padding: 1px 3px 1px 3px; margin: 1px; color: #ddd; }
+
+.per_page { float:left; }
+.per_page select { width: 50px; }

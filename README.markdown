@@ -4,7 +4,8 @@ Version 1.0.2
 
 [Demo site](http://demo-simpic.jiaeil.com)
 
-Password=jiaeil
+admin Password= jiaeil
+guest Password= guest1
 
 ##What is it?##
 
@@ -68,7 +69,7 @@ Currently you need all of these tools to get SimPic running:
 
 		[some_directory]# git clone git://github.com/boblu/simpic.git
 		[some_directory]# cd simpic
-		[some_directory/simpic]# git checkout -b deploy v1.0.2
+		[some_directory/simpic]# git checkout -b deploy v1.1.0
 		[some_directory/simpic]# git submodule init
 		[some_directory/simpic]# git submodule update
 

@@ -1,21 +1,21 @@
-<div style="margin:auto;width:650px;">
+<div id="js2_list">
 	<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="650" height="560">
 		<param name="movie" value="/effects/embedded_cooliris.swf" />
 		<param name="flashvars" value=<%= '"feed=' + url_for(:controller => :albums,
-															 :action => :cooliris,
-															 :album_id => @album.id,
-															 :id => '1',
-															 :only_path => false) + '"' %> />
+																												 :action => :cooliris,
+																												 :album_id => @album.id,
+																												 :id => '1',
+																												 :only_path => false) + '"' %> />
 		<param name="allowFullScreen" value="true" />
 		<param name="allowScriptAccess" value="always" />
 		<embed type="application/x-shockwave-flash"
 			   src="/effects/embedded_cooliris.swf"
 			   width="650" height="560"
 			   flashvars=<%= '"feed=' + url_for(:controller => :albums,
-												:action => :cooliris,
-											    :album_id => @album.id,
-												:id => '1',
-												:only_path => false) + '"' %>
+																					:action => :cooliris,
+																			    :album_id => @album.id,
+																					:id => '1',
+																					:only_path => false) + '"' %>
 			   allowFullScreen="true"
 			   allowScriptAccess="always"></embed>
 	</object>

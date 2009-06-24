@@ -39,19 +39,30 @@ function toggle_timespan_right(){
 	}
 }
 
+/* ******************************************
+ *	Countdown Timer
+ * ****************************************** */
+function countdown(deadline_sec){
+	passon_deadline = deadline_sec;
+	var current_time = new Date();
+	var distance = deadline_sec*1000 - current_time.getTime(); //distance is in milisecond
+	if (distance <= 0) {
+		window.location="logout";
+	}
+	else {
+		d_hour = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		d_minute = Math.floor(((distance % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) / (1000 * 60));
+		d_second = Math.floor((((distance%(1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) % (1000 * 60))/1000);
+		document.getElementById('countdown_hour').innerHTML = d_hour;
+		document.getElementById('countdown_min').innerHTML = d_minute;
+		document.getElementById('countdown_sec').innerHTML = d_second;
+		setTimeout("countdown(passon_deadline)",1000);
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-// for SWFupload //
-
+/* ******************************************
+ *	SWFupload
+ * ****************************************** */
 function fileQueueError(file, errorCode, message) {
 	try {
 		var imageName = "error.gif";
@@ -197,7 +208,6 @@ function uploadError(file, errorCode, message) {
 
 }
 
-
 function addImage(src) {
 	var newImg = document.createElement("img");
 	newImg.style.margin = "5px";
@@ -250,13 +260,10 @@ function fadeIn(element, opacity) {
 	}
 }
 
-
-
 /* ******************************************
  *	FileProgress Object
  *	Control object for displaying file info
  * ****************************************** */
-
 function FileProgress(file, targetID) {
 	this.fileProgressID = "divFileProgress";
 

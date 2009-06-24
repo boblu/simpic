@@ -1,149 +1,52 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
-<html>
-	<head>
-		<title>Simpic</title>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<%= javascript_include_tag :defaults %>
-		<%= stylesheet_link_tag 'top' %>
-		<%= javascript_include_tag "/effects/glider/glider" %>
-		<%= stylesheet_link_tag '/effects/glider/glider' %>
-		<link rel="alternate" href=<%= '"' + top_rss_path + '"' %> type="application/rss+xml"/>
-	</head>
+<% content_for :head_include do %>
+	<!-- Include js and css for glider effect -->
+	<%= javascript_include_tag "/effects/glider/glider" %>
+	<%= stylesheet_link_tag '/effects/glider/glider' %>
+	<!-- Top page rss feed -->
+	<link rel="alternate" href=<%= '"' + top_rss_path + '"' %> type="application/rss+xml"/>
+<% end %>
 
-	<body>
-		<div>
-			<div id="header">
- 				<div id="logo"><h1><%= @app_name %></h1></div>
-				<div class="clear"></div>
+<div class="span-4">
+	<%= top_page_year_range(@layout_year_range) %>
+</div>
+<div id="my-glider" class="span-19 last glider">
+	<div class="scroller span-16">
+		<div class="content">
+			<div class="section" id="recent_cover">
+				<div id="container" width="480" height="400"></div>
+				<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
+				<script type="text/javascript">
+					var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator","560","500","4");
+					s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :top_shown_new, :only_path => false) + '"' %>);
+					s1.addVariable("screencolor", "0xFFFFFF");
+					s1.addVariable('repeat', 'true');
+					s1.addVariable('shownavigation', 'false');
+					s1.addVariable('rotatetime', '4');
+					s1.write("container");
+				</script>
+			</div>
+			<div class="section" id="all_cover">
+				<div class="cooliris">
+					<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="560" height="450">
+						<param name="movie" value="/effects/embedded_cooliris.swf" />
+						<param name="flashvars" value=<%= '"feed=' + url_for(:controller => :albums, :action => :cooliris, :only_path => false) + '"' %> />
+						<param name="allowFullScreen" value="true" />
+						<param name="allowScriptAccess" value="always" />
+						<embed type="application/x-shockwave-flash" src="/effects/embedded_cooliris.swf" width="560" height="450" flashvars=<%= '"feed=' + url_for(:controller => :albums, :action => :cooliris, :only_path => false) + '"' %> allowFullScreen="true" allowScriptAccess="always"></embed>
+					</object>
+				</div>
 			</div>
 		</div>
-
-		<div>
-			<table id="main">
-				<tr>
-					<td id="left">
-						<div id="password_field" class="banner">
-							<% if current_user.blank? %>
-								<% form_tag login_admin_users_path, :method => "post" do %>
-									<%= password_field_tag :password, nil %>
-									<%= submit_tag 'Login' %>
-								<% end %>
-							<% elsif current_read_level == 0 %>
-								<%= link_to 'Admin', admin_albums_path %>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]) %>
-							<% else %>
-								Welcome! <%= h(current_user.name) %>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]) %>
-							<% end %>
-						</div>
-						<div id="latest" class="banner">
-							<h3>Latest</h3>
-							<ul>
-								<% @latest.each{|album| %>
-									<li><%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %></li>
-								<% } %>
-							</ul>
-						</div>
-						<% if not @top_rated.blank? and @top_rated[0].rating_average != 0 %>
-							<div id="top_rated" class="banner">
-								<h3>Top rated</h3>
-								<ul>
-									<% @top_rated.each{|album|
-										break if album.rating_average == 0 %>
-										<li><%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %></li>
-									<% } %>
-								</ul>
-							</div>
-						<% end %>
-					</td>
-					<td id="center">
-						<% if not current_user.blank? and current_user.span != 0 %>
-							<div id='message'>
-						 		<%= periodically_call_remote(:url=>url_for(:controller => :application, :action=>:update_timer), :frequency=>'60') %>
-							 	<span id='timer'><%= h(current_user.span) %></span> minutes remain
-						 	</div>
-				 		<% end %>
-						<div id="my-glider">
-							<div class="controls">
-								<table>
-									<tr>
-										<td>
-											<a href="#recent_cover" class="active" onclick="document.getElementById('all_link').className='';this.className='active';" id="new_link">NEW!</a>
-										</td>
-										<td>
-											<a href="#all_cover" onclick="document.getElementById('new_link').className='';this.className='active';" id="all_link">ALL</a>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<div class="scroller">
-								<div class="content">
-									<div class="section" id="recent_cover">
-										<div id="container" width="480" height="400"></div>
-										<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
-										<script type="text/javascript">
-											var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator","400","400","4");
-											s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :top_shown_new, :only_path => false) + '"' %>);
-											s1.addVariable("screencolor", "0x141414");
-											s1.addVariable('repeat', 'true');
-											s1.addVariable('shownavigation', 'false');
-											s1.addVariable('rotatetime', '4');
-											s1.write("container");
-										</script>
-									</div>
-									<div class="section" id="all_cover">
-										<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="480" height="400">
-											<param name="movie" value="/effects/embedded_cooliris.swf" />
-											<param name="flashvars" value=<%= '"feed=' + url_for(:controller => :albums, :action => :top_shown_all, :only_path => false) + '"' %> />
-											<param name="allowFullScreen" value="true" />
-											<param name="allowScriptAccess" value="always" />
-											<embed type="application/x-shockwave-flash" src="/effects/embedded_cooliris.swf" width="480" height="400" flashvars=<%= '"feed=' + url_for(:controller => :albums, :action => :top_shown_all, :only_path => false) + '"' %> allowFullScreen="true" allowScriptAccess="always"></embed>
-										</object>
-									</div>
-								</div>
-							</div>
-						</div>
-						<script type="text/javascript"> var my_glider = new Glider('my-glider', {duration:0.5}); </script>
-					</td>
-					<td id="right">
-						<div id="copyright" class="banner">
-							Copyright(c) <%= @copy_year_string %> All Rights Reserved.
-						</div>
-						<div id="updated" class="banner">
-							<h3>Updated</h3>
-							<ul>
-								<% @inserted.each{|album| %>
-									<li><%= link_to album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname) %></li>
-								<% } %>
-							</ul>
-						</div>
-						<div id="recent_comments" class="banner">
-							<h3>Recent comments</h3>
-							<ul>
-								<% @latest_comments.each{|comment|
-									if comment.commentable_type == "Album" %>
-										<li><%= link_to comment.name+' on '+comment.commentable.title, url_for(:controller => :albums, :action => :show, :dirname => comment.commentable.dirname, :anchor => "comment_#{comment.id}") %></li>
-									<% else %>
-										<li><%= link_to comment.name+' on picture in '+comment.commentable.album.title, url_for(:controller => :contents, :action => :show, :dirname => comment.commentable.album.dirname, :content_name => comment.commentable.filename, :anchor => "comment_#{comment.id}") %></li>
-									<% end %>
-								<% } %>
-							</ul>
-						</div>
-					</td>
-				</tr>
-			</table>
-			<div id="album_link">
-				<ul>
-					<% @year_range.each{|year| %>
-						<li><%= link_to year, url_for(:controller => :albums, :action => :show, :year => year) %></li>
-					<% } %>
-				</ul>
-			</div>
-		</div>
-		<div id='footer'>
-			Powered by <%= link_to 'SimPic', "http://github.com/boblu/simpic/tree/master" %>
-		</div>
-	</body>
-</html>
+	</div>
+	<div class="controls span-3 last">
+		<table>
+			<tr>
+				<td>
+					<div><a href="#recent_cover" class="active" onclick="document.getElementById('all_link').className='';this.className='active';" id="new_link"><span>NEW !</span></a></div>
+					<div><a href="#all_cover" onclick="document.getElementById('new_link').className='';this.className='active';" id="all_link"><span>ALL</span></a></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript"> var my_glider = new Glider('my-glider', {duration:0.5}); </script>
+</div>

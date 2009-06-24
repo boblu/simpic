@@ -4,7 +4,6 @@ class Admin::ContentsController < ApplicationController
   before_filter :authorize_admin, :except => [:rate]
 
   def index
-    @authority_name_list = App.first.settings["authority_name"]
     @album = Album.find(params[:album_id])
     @title = @album.title
     @subtitle = @album.begin_on.to_s(:number) + '~' + @album.end_on.to_s(:number) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tags:' + @album.tag_list.join(', ')
@@ -53,12 +52,10 @@ class Admin::ContentsController < ApplicationController
   def edit
     @album = Album.find(params[:album_id])
     @content = Content.find(params[:id])
-    @authority_name_list = App.first.settings["authority_name"]
   end
 
   def update
     @content = Content.find(params[:id])
-    @authority_name_list = App.first.settings["authority_name"]
     begin
       @content.update_attributes!(params[:content])
     rescue
@@ -138,7 +135,7 @@ class Admin::ContentsController < ApplicationController
 	
   private
   
-  def get_all_pictures_in_upload_dir(directory = eval(App.first.settings["tmp_pic_dir"])+'/')
+  def get_all_pictures_in_upload_dir(directory = eval(app_settings("tmp_pic_dir"))+'/')
   	filenames = Array.new
   	Dir.foreach(directory){|xyz|
   		next if ['.', '..'].include?(xyz)

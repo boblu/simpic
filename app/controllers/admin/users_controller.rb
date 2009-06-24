@@ -4,7 +4,6 @@ class Admin::UsersController < ApplicationController
 	before_filter :authorize_admin, :except => [:login, :logout, :init]
 	
 	def index
-    @authority_name_list = App.first.settings["authority_name"]
 		@title = 'User list'
     @users = User.find_by_read_level_with_order(params[:read_level], params[:order])
 	  @sub_title = params[:read_level]
@@ -14,14 +13,12 @@ class Admin::UsersController < ApplicationController
 	end
 	
 	def new
-    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.new(:name=>'guest')
     params[:from] = 'new'
     render :action => "modification"
 	end
 
 	def create
-    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.new(params[:user])
     begin
       @user.save!
@@ -34,14 +31,12 @@ class Admin::UsersController < ApplicationController
 	end
 	
 	def edit
-    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.find(params[:id])
     params[:from] = 'edit'
     render :action => "modification"
 	end
 	
 	def update
-    @authority_name_list = App.first.settings["authority_name"] 
     @user = User.find(params[:id])
     begin
     	@user.update_property(params[:user])
@@ -70,19 +65,29 @@ class Admin::UsersController < ApplicationController
       session[:user_id] = nil
       user = User.authenticate(params[:password])
       if user
-        session[:user_id] = user.id
-        temp = Time.now
-        if user.span != 0
-        	user.update_attributes!(:end_time => user.span.minutes.from_now(temp))
+        if user.span >= 0
+          user.update_attributes!(:end_time => user.span.minutes.from_now(Time.now)) if user.read_level != 0
+          session[:user_id] = user.id
+        else
+          user.destroy
+          flash[:error] = "Wrong password!"
         end
+      else
+        flash[:error] = "Wrong password!"
       end
       redirect_to root_url
     end
 	end
 	
 	def logout
-		user = User.find(params[:id])
-		user.destroy if not params[:time_out].blank? and params[:time_out] == 'true'
+		user = User.find(session[:user_id])
+		unless user.end_time.blank?
+	    if user.end_time <= (1).minutes.from_now(Time.now)
+			  user.destroy
+			else
+	      user.update_attributes!(:span => ((user.end_time - Time.now)/60).round, :end_time => nil)
+	    end
+	  end
     session[:user_id] = nil
     redirect_to root_path
 	end

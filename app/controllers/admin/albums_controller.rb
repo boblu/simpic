@@ -4,8 +4,6 @@ class Admin::AlbumsController < ApplicationController
   before_filter :authorize_admin, :except => [:rate]
 
   def index
-    @authority_name_list = App.first.settings["authority_name"]
-    @title = 'Album list'
     if params[:search_condition].blank?
       @albums = Album.find_by_year_or_condition_with_order(nil, params[:year], params[:order])
 	    if params[:year].blank? and @albums.blank?
@@ -29,14 +27,12 @@ class Admin::AlbumsController < ApplicationController
 
   def new
     @album = Album.new
-    @authority_name_list = App.first.settings["authority_name"]
     params[:from] = 'new'
     render :action => "modification"
   end
   
   def create
     @album = Album.new(params[:album])
-    @authority_name_list = App.first.settings["authority_name"]
     begin
       @album.save!
     rescue
@@ -49,14 +45,12 @@ class Admin::AlbumsController < ApplicationController
   
   def edit
     @album = Album.find(params[:id])
-    @authority_name_list = App.first.settings["authority_name"]
     params[:from] = 'edit'
     render :action => "modification"
   end
   
   def update
     @album = Album.find(params[:id])
-    @authority_name_list = App.first.settings["authority_name"]
     begin
       @album.update_attributes!(params[:album])
     rescue

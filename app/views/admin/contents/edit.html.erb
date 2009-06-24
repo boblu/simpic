@@ -31,7 +31,7 @@
 						</tr>
 						<tr>
 							<th><%= f.label :read_level_label, 'Read level' %></th>
-							<td><%= f.select :read_level, @authority_name_list.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]} %></td>
+							<td><%= f.select :read_level, authority_name_list.select{|k,v| v<=@album.read_level}.sort_by{|item| item[1]} %></td>
 						</tr>
 						<tr>
 							<th><%= f.label :rating_average_label, 'Rating' %></th>

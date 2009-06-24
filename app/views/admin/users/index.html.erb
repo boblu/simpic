@@ -26,7 +26,7 @@
 						<td class='check_box'><%= check_box_tag 'selected_id[]', user.id, checked = false %></td>
 						<td class='text_column'><%= h(user.password) %></td>
 						<td class='text_column'><%= link_to h(user.name), edit_admin_user_path(user) %></td>
-						<td class='level'><%= h(@authority_name_list.invert[user.read_level])%></td>
+						<td class='level'><%= h(authority_name_list.invert[user.read_level])%></td>
 						<td class='minute'><%= user.span == 0 ? 'Unlimited' : h(user.span) %></td>
 					</tr>
 				<% } %>

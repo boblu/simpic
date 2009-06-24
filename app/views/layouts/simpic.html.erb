@@ -1,70 +1,70 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
 <html>
 	<head>
-		<title>Simpic</title>
+		<title><%= @app_name %></title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<%= javascript_include_tag :defaults %>
-		<%= stylesheet_link_tag 'simpic' %>
-		<%= simpic_rating_style %>
-		<link rel="alternate" href=<%= '"' + url_for(:controller => :albums,
-													 :action => :cooliris,
-													 :album_id => @album.id,
-													 :id => (params[:page] || '1'),
-													 :only_path => false) + '"' %> type="application/rss+xml"/>
-		<% case @album.appearance
-		when 0 %>
-			<%= javascript_include_tag "/effects/shadowbox-build-3.0b/shadowbox" %>
-			<%= stylesheet_link_tag '/effects/shadowbox-build-3.0b/shadowbox' %>
-			<script type="text/javascript">
-				Shadowbox.init({
-					slideshowDelay: 2,
-					overlayOpacity: 0.9
-				});
-			</script>
-		<% when 3 %>
-			<%= javascript_include_tag '/effects/simpleviewer/swfobject' %>
-		<% end %>
-	</head>
 
+		<!-- Include BluePrint style -->
+		<link rel="stylesheet" href="/stylesheets/blueprint/screen.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="/stylesheets/blueprint/print.css" type="text/css" media="print">
+		<!--[if lt IE 8]>
+			<link rel="stylesheet" href="/stylesheets/blueprint/ie.css" type="text/css" media="screen, projection">
+		<![endif]-->
+		
+		<!-- Import fancy-type plugin. -->  
+		<link rel="stylesheet" href="/stylesheets/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+
+		<%= simpic_rating_style %>
+		<%= stylesheet_link_tag 'simpic' %>
+		<%= yield :head_include %>
+	</head>
 	<body>
-		<div id="bgtop" align="center">
-			<div class="wrapper">
-				<div id="header">
-   				<div id="logo">
-						<h1><%= @app_name %></h1>
+		<div class="container">
+			<div class="span-24 header">
+				<div class="span-24">
+					<div class="span-8"><h1 class="title"><%= link_to @layout_app_name, root_path %></h1></div>
+					<div id="count_down_timer" class="span-8">
+						<% unless [0, 50].include?(current_read_level) %>
+							<ul class="countdown">
+								<li><div class="countdown_num" id="countdown_hour"></div><div>Hours</div></li>
+								<li><div class="countdown_num" id="countdown_min"></div><div>Minutes</div></li>
+								<li><div class="countdown_num" id="countdown_sec"></div><div>Seconds</div></li>
+							</ul>
+							<script type="text/javascript">countdown(<%= current_user.end_time.to_i %>);</script>
+						<% else %>
+							&nbsp;
+						<% end %>
 					</div>
-		   		<div id="admin">
-		   			<ul>
-		   				<% unless current_user.blank? %>
-			   				<li><%= link_to 'Logout', logout_admin_users_path(:id => session[:user_id]) %></li>
-			   				<% if current_user.read_level == 0 %>
-			   					<li><%= link_to 'Admin', admin_albums_path %></li>
-			   				<% end %>
-			   			<% end %>
-		   				<li><%= link_to 'Top', root_path %></li>
-		   			</ul>
-		   		</div>
+					<div class="span-8 last">
+						<% unless flash[:error].blank? %>
+							<div class="error"><%= flash[:error] %></div>
+						<% else %>
+							<div class="authenticate_hoder" ></div>
+						<% end %>
+						<div class="authenticate"><%= authenticate_header %></div>
+					</div>
 				</div>
-				<div class="clear"/></div>
+				<div class="span-8"><%= render_news("latest", @layout_latest) %></div>
+				<div class="span-8"><%= render_news("top_rated", @layout_rated) %></div>
+				<div class="span-8 last"><%= render_news("updated", @layout_updated) %></div>			
 			</div>
-		</div>
-		<div id="bgbottom">
-			<div class="wrapper">
-				<div id="body_container">
-					<div id="left">
-						<%= yield :left_column %>
-					</div>
-					<div id="main">
-						<%= yield :layout %>
-					</div>
-					<div class="clear"/></div>
+			<% if params[:action] == "top" %>
+				<div class="span-24 top_main"><%= yield :layout %></div>
+			<% else %>
+				<div class="span-24 main">
+						<div class="span-5 year_list_detail"><%= yield :left_column %></div>
+						<div class="span-19 last main_content"><%= yield :layout %></div>
 				</div>
-				<div id="footer">
-					<div class="bgright">
-						<div class="bgleft">
-							Powered by <%= link_to 'SimPic', "http://github.com/boblu/simpic/tree/master" %>
-						</div>
-					</div>
+			<% end %>
+			<div class="span-24 footer">
+				<div class="span-16 border top_comments">
+					<h4>Recent comments</h4>
+					<%= recent_comments(@layout_comments) %>
+				</div>
+				<div class="span-7 last meta">
+					<p>Copyright(c) <%= @layout_copyright %> All Rights Reserved.</p>
+					<p>Powered by <%= link_to 'SimPic', "http://github.com/boblu/simpic/tree/master" %></p>
 				</div>
 			</div>
 		</div>
