@@ -8,7 +8,7 @@ module AdminHelper
 	end
 
 	def time_span_list
-		{"Unlimited" => 0, "30 m" => 30, "60 m" => 60, "90 m" => 90, "120 m" => 120}
+		{"Unlimited" => 0, "30 m" => 1800, "60 m" => 3600, "90 m" => 5400, "120 m" => 7200}
 	end
 	
 	def admin_album_contents_path_with_session_information

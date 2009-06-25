@@ -92,6 +92,6 @@ class ApplicationController < ActionController::Base
   end
 
   def update_span_when_navi
-  	current_user.update_attributes!(:span => ((current_user.end_time - Time.now)/60).round) unless [0, 50].include?(current_read_level)
+  	current_user.update_attributes!(:span => (current_user.end_time.to_i - Time.now.to_i)) unless [0, 50].include?(current_read_level)
   end
 end

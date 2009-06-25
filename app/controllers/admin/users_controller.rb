@@ -66,7 +66,7 @@ class Admin::UsersController < ApplicationController
       user = User.authenticate(params[:password])
       if user
         if user.span >= 0
-          user.update_attributes!(:end_time => user.span.minutes.from_now(Time.now)) if user.read_level != 0
+          user.update_attributes!(:end_time => user.span.seconds.from_now(Time.now)) if user.read_level != 0
           session[:user_id] = user.id
         else
           user.destroy
@@ -82,10 +82,10 @@ class Admin::UsersController < ApplicationController
 	def logout
 		user = User.find(session[:user_id])
 		unless user.end_time.blank?
-	    if user.end_time <= (1).minutes.from_now(Time.now)
+	    if user.end_time <= (1).seconds.from_now(Time.now)
 			  user.destroy
 			else
-	      user.update_attributes!(:span => ((user.end_time - Time.now)/60).round, :end_time => nil)
+	      user.update_attributes!(:span => (user.end_time.to_i - Time.now.to_i), :end_time => nil)
 	    end
 	  end
     session[:user_id] = nil
