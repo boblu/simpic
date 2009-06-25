@@ -6,7 +6,7 @@ function toggle_seleced_list(){
 	var set_value = false;
 	if (cdt == false) { set_value = false; }
 	else { set_value = true; }
-	for (index in all_checkboxes) { all_checkboxes[index].checked = set_value; }
+	for (index=0; index<all_checkboxes.length; index++) { all_checkboxes[index].checked = set_value; }
 }
 
 function set_admin_timespan(){

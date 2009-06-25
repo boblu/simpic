@@ -179,10 +179,11 @@ ul.nav li.last {
 	padding-bottom: 5px;
 	color:#fff;
 	text-transform:uppercase;
-	font-weight:bold;
 	line-height:30px;
 	background:url(../images/admin/bg-orange-button.gif) no-repeat;
 	border: none;
+	font-weight: bold;
+	font-size: 11px;
 }
 /* bar with select */
 .select-bar {

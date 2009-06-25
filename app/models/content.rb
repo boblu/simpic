@@ -1,7 +1,4 @@
 require 'digest/sha1'
-require 'image_science'
-require 'mini_exiftool'
-require 'mime/types'
 
 class Content < ActiveRecord::Base
 	simpic_rateable :stars => 5

@@ -1,10 +1,11 @@
 ##State##
 
-Version 1.0.2
+Version 1.1.1
 
 [Demo site](http://demo-simpic.jiaeil.com)
 
 admin Password= jiaeil
+
 guest Password= guest1
 
 ##What is it?##
@@ -54,12 +55,10 @@ Currently you need all of these tools to get SimPic running:
 
 * Ruby 1.8.7
 * Rails 2.3.2
-* [image_science](http://seattlerb.rubyforge.org/ImageScience.html)
-* [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/index.html) and [miniexiftool](http://miniexiftool.rubyforge.org/)
-* mime-types gem
-* A mysql database.
-* Ruby drivers for your database.
-* Apache + mod_rails (aka Passenger) for fast and easy deployment along with speed.
+* MySQL5 and ruby driver for mysql, use "gem install mysql" to install
+* Apache + mod_rails (aka Passenger) for fast and easy deployment along with speed
+* [FreeImage](http://sf.net/projects/freeimage)
+* [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/index.html)
 
 ##Installation##
 
@@ -70,6 +69,7 @@ Currently you need all of these tools to get SimPic running:
 		[some_directory]# git clone git://github.com/boblu/simpic.git
 		[some_directory]# cd simpic
 		[some_directory/simpic]# git checkout -b deploy v1.1.0
+		[some_directory/simpic]# sudo RAILS_ENV='production' rake gems:install
 		[some_directory/simpic]# git submodule init
 		[some_directory/simpic]# git submodule update
 
