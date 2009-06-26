@@ -1,5 +1,27 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
+/* ******************************************
+ *	Countdown Timer
+ * ****************************************** */
+function countdown(deadline_sec){
+	passon_deadline = deadline_sec;
+	var current_time = new Date();
+	var distance = deadline_sec*1000 - current_time.getTime(); //distance is in milisecond
+	if (distance <= 0) {
+		window.location="logout";
+	}
+	else {
+		d_hour = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		d_minute = Math.floor(((distance % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) / (1000 * 60));
+		d_second = Math.floor((((distance%(1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) % (1000 * 60))/1000);
+		document.getElementById('countdown_hour').innerHTML = d_hour;
+		document.getElementById('countdown_min').innerHTML = d_minute;
+		document.getElementById('countdown_sec').innerHTML = d_second;
+		setTimeout("countdown(passon_deadline)",1000);
+	}
+}
+
+
 function toggle_seleced_list(){
 	var cdt = document.getElementById('selected_all').checked;
 	var all_checkboxes = document.getElementById('listing_body').getElementsByTagName('input');
@@ -39,26 +61,7 @@ function toggle_timespan_right(){
 	}
 }
 
-/* ******************************************
- *	Countdown Timer
- * ****************************************** */
-function countdown(deadline_sec){
-	passon_deadline = deadline_sec;
-	var current_time = new Date();
-	var distance = deadline_sec*1000 - current_time.getTime(); //distance is in milisecond
-	if (distance <= 0) {
-		window.location="logout";
-	}
-	else {
-		d_hour = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		d_minute = Math.floor(((distance % (1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) / (1000 * 60));
-		d_second = Math.floor((((distance%(1000 * 60 * 60 * 24)) % (1000 * 60 * 60)) % (1000 * 60))/1000);
-		document.getElementById('countdown_hour').innerHTML = d_hour;
-		document.getElementById('countdown_min').innerHTML = d_minute;
-		document.getElementById('countdown_sec').innerHTML = d_second;
-		setTimeout("countdown(passon_deadline)",1000);
-	}
-}
+
 
 /* ******************************************
  *	SWFupload

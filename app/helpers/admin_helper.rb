@@ -1,6 +1,6 @@
 module AdminHelper
 	def js_name
-		{'Shadowbox' => 0, 'JW image rotator' => 1, 'Embedded cooliris' => 2, 'Simple Viewer' => 3}
+		{'Shadowbox' => 0, 'JW image rotator' => 1, 'Embedded cooliris' => 2, 'Simple Viewer' => 3, 'NoobSlide' => 4}
 	end
 
 	def per_page_list

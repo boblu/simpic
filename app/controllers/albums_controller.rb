@@ -11,6 +11,8 @@ class AlbumsController < ApplicationController
 	###########################
 	## XML Feeds
 	###########################
+  
+  ### top_shown_new is method for old_top
 	def top_shown_new
 		@pictures = @authorized_published_albums.first.pictures.authority(current_read_level).covered
 		@xml_type = "top_shown_new"
@@ -27,6 +29,7 @@ class AlbumsController < ApplicationController
 	
 	def cooliris
 		if params[:album_id].blank?
+      ### is part is for old_top  
 			@pictures = @authorized_published_albums.inject([]){|pictures, album| pictures.concat(album.pictures.authority(current_read_level).covered)}
 	    @http_header = http_header
 	  else
@@ -59,6 +62,9 @@ class AlbumsController < ApplicationController
 	###########################
 	def top
 		redirect_to(init_admin_users_url) unless User.first
+    ### add for new top
+    @top_pictures = @authorized_published_albums.first.pictures.authority(current_read_level).covered
+    @top_picture_indexes = @top_pictures.map{|item| @top_pictures.index(item)}.join(',')
 	end
 
 	def show
@@ -67,7 +73,7 @@ class AlbumsController < ApplicationController
       params[:page] = 1 if params[:page].blank?
       params[:per_page] = app_settings("per_page") if params[:per_page].blank?
 			@pictures = @album.pictures.authority(current_read_level).paginate(:page => params[:page], :per_page => params[:per_page])
-	  when 1, 3
+	  when 1, 3, 4
       @pictures = @album.pictures.authority(current_read_level)
 		end
 	end

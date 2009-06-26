@@ -1,0 +1,42 @@
+<!-- use glider to show top new and top all pics -->
+<div id="my-glider" class="span-19 last glider">
+	<div class="scroller span-16">
+		<div class="content">
+			<div class="section" id="recent_cover">
+				<div id="container" width="480" height="400"></div>
+				<script type="text/javascript" src="/effects/JW_image_rotator/swfobject.js"></script>
+				<script type="text/javascript">
+					var s1 = new SWFObject("/effects/JW_image_rotator/imagerotator.swf","rotator","560","500","4");
+					s1.addVariable("file", <%= '"' + url_for(:controller => :albums, :action => :top_shown_new, :only_path => false) + '"' %>);
+					s1.addVariable("screencolor", "0xFFFFFF");
+					s1.addVariable('repeat', 'true');
+					s1.addVariable('shownavigation', 'false');
+					s1.addVariable('rotatetime', '4');
+					s1.write("container");
+				</script>
+			</div>
+			<div class="section" id="all_cover">
+				<div class="cooliris">
+					<object id="o" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="560" height="450">
+						<param name="movie" value="/effects/embedded_cooliris.swf" />
+						<param name="flashvars" value=<%= '"feed=' + url_for(:controller => :albums, :action => :cooliris, :only_path => false) + '"' %> />
+						<param name="allowFullScreen" value="true" />
+						<param name="allowScriptAccess" value="always" />
+						<embed type="application/x-shockwave-flash" src="/effects/embedded_cooliris.swf" width="560" height="450" flashvars=<%= '"feed=' + url_for(:controller => :albums, :action => :cooliris, :only_path => false) + '"' %> allowFullScreen="true" allowScriptAccess="always"></embed>
+					</object>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="controls span-3 last">
+		<table>
+			<tr>
+				<td>
+					<div><a href="#recent_cover" class="active" onclick="document.getElementById('all_link').className='';this.className='active';" id="new_link"><span>NEW !</span></a></div>
+					<div><a href="#all_cover" onclick="document.getElementById('new_link').className='';this.className='active';" id="all_link"><span>ALL</span></a></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript"> var my_glider = new Glider('my-glider', {duration:0.5}); </script>
+</div>

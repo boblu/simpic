@@ -1,10 +1,48 @@
 <% content_for :head_include do %>
-	<%= cooliris_feed %>
 	<% case @album.appearance
 	when 0 %>
+		<%= javascript_include_tag :defaults %>
+		<%= cooliris_feed %>
 		<%= shadowbox_script %>
+	<% when 1, 2 %>
+		<%= javascript_include_tag :defaults %>
 	<% when 3 %>
+		<%= javascript_include_tag :defaults %>
 		<%= javascript_include_tag '/effects/simpleviewer/swfobject' %>
+	<% when 4 %>
+		<%= javascript_include_tag "/effects/noobSlide/mootools-1.2-core.js" %>
+		<%= javascript_include_tag "/effects/noobSlide/_class.noobSlide.packed.js" %>
+		<script type="text/javascript">
+			window.addEvent('domready',function(){
+				var pictureObjectItems =[
+					<% @pictures.each_with_index do |picture, index| %>
+						{title:'<%= picture.title %>', link:'<%= url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename) %>'}<%= ',' unless index == @pictures.size-1 %>
+					<% end %>
+				];
+				var info = $('js4_box').getNext().set('opacity',0.5);
+				var nS = new noobSlide({
+					mode: 'vertical',
+					box: $('js4_box'),
+					items: pictureObjectItems,
+					size: 500,
+					handles: $$('#js4_handles div'),
+					handle_event: 'mouseenter',
+					fxOptions: {
+						duration: 1000,
+						transition: Fx.Transitions.Back.easeOut,
+						wait: false
+					},
+					onWalk: function(currentItem,currentHandle){
+						info.empty();
+						new Element('h4').set('html','<a href="'+currentItem.link+'">link</a>'+currentItem.title).inject(info);
+						this.handles.set('opacity',0.3);
+						currentHandle.set('opacity',1);
+					}
+				});
+				//walk to next item
+				nS.next();
+			});
+		</script>
 	<% end
 end %>
 
@@ -40,6 +78,8 @@ when 0 %>
 	<%= render 'appearance_js2' %>
 <% when 3 %>
 	<%= render 'appearance_js3' %>
+<% when 4 %>
+	<%= render 'appearance_js4' %>
 <% end %>
 
 <%= render 'comments', :object => @album.comments, :commentable_type => 'album' %>

@@ -1,0 +1,15 @@
+<div id="js4_list">
+	<div id="js4_box">
+		<% @pictures.each do |picture| %>
+			<div class="js4_cell">
+				<div><%= image_tag(picture.normal_url, :alt => 'Photo') %></div>
+			</div>
+		<% end %>
+	</div>
+	<div class="js4_info"></div>
+</div>
+<div class="js4_thumbs span-19 last" id="js4_handles">
+	<% @pictures.each do |picture| %>
+		<div><%= image_tag(picture.thumb_url, :alt => 'Photo Thumb') %></div>
+	<% end %>
+</div>
