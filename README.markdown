@@ -4,9 +4,9 @@ Version 1.1.1
 
 [Demo site](http://demo-simpic.jiaeil.com)
 
-admin Password= jiaeil
+try admin to see the backoffice: Password= jiaeil
 
-guest Password= guest1
+try authenticated user to see time limit function: Password= guest1
 
 ##What is it?##
 
@@ -36,6 +36,7 @@ The following are main features:
 >>	* [Shadowbox](http://www.shadowbox-js.com/)
 >>	* [JW Image Rotator](http://www.longtailvideo.com/players/jw-image-rotator/)
 >>	* [Simple Viewer](http://www.airtightinteractive.com/simpleviewer/)
+>>	* [NoobSlide](http://www.efectorelativo.net/laboratory/noobSlide/)
 >>	* adding...
 
 2. Backoffice
@@ -68,7 +69,7 @@ Currently you need all of these tools to get SimPic running:
 
 		[some_directory]# git clone git://github.com/boblu/simpic.git
 		[some_directory]# cd simpic
-		[some_directory/simpic]# git checkout -b deploy v1.1.0
+		[some_directory/simpic]# git checkout -b deploy v1.1.1
 		[some_directory/simpic]# sudo RAILS_ENV='production' rake gems:install
 		[some_directory/simpic]# git submodule init
 		[some_directory/simpic]# git submodule update
