@@ -5,7 +5,7 @@
 		window.addEvent('domready',function(){
 			var nS2 = new noobSlide({
 				box: $('top_noobbox'),
-				items: [<%= 0.upto(@top_pictures.size-1).map.join(',') %>],
+				items: [<%= (0..(@top_pictures.size-1)).to_a.join(",") %>],
 				interval: 3000,
 				size: 620,
 				autoPlay: true,
