@@ -20,7 +20,7 @@ class AlbumsController < ApplicationController
 	end
 
 	def albums
-		@app_name = app_settings("app_name")
+		@app_name = @app_setting["app_name"]
 		@latest = Album.authority(authority_name_list["guest"]).published.find(:all, :limit => 5)
 		@http_header = http_header
 		@xml_type = "site_rss_feed"
@@ -34,10 +34,10 @@ class AlbumsController < ApplicationController
 	    @http_header = http_header
 	  else
 			@contents = Album.find(params[:album_id]).pictures.authority(current_read_level)
-			@pictures = @contents.paginate(:page => params[:id], :per_page => app_settings("per_page"))
+			@pictures = @contents.paginate(:page => params[:id], :per_page => @app_setting["per_page"])
 	    @http_header = http_header
 			@previous = params[:id].to_i==1 ? false : true
-			@next = app_settings("per_page")*params[:id].to_i>=@contents.size ? false : true
+			@next = @app_setting["per_page"]*params[:id].to_i>=@contents.size ? false : true
 	    @for_album = true
 		end
 		render :action => "cooliris_album.xml.builder", :layout => false
@@ -61,17 +61,19 @@ class AlbumsController < ApplicationController
 	## Ordinary methods
 	###########################
 	def top
-		redirect_to(init_admin_users_url) unless User.first
-    ### add for new top
-    @top_pictures = @authorized_published_albums.first.pictures.authority(current_read_level).covered
-    @top_picture_indexes = @top_pictures.map{|item| @top_pictures.index(item)}.join(',')
+		if @authorized_published_albums.blank? and not logged_in? and not User.first
+			redirect_to(init_admin_users_url)
+		else
+	    @top_pictures = @authorized_published_albums.first.pictures.authority(current_read_level).covered
+  	  @top_picture_indexes = @top_pictures.map{|item| @top_pictures.index(item)}.join(',')
+  	end
 	end
 
 	def show
 		case @album.appearance
 		when 0
       params[:page] = 1 if params[:page].blank?
-      params[:per_page] = app_settings("per_page") if params[:per_page].blank?
+      params[:per_page] = @app_setting["per_page"] if params[:per_page].blank?
 			@pictures = @album.pictures.authority(current_read_level).paginate(:page => params[:page], :per_page => params[:per_page])
 	  when 1, 3, 4
       @pictures = @album.pictures.authority(current_read_level)
@@ -90,6 +92,7 @@ class AlbumsController < ApplicationController
 					render :update do |page|
 						page.insert_html :bottom, :comment_container, :partial => 'each_comment', :object => new_comment, :locals=>{:each_comment_counter => (@album.comments.size==1 ? 0 : nil)}
 						page["old_comments"].show if @album.comments.size==1
+            page.replace_html "comment_num", :inline => @album.comments.size.to_s
 						page["new_comment_form"].reset
 					end
 				}

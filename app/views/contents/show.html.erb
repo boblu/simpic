@@ -18,15 +18,15 @@
 </h3>
 
 <table>
-	<tr><td colspan="3">Title:&nbsp;&nbsp;&nbsp;<%= h(@content.title) %></td></tr>
+	<tr><td colspan="3"><%= t('title') %>:&nbsp;&nbsp;&nbsp;<%= h(@content.title) %></td></tr>
 	<tr>
-		<td class="span-11">Tags:&nbsp;&nbsp;&nbsp;<%= @content.tag_list.join(', ') %></td>
+		<td class="span-11"><%= t('tags') %>:&nbsp;&nbsp;&nbsp;<%= @content.tag_list.join(', ') %></td>
 		<td class="span-5">
-			<table class="rating"><tr><td>Rating:</td><td><%= ratings_for @content, :remote_options => {:url => rate_admin_album_content_path(@album, @content)} %></td></tr></table>
+			<table class="rating"><tr><td><%= t('rating') %>:</td><td><%= ratings_for @content, :remote_options => {:url => rate_admin_album_content_path(@album, @content)} %></td></tr></table>
 		</td>
-		<td class="span-3 last"><%= link_to pluralize(@content.comments.size, 'Comment'), '#comment_list' %></td>
+		<td class="span-3 last"><%= link_to ("<span id='comment_num'>#{@content.comments.size}</span>" + t('comments_link')), '#comment_list' %></td>
 	</tr>
-	<tr><td colspan="3">Description: <%= @content.description %></td></tr>
+	<tr><td colspan="3"><%= t('description') %>: <%= @content.description %></td></tr>
 </table>
 
 

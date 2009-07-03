@@ -36,7 +36,7 @@
 				<th><%= f.label :span_label, 'Expiration' %></th>
 				<td colspan="3">
 					<% if params[:from] == 'new' %>
-						<%= f.select :span, time_span_list.to_a.sort_by{|item| item[1]} %>
+						<%= f.select :span, time_span_list.to_a.sort_by{|item| item[1]}, :selected => 1800 %>
 					<% else
 						if admin_users.size == 1 and admin_users[0].id == @user.id %>
 							Create another admin before changing this field.

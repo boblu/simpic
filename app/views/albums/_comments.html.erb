@@ -1,22 +1,22 @@
 <div id="comment_list">
-	<div class="old_comments" <%= "style=display:none;" if comments.blank? %>>
-	  <div class="comment_header">Comments: <span><%= link_to "Leave a comment", "#new_comment" %></span></div>
+	<div id="old_comments" <%= "style=display:none;" if comments.blank? %>>
+	  <div class="comment_header"><%= t('comments') %>: <span><%= link_to t('leave_a_comment'), "#new_comment" %></span></div>
 	  <div class="comment_container" id="comment_container">
 			<%= render :partial => (commentable_type == 'album' ? 'each_comment' : 'albums/each_comment'), :collection => comments.reverse %>
 	  </div>
 	</div>
-	<div class="comment_header">New Comment: <span>(all fields are required and should be valid.)</span></div>
-  <% form_remote_tag :url => (commentable_type == 'album' ? comment_album_path(@album) : comment_album_content_path(@album, @content)), :html => {:id => "new_comment_form"} do %>
+	<div class="comment_header"><%= t('new_comment') %>: <span>(<%= t('commenting_notice_1') %>)</span></div>
+	<% form_remote_tag :url => (commentable_type == 'album' ? comment_album_path(@album) : comment_album_content_path(@album, @content)), :html => {:id => "new_comment_form"} do %>
 		<%= hidden_field_tag 'page', params[:page] %>
 	  <%= negative_captcha(@captcha) %>
 	  <table id="new_comment">
-	    <tr><th>Name:</th></tr>
+	    <tr><th><%= t('name') %>:</th></tr>
 	    <tr><td><%= negative_text_field_tag @captcha, :name, :size => 30 %></td></tr>
-	    <tr><th>Email: (not displayed)</th></tr>
+	    <tr><th><%= t('email') %>: (<%= t('commenting_notice_2') %>)</th></tr>
 	    <tr><td><%= negative_text_field_tag @captcha, :email, :size => 30 %></td></tr>
-	    <tr><th>Your comment:</th></tr>
+	    <tr><th><%= t('your_comment') %>:</th></tr>
 	    <tr><td><%= negative_text_area_tag @captcha, :content %></td></tr>
-			<tr><td><%= submit_tag 'Submit' %></td></tr>
+			<tr><td><%= submit_tag t('submit') %></td></tr>
 		</table>
 	<% end %>
 </div>

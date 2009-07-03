@@ -135,7 +135,7 @@ class Admin::ContentsController < ApplicationController
 	
   private
   
-  def get_all_pictures_in_upload_dir(directory = eval(app_settings("tmp_pic_dir"))+'/')
+  def get_all_pictures_in_upload_dir(directory = eval(@app_setting["tmp_pic_dir"])+'/')
   	filenames = Array.new
   	Dir.foreach(directory){|xyz|
   		next if ['.', '..'].include?(xyz)

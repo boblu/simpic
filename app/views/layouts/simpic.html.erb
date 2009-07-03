@@ -19,25 +19,29 @@
 		<div class="container">
 			<div class="span-24 header">
 				<div class="span-24">
-					<div class="span-8"><h1 class="title"><%= link_to @layout_app_name, root_path %></h1></div>
+					<div class="span-8"><h1 class="title"><%= link_to @layout_app_name, get_named_locale_path_or_url('root_path') %></h1></div>
 					<div id="count_down_timer" class="span-8">
-						<% unless [0, 50].include?(current_read_level) %>
+						<% if (current_read_level == 50) or current_user.span == -100 %>
+							&nbsp;
+						<% else %>
 							<ul class="countdown">
 								<li><div class="countdown_num" id="countdown_hour"></div><div>Hours</div></li>
 								<li><div class="countdown_num" id="countdown_min"></div><div>Minutes</div></li>
 								<li><div class="countdown_num" id="countdown_sec"></div><div>Seconds</div></li>
 							</ul>
 							<script type="text/javascript">countdown(<%= current_user.end_time.to_i %>);</script>
-						<% else %>
-							&nbsp;
 						<% end %>
 					</div>
 					<div class="span-8 last">
-						<% unless flash[:error].blank? %>
-							<div class="error"><%= flash[:error] %></div>
-						<% else %>
-							<div class="authenticate_hoder" ></div>
-						<% end %>
+						<div class="locals">
+							<%= link_to 'English', get_root_path(:en), :class => ('active' if I18n.locale == :en) %> | 
+							<%= link_to '中文', get_root_path(:cn), :class => ('active' if I18n.locale == :cn) %>
+						</div>
+						<div class="authenticate_hoder" >
+							<% unless flash[:error].blank? %>
+								<div class="error"><%= flash[:error] %></div>
+							<% end %>
+						</div>
 						<div class="authenticate"><%= authenticate_header %></div>
 					</div>
 				</div>
@@ -55,12 +59,12 @@
 			<% end %>
 			<div class="span-24 footer">
 				<div class="span-16 border top_comments">
-					<h4>Recent comments</h4>
+					<h4><%= t('recent_comments') %></h4>
 					<%= recent_comments(@layout_comments) %>
 				</div>
 				<div class="span-7 last meta">
 					<p>Copyright(c) <%= @layout_copyright %> All Rights Reserved.</p>
-					<p>Powered by <%= link_to 'SimPic', "http://github.com/boblu/simpic/tree/master" %></p>
+					<p>Powered by <strong><%= link_to 'SimPic', "http://github.com/boblu/simpic/tree/master" %></strong></p>
 				</div>
 			</div>
 		</div>

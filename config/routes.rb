@@ -40,22 +40,47 @@ ActionController::Routing::Routes.draw do |map|
   # consider removing the them or commenting them out if you're using named routes and resources.
 	# map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'
-
+  
+  available_locales = ['cn', 'en']
+  
+  map.locale_root '/:locale', :controller => 'albums', :action => 'top', :locale => /#{available_locales.join('|')}/
   map.root :controller => 'albums', :action => 'top'
-  map.top_rss '/albums.rss', :controller => 'albums', :action => 'albums'
-  map.connect '/top_shown_new.xml', :controller => 'albums', :action => 'top_shown_new'
-  map.connect '/top_shown_all.rss', :controller => 'albums', :action => 'cooliris'
+  
+  
   map.login '/login', :controller => 'admin/users', :action => 'login'
   map.logout '/logout', :controller => 'admin/users', :action => 'logout'
+
+
+  map.locale_top_rss '/:locale/albums.rss', :controller => 'albums', :action => 'albums', :locale => /#{available_locales.join('|')}/
+  map.top_rss '/albums.rss', :controller => 'albums', :action => 'albums'
+
+
+  #####################################################################################
+  ## for old top
+#  map.connect '/top_shown_new.xml', :controller => 'albums', :action => 'top_shown_new'
+#  map.connect '/top_shown_all.rss', :controller => 'albums', :action => 'cooliris'
+  #####################################################################################
+
+  map.connect '/:locale/:year', :controller => "albums", :action => 'show', :year => /\d{4}/, :locale => /#{available_locales.join('|')}/
   map.connect '/:year', :controller => "albums", :action => "show", :year => /\d{4}/
-  map.connect '/:dirname/contents/:content_name',
-              :controller => 'contents',
-              :action => 'show',
-              :dirname => /\d{8}.+/,
-#/
+
+
+  map.connect '/:locale/:dirname/contents/:content_name',     :controller => 'contents',
+              :action => 'show',                              :dirname => /\d{8}.+/,
+              :content_name => /.+\.(jpg|jpeg|bmp|png|gif)/i, :locale => /#{available_locales.join('|')}/
+  map.connect '/:dirname/contents/:content_name',  :controller => 'contents',
+              :action => 'show',                   :dirname => /\d{8}.+/,
               :content_name => /.+\.(jpg|jpeg|bmp|png|gif)/i
+
+
+  map.connect '/:locale/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/, :locale => /#{available_locales.join('|')}/
   map.connect '/:dirname', :controller => 'albums', :action => 'show', :dirname => /\d{8}.+/
-#/
+
+
+  map.resources :albums, :member => {:comment => :post, :render_xml => :get}, :only => [] do |albums|
+    albums.connect 'cooliris/:id', :controller => 'albums', :action => 'cooliris'
+    albums.resources :contents, :member => {:comment => :post}, :only => []
+  end
 
   map.namespace :admin do |admin|
   	admin.root :controller => 'albums', :action => 'index'
@@ -66,10 +91,5 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :comments, :only => [:index, :edit, :update], :collection => {:batch_delete => :post}
     admin.connect "/settings", :controller => "settings", :action => "edit"
     admin.connect "/settings/update", :controller => "settings", :action => "update"
-  end
-  
-  map.resources :albums, :member => {:comment => :post, :render_xml => :get}, :only => [] do |albums|
-  	albums.connect 'cooliris/:id', :controller => 'albums', :action => 'cooliris'
-  	albums.resources :contents, :member => {:comment => :post}, :only => []
   end
 end

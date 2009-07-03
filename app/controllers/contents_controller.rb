@@ -27,6 +27,7 @@ class ContentsController < ApplicationController
 					render :update do |page|
 						page.insert_html :bottom, :comment_container, :partial => 'albums/each_comment', :object => new_comment, :locals=>{:each_comment_counter => (@content.comments.size==1 ? 0 : nil)}
 						page["old_comments"].show if @content.comments.size==1
+            page.replace_html "comment_num", :inline => @content.comments.size.to_s
 						page["new_comment_form"].reset
 					end
 				}

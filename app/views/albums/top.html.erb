@@ -1,4 +1,5 @@
 <% content_for :head_include do %>
+	<%= javascript_include_tag "application" %>
 	<%= javascript_include_tag "/effects/noobSlide/mootools-1.2-core.js" %>
 	<%= javascript_include_tag "/effects/noobSlide/_class.noobSlide.packed.js" %>
 	<script type="text/javascript">
@@ -18,7 +19,7 @@
 		});
 	</script>
 	<!-- Top page rss feed -->
-	<link rel="alternate" href=<%= '"' + top_rss_path + '"' %> type="application/rss+xml"/>
+	<%= auto_discovery_link_tag(:rss, get_named_locale_path_or_url('top_rss_path'), {:title => "RSS"}) %>
 <% end %>
 
 <div class="span-4">

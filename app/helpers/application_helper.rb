@@ -1,9 +1,13 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  def get_root_path(locale)
+    locale == @app_setting["default_locale"].to_sym ? '/' : '/' + locale.to_s
+  end
+  
 	def shadowbox_script(html_string = "")
 		html_string << javascript_include_tag("/effects/shadowbox-build-3.0b/shadowbox")+ "\n"
 		html_string << stylesheet_link_tag('/effects/shadowbox-build-3.0b/shadowbox')+ "\n"
-		html_string << "<script type='text/javascript'>Shadowbox.init({slideshowDelay: 2, overlayOpacity: 0.9});</script>"
+		html_string << "<script type='text/javascript'>Shadowbox.init({slideshowDelay: 3, overlayOpacity: 0.9});Shadowbox.pause();</script>"
 	end
 
 	def cooliris_feed
@@ -15,9 +19,9 @@ module ApplicationHelper
 		if not logged_in?
 			render :partial => "albums/login_form"
 		elsif current_read_level == 0
-			link_to('Admin', admin_albums_path) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + link_to('Logout', logout_path)
+			link_to(t('admin'), admin_albums_path) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + link_to(t('logout'), logout_path)
 		else
-			"Welcome! " + current_user.name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + link_to('Logout', logout_path)
+			t('welcome') + "&nbsp;" + current_user.name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + link_to(t('logout'), logout_path)
 		end
 	end
 
@@ -25,7 +29,7 @@ module ApplicationHelper
 		first_row = content_tag(:tr) do
 			content_tag(:td, nil, :class => "corner top_left") + content_tag(:td, nil, :class => "fillin") + content_tag(:td, nil, :class => "corner top_right")
 		end
-		news_content = content_tag(:h4, class_name.capitalize) + content_tag(:ul) do
+		news_content = content_tag(:h4, t(class_name)) + content_tag(:ul) do
 			albums.inject("") do |html_string, album|
 				html_string << content_tag(:li, link_to(album.title, url_for(:controller => :albums, :action => :show, :dirname => album.dirname))) + "\n"
 			end
@@ -44,7 +48,7 @@ module ApplicationHelper
 		first_row = content_tag(:tr) do
 			content_tag(:td, nil, :class => "corner top_left") + content_tag(:td, nil, :class => "fillin") + content_tag(:td, nil, :class => "corner top_right")
 		end
-		news_content = content_tag(:h4, "More") + content_tag(:table) do
+		news_content = content_tag(:h4, t('more')) + content_tag(:table) do
 			content_tag(:tr) do
 				year_range.inject("") do |html_string, year|
 					html_string << content_tag(:td, link_to(year, url_for(:controller => :albums, :action => :show, :year => year)))
@@ -65,10 +69,10 @@ module ApplicationHelper
 	def recent_comments(comments, html_string = "")
 		comments.each do |comment|
 			if comment.commentable_type == "Album"
-				link_string = content_tag(:b, comment.name) + ' comment on ' + comment.commentable.title + %Q|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"#{truncate(comment.content, :length => 40)}"|
+				link_string = content_tag(:b, comment.name) + " #{t('commented')} "  + %Q|"#{truncate(comment.content, :length => 80)}"|
 				html_string << content_tag(:li, link_to(link_string, url_for(:controller => :albums, :action => :show, :dirname => comment.commentable.dirname, :anchor => "comment_#{comment.id}")))
 			else
-				link_string = content_tag(:b, comment.name) + ' comment on picture in ' + comment.commentable.album.title + %Q|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"#{truncate(comment.content, :length => 40)}"|
+				link_string = content_tag(:b, comment.name) + " #{t('commented')} "  + %Q|"#{truncate(comment.content, :length => 80)}"|
 				html_string << content_tag(:li, link_to(link_string, url_for(:controller => :contents, :action => :show, :dirname => comment.commentable.album.dirname, :content_name => comment.commentable.filename, :anchor => "comment_#{comment.id}")))
 			end
 		end

@@ -21,11 +21,14 @@ a:hover { text-decoration: underline; }
 #count_down_timer ul.countdown li div.countdown_num { font-size: 20px; }
 #count_down_timer ul.countdown li.no_countdown { padding-top:4px; background:transparent;	height:50px; width:60px; }
 
-.authenticate_hoder { height: 43px; }
+.locals { float: right; padding-right: 20px; }
+.locals .active { font-weight: bold; }
+
+.authenticate_hoder { margin-right: 100px; height: 50px; }
 .authenticate { text-align: right;  margin: 10px 20px 10px 0; }
 .authenticate div { float: right; width: 280px; }
 .authenticate div form { position: static; overflow: hidden; display: inline;}
-.authenticate div form .password { float: left; vertical-align: middle; display: inline; }
+.authenticate div form .password { float: left; vertical-align: middle; display: inline; margin: 2px 0 0 0; }
 
 table.rounded { padding: 0 0 0 0; margin: 0 0 0 0; }
 table.rounded { border: 0px; }

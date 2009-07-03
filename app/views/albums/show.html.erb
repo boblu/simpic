@@ -34,7 +34,7 @@
 					},
 					onWalk: function(currentItem,currentHandle){
 						info.empty();
-						new Element('h4').set('html','<a href="'+currentItem.link+'">link</a>'+currentItem.title).inject(info);
+						new Element('h4').set('html','<a href="'+currentItem.link+'"><%= t(%q|custom_msg_2|) %></a>'+currentItem.title).inject(info);
 						this.handles.set('opacity',0.3);
 						currentHandle.set('opacity',1);
 					}
@@ -60,13 +60,13 @@ end %>
 
 <table>
 	<tr>
-		<td class="span-11">Tags:&nbsp;&nbsp;&nbsp;<%= @album.tag_list.join(', ') %></td>
+		<td class="span-11"><%= t('tags') %>:&nbsp;&nbsp;&nbsp;<%= @album.tag_list.join(', ') %></td>
 		<td class="span-5">
-			<table class="rating"><tr><td>Rating:</td><td><%= ratings_for @album, :remote_options => {:url => rate_admin_album_path(@album)} %></td></tr></table>
+			<table class="rating"><tr><td><%= t('rating') %>:</td><td><%= ratings_for @album, :remote_options => {:url => rate_admin_album_path(@album)} %></td></tr></table>
 		</td>
-		<td class="span-3 last"><%= link_to pluralize(@album.comments.size, 'Comment'), '#comment_list' %></td>
+		<td class="span-3 last"><%= link_to ("<span id='comment_num'>#{@album.comments.size}</span>" + t('comments_link')), '#comment_list' %></td>
 	</tr>
-	<tr><td colspan="3">Description: <%= @album.description %></td></tr>
+	<tr><td colspan="3"><%= t('description') %>: <%= @album.description %></td></tr>
 </table>
 
 <% case @album.appearance

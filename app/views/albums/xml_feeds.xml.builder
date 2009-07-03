@@ -3,7 +3,7 @@ xml.instruct!
 	when "site_rss_feed"
 		xml.rss "version" => '2.0' do
 			xml.channel do
-				xml.title @app_name + " latest albums"
+				xml.title @app_name + t('latest_albums')
 				xml.link @http_header + "/albums.rss"
 				@latest.each do |album|
 					xml.item do
@@ -38,7 +38,7 @@ xml.instruct!
 			@pictures.each do |picture|
 				xml.image do
 					xml.filename picture.filename
-					xml.caption "<font face='Times' size='15' color='#EE0000'>" + link_to("Comment and Rate this picture!", url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename)) + "</font>&nbsp;&nbsp;&nbsp;&nbsp;" + (picture.title || '')
+					xml.caption "<font face='Times' size='15' color='#EE0000'>" + link_to(t('custom_msg_1'), url_for(:controller => :contents, :action => :show, :dirname => @album.dirname, :content_name => picture.filename)) + "</font>&nbsp;&nbsp;&nbsp;&nbsp;" + (picture.title || '')
 				end
 			end											
 		end

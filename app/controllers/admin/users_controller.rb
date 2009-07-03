@@ -65,8 +65,10 @@ class Admin::UsersController < ApplicationController
       session[:user_id] = nil
       user = User.authenticate(params[:password])
       if user
-        if user.span >= 0
-          user.update_attributes!(:end_time => user.span.seconds.from_now(Time.now)) if user.read_level != 0
+        if user.span == -100
+          session[:user_id] = user.id
+        elsif user.span >= 0
+          user.update_attributes!(:end_time => user.span.seconds.from_now(Time.now))
           session[:user_id] = user.id
         else
           user.destroy
@@ -75,7 +77,7 @@ class Admin::UsersController < ApplicationController
       else
         flash[:error] = "Wrong password!"
       end
-      redirect_to root_url
+      redirect_to get_named_locale_path_or_url('root_url')
     end
 	end
 	
@@ -89,7 +91,7 @@ class Admin::UsersController < ApplicationController
 	    end
 	  end
     session[:user_id] = nil
-    redirect_to root_path
+    redirect_to get_named_locale_path_or_url('root_url')
 	end
 	
 	def init
@@ -97,7 +99,7 @@ class Admin::UsersController < ApplicationController
 			if not params[:init].blank? and params[:init] == 'create'
 		    @user = User.new(params[:user])
 	     	@user.read_level = 0
-	    	@user.span = 0
+	    	@user.span = -100
 		    begin
 		      @user.save!
 		    rescue

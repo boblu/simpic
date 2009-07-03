@@ -1,6 +1,10 @@
 <div>
 	<% form_tag login_path, :method => "post" do %>
 		<%= password_field_tag :password, nil, :class=>"password" %>
-		<input type="image" src="/images/simpic/sign-in.gif" />
+		<% if I18n.locale == :en %>
+			<input type="image" src="/images/simpic/sign-in.gif" />
+		<% elsif I18n.locale == :cn %>
+			<input type="image" src="/images/simpic/sign-in-cn.gif" />
+		<% end %>
 	<% end %>
 </div>
