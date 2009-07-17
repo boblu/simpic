@@ -28,3 +28,6 @@ en:
   custom_msg_1: "Comment and Rate this picture!"
   custom_msg_2: "Picture link"
   latest_albums: " latest albums"
+  hours: "Hours"
+  minutes: "Minutes"
+  seconds: "Seconds"

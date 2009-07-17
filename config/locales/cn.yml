@@ -28,3 +28,6 @@ cn:
   custom_msg_1: "对此照片进行评分并添加留言"
   custom_msg_2: "照片链接"
   latest_albums: "最新照片"
+  hours: "小时"
+  minutes: "分钟"
+  seconds: "秒"

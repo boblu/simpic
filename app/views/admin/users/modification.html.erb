@@ -41,7 +41,7 @@
 						if admin_users.size == 1 and admin_users[0].id == @user.id %>
 							Create another admin before changing this field.
 						<% else %>
-							<%= @user.span != 0 ? h(@user.span)+ ' m' : 'Unlimited' %>
+							<%= @user.span != -100 ? h(@user.span)+ ' m' : 'Unlimited' %>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<%= check_box_tag "user[reset_span]",
 																"true",

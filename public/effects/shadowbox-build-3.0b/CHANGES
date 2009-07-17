@@ -16,6 +16,7 @@ version 3.0
 - Added support for loading Shadowbox onDOMReady instead of waiting for
   window.onload
 - Added support for Internet Explorer 8
+- Added support for CSS selectors via Sizzle.js
 - Switched from PHP to Ruby's rake for build/packaging system
 - Introduced Shadowbox.js License version 1.0
 - Numerous other bug fixes and overall speed improvements

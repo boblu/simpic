@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
 
 	def update_property(option={})
 		if option[:read_level] == "0"
-    	option[:span] = 0
+    	option[:span] = -100
    		option[:end_time] = nil
    	elsif option[:reset_span] == 'true' and not option[:span].blank?
     	option[:end_time] = (option[:span].to_i - self.span).seconds.from_now(self.end_time) unless self.end_time.blank?

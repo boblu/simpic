@@ -7,7 +7,7 @@ module ApplicationHelper
 	def shadowbox_script(html_string = "")
 		html_string << javascript_include_tag("/effects/shadowbox-build-3.0b/shadowbox")+ "\n"
 		html_string << stylesheet_link_tag('/effects/shadowbox-build-3.0b/shadowbox')+ "\n"
-		html_string << "<script type='text/javascript'>Shadowbox.init({slideshowDelay: 3, overlayOpacity: 0.9});Shadowbox.pause();</script>"
+		html_string << "<script type='text/javascript'>Shadowbox.init({slideshowDelay: 0, overlayOpacity: 0.9});</script>"
 	end
 
 	def cooliris_feed

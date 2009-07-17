@@ -25,9 +25,9 @@
 							&nbsp;
 						<% else %>
 							<ul class="countdown">
-								<li><div class="countdown_num" id="countdown_hour"></div><div>Hours</div></li>
-								<li><div class="countdown_num" id="countdown_min"></div><div>Minutes</div></li>
-								<li><div class="countdown_num" id="countdown_sec"></div><div>Seconds</div></li>
+								<li><div class="countdown_num" id="countdown_hour"></div><div><%= t('hours') %></div></li>
+								<li><div class="countdown_num" id="countdown_min"></div><div><%= t('minutes') %></div></li>
+								<li><div class="countdown_num" id="countdown_sec"></div><div><%= t('seconds') %></div></li>
 							</ul>
 							<script type="text/javascript">countdown(<%= current_user.end_time.to_i %>);</script>
 						<% end %>
